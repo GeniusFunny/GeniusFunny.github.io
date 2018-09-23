@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Web缓存,网络,浏览器," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="当我们在浏览器地址栏输入一行url，整个页面呈现，整个过程发生了什么？我大致把整个过程分为两个部分，即网络行为与页面周期。浏览器缓存 —&amp;gt; DNS  —&amp;gt; TCP连接 –&amp;gt; HTTP请求/响应 —&amp;gt; 构建页面 —&amp;gt; 事件处理">
+<meta name="keywords" content="Web缓存,网络,浏览器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从一行url到一个页面我们经历了什么？(更新中)">
+<meta property="og:url" content="http://yoursite.com/2018/05/03/web-life-cycle/index.html">
+<meta property="og:site_name" content="Async">
+<meta property="og:description" content="当我们在浏览器地址栏输入一行url，整个页面呈现，整个过程发生了什么？我大致把整个过程分为两个部分，即网络行为与页面周期。浏览器缓存 —&amp;gt; DNS  —&amp;gt; TCP连接 –&amp;gt; HTTP请求/响应 —&amp;gt; 构建页面 —&amp;gt; 事件处理">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2018/05/16/5afb7dc040b2d.png">
+<meta property="og:image" content="https://i.loli.net/2018/05/16/5afb7dbfec6d6.png">
+<meta property="og:image" content="https://i.loli.net/2018/05/16/5afb7dc1aa00b.png">
+<meta property="og:image" content="https://i.loli.net/2018/05/16/5afb7dc072ebb.png">
+<meta property="og:image" content="https://i.loli.net/2018/05/16/5afb7dbfec715.png">
+<meta property="og:image" content="https://i.loli.net/2018/05/16/5afb7dc145822.png">
+<meta property="og:image" content="https://i.loli.net/2018/05/16/5afb92dfa36da.png">
+<meta property="og:image" content="https://i.loli.net/2018/05/16/5afb7dc3ce2c6.png">
+<meta property="og:image" content="https://i.loli.net/2018/05/16/5afb7dc3b7ef7.png">
+<meta property="og:updated_time" content="2018-05-16T02:40:53.316Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从一行url到一个页面我们经历了什么？(更新中)">
+<meta name="twitter:description" content="当我们在浏览器地址栏输入一行url，整个页面呈现，整个过程发生了什么？我大致把整个过程分为两个部分，即网络行为与页面周期。浏览器缓存 —&amp;gt; DNS  —&amp;gt; TCP连接 –&amp;gt; HTTP请求/响应 —&amp;gt; 构建页面 —&amp;gt; 事件处理">
+<meta name="twitter:image" content="https://i.loli.net/2018/05/16/5afb7dc040b2d.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/03/web-life-cycle/"/>
+
+
+
+
+
+  <title>从一行url到一个页面我们经历了什么？(更新中) | Async</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f9d3e9d0e1979bcb1981cf730f63f51d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Async</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/03/web-life-cycle/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Async">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Async">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">从一行url到一个页面我们经历了什么？(更新中)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-03T20:15:58+08:00">
+                2018-05-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/03/web-life-cycle/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/03/web-life-cycle/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>当我们在浏览器地址栏输入一行url，整个页面呈现，整个过程发生了什么？我大致把整个过程分为两个部分，即网络行为与页面周期。<br>浏览器缓存 —&gt; DNS  —&gt; TCP连接 –&gt; HTTP请求/响应 —&gt; 构建页面 —&gt; 事件处理</strong><br><a id="more"></a></p>
+<h2 id="网络行为"><a href="#网络行为" class="headerlink" title="网络行为"></a>网络行为</h2><h3 id="浏览器缓存机制"><a href="#浏览器缓存机制" class="headerlink" title="浏览器缓存机制"></a>浏览器缓存机制</h3><p>浏览器和服务器是应答模式，即：浏览器发起HTTP请求 —&gt; 服务器返回响应。如果是第一次发起请求，浏览器会根据拿到的HTTP响应头的配置来决定是否缓存此次的响应结果。过程如下：<br><a href="https://i.loli.net/2018/05/16/5afb7dc040b2d.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/05/16/5afb7dc040b2d.png" alt="第一次HTTP请求.png"></a><br><strong>1. 浏览器每次发起HTTP请求时，都会根据请求去浏览器缓存中匹配对应的请求结果和缓存标识。</strong><br><strong>2. 浏览器每次成功获取到请求结果，都会将请求结果和缓存标识存入浏览器缓存。</strong><br>根据浏览器是否需要向服务器重新发起HTTP请求，将缓存过程分为了两部分：<strong>强制缓存</strong>与<strong>协商缓存</strong></p>
+<h4 id="强制缓存"><a href="#强制缓存" class="headerlink" title="强制缓存"></a>强制缓存</h4><h5 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h5><p>强制缓存就是向浏览器缓存查找对应的请求结果，并根据该结果的缓存规则来决定是否使用该缓存结果的过程。</p>
+<h5 id="场景一：不存在该请求对应的缓存结果和缓存标识，强制缓存失效，直接向服务器发起请求"><a href="#场景一：不存在该请求对应的缓存结果和缓存标识，强制缓存失效，直接向服务器发起请求" class="headerlink" title="场景一：不存在该请求对应的缓存结果和缓存标识，强制缓存失效，直接向服务器发起请求"></a>场景一：不存在该请求对应的缓存结果和缓存标识，强制缓存失效，直接向服务器发起请求</h5><p>如果浏览器缓存中不存在对应的缓存结果和缓存标识，那么浏览器会重新向服务器发起HTTP请求。<br><a href="https://i.loli.net/2018/05/16/5afb7dbfec6d6.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/05/16/5afb7dbfec6d6.png" alt="ForcingCache-1.png"></a></p>
+<h5 id="场景二：-存在该请求对应的缓存结果和缓存标识但已失效，强制缓存失效，采用协商缓存"><a href="#场景二：-存在该请求对应的缓存结果和缓存标识但已失效，强制缓存失效，采用协商缓存" class="headerlink" title="场景二： 存在该请求对应的缓存结果和缓存标识但已失效，强制缓存失效，采用协商缓存"></a>场景二： 存在该请求对应的缓存结果和缓存标识但已失效，强制缓存失效，采用协商缓存</h5><p>如果浏览器缓存中存在对应的缓存结果和缓存标识，但缓存已经失效（过期），那么浏览器会采用协商缓存。<br><a href="https://i.loli.net/2018/05/16/5afb7dc1aa00b.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/05/16/5afb7dc1aa00b.png" alt="ForcingCache-2.png"></a></p>
+<h5 id="场景三：-存在该请求对应的缓存结果和缓存标识且尚未失效，强制缓存生效，直接返回该结果"><a href="#场景三：-存在该请求对应的缓存结果和缓存标识且尚未失效，强制缓存生效，直接返回该结果" class="headerlink" title="场景三： 存在该请求对应的缓存结果和缓存标识且尚未失效，强制缓存生效，直接返回该结果"></a>场景三： 存在该请求对应的缓存结果和缓存标识且尚未失效，强制缓存生效，直接返回该结果</h5><p>如果浏览器缓存中存在对应的缓存结果和缓存标识且缓存尚未失效，那么浏览器缓存直接返回缓存结果。<br><a href="https://i.loli.net/2018/05/16/5afb7dc072ebb.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/05/16/5afb7dc072ebb.png" alt="ForcingCache-3.png"></a></p>
+<h5 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h5><p>强制缓存与HTTP响应头中的字段<strong>Cache-Control</strong>和<strong>Expires</strong>有关，Cache-Control优先于Expires。<br><strong>Cache-Control</strong>: HTTP/1.1，主要取值如下：</p>
+<ol>
+<li>public: 响应可以被任何缓存区（客户端、代理服务器）缓存</li>
+<li>private: 响应只可以被客户端缓存（Cache-Control默认值）</li>
+<li>no-cache: 可以存储在本地缓存中，但需要与服务器进行验证后方可使用</li>
+<li>no-store: 禁止缓存对响应进行复制</li>
+<li>max-age=xxx: 缓存将在xxx秒后过期<br><strong>Expires</strong>: HTTP/1.0, 附加一个Expires日期首部到响应中去,这个日期为绝对日期，例如：Expires: Fri, 05 Jul 2002, 05:00:00 GMT   </li>
+</ol>
+<h4 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h4><h5 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h5><p>协商缓存就是在强制缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程。</p>
+<h5 id="场景一：-协商缓存生效，返回304"><a href="#场景一：-协商缓存生效，返回304" class="headerlink" title="场景一： 协商缓存生效，返回304"></a>场景一： 协商缓存生效，返回304</h5><p>如果服务器提示资源尚未失效，则返回304，浏览器可继续使用浏览器缓存中该资源的缓存结果。<br><a href="https://i.loli.net/2018/05/16/5afb7dbfec715.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/05/16/5afb7dbfec715.png" alt="consult-cache-1.png"></a></p>
+<h5 id="场景二：-协商缓存失效，返回200"><a href="#场景二：-协商缓存失效，返回200" class="headerlink" title="场景二： 协商缓存失效，返回200"></a>场景二： 协商缓存失效，返回200</h5><p>如果服务器提示资源尚已失效，则返回200，服务器重新返回最新的资源，浏览器将缓存结果和缓存标识存入浏览器缓存。<br><a href="https://i.loli.net/2018/05/16/5afb7dc145822.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/05/16/5afb7dc145822.png" alt="consult-cache-2.png"></a></p>
+<h5 id="规则-1"><a href="#规则-1" class="headerlink" title="规则"></a>规则</h5><p><em>HTTP允许缓存向原始服务器发送一个“条件GET”，请求服务器只有在文档与缓存中现有的副本不同时，才回送对象的主体。—- 《HTTP权威指南》</em><br>协商缓存与HTTP头中的字段<strong>Last-Modified / If-Modified-Since（请求头）</strong>和<strong>Etag / If-None-Match(请求头)</strong>有关，Etag / If-None-Match优先级比Last-Modified / If-Modified-Since高。<br><strong>Last-Modified / If-Modified-Since</strong>:<br><strong>If-Modified-Since:Date再验证请求</strong>通常被称为IMS请求，只有某个日期之后资源发生了改变，IMS请求才会指示服务器执行请求：<br>1.如果自指定日期后，资源更新了，If-Modified-Since条件就为真，通常GET就会执行，携带新首部（除了其他信息还有一个新的过期日期）的新资源就会返回给缓存。<br>2.如果自指定日期后，资源未更新，If-Modified-Since条件就为假，就会向客户端返回一个小的304 Not Modified 响应报文，为了提高有效性，报文中不会包含资源的主体。<br>例：If-Modified-Since: Sat, 29 Jun 2002, 14:30:00 GMT<br><strong>Etag / If-None-Match 实体标签再验证</strong>:<br>有些情况（周期性地重写、资源修改无影响的部分、有些服务器无法准确判断其页面的最后修改时间等等）下仅根据修改日期进行再验证是不够的，HTTP允许用户对被称为<em>实体标签（Etag）</em>的“版本标识符”进行比较。当发布者对资源进行修改时，就可以修改资源的实体标签来说明这是一个新版本。<br>1.如果实体标签仍匹配，If-None-Match再验证成功，返回304 Not Modified。<br>2.如果服务器上的实体标签已经发生了变化，服务器会在一个200 OK 响应中返回新的内容及相应的新Etag。<br>例：<br>If-None-Match: “v2.6”<br>If-None-Match: “v2.4”, “v2.5”</p>
+<h4 id="浏览器的缓存放在哪里？"><a href="#浏览器的缓存放在哪里？" class="headerlink" title="浏览器的缓存放在哪里？"></a>浏览器的缓存放在哪里？</h4><p>浏览器的缓存通常存放入硬盘（from disk cache）或内存（from memory cache）。</p>
+<h5 id="from-disk-cache"><a href="#from-disk-cache" class="headerlink" title="from disk cache"></a>from disk cache</h5><p>硬盘缓存(from disk cache)则是直接将缓存写入硬盘文件中，读取缓存需要对该缓存存放的硬盘文件进行I/O操作，然后重新解析该缓存内容，读取复杂，速度比内存缓存慢。</p>
+<h5 id="from-memory-cache"><a href="#from-memory-cache" class="headerlink" title="from memory cache"></a>from memory cache</h5><p>内存缓存(from memory cache)：内存缓存具有两个特点，分别是<strong>快速读取</strong>和<strong>时效性</strong>：<br><strong>快速读取</strong>：内存缓存会将编译解析后的文件，直接存入该进程的内存中，占据该进程一定的内存资源，以方便下次运行使用时的快速读取。<br><strong>时效性</strong>：一旦该进程关闭，则该进程的内存则会清空。</p>
+<h5 id="规则-2"><a href="#规则-2" class="headerlink" title="规则"></a>规则</h5><p>在浏览器中，浏览器会在js和图片等文件解析执行后直接存入内存缓存中，那么当刷新页面时只需直接从内存缓存中读取(from memory cache)；而css文件则会存入硬盘文件中，所以每次渲染页面都需要从硬盘读取缓存(from disk cache)。</p>
+<h4 id="缓存有什么优点？"><a href="#缓存有什么优点？" class="headerlink" title="缓存有什么优点？"></a>缓存有什么优点？</h4><ol>
+<li>减少了数据的冗余传输</li>
+<li>缓解了网络的带宽瓶颈问题</li>
+<li>减轻了服务器的负担</li>
+<li>减轻了距离时延</li>
+</ol>
+<h4 id="缓存与cookie"><a href="#缓存与cookie" class="headerlink" title="缓存与cookie"></a>缓存与cookie</h4><p>缓存那些与cookie事务有关的文档时要特别小心，cookie和缓存的规则没有很好地建立起来。下面是处理缓存时的一些指导性规则：</p>
+<ol>
+<li>如果无法缓存文档，要将其表示出来。<br>如对不可缓存的文档设置：<strong>Cache-Control:no-cache=”Set-Cookie”</strong>，对可缓存的文档设置： Cache-Control:public。</li>
+<li>缓存Set-Cookie首部要小心。<br>如果向多个用户发送了相同的Set-Cookie首部可能会破坏用户的定位；有些缓存会在将响应缓存起来之前删除Set-Cookie首部，那么请求缓存的时候客户端就拿不到cookie了。<br>强制缓存与原始服务器重新验证每条请求，并将Set-Cookie首部合并到客户端的响应中去，就可以改善这种情况，原始服务器可向缓存副本添加这个首部来进行这种验证：Cache-Control: must-revalidate, max-age=0</li>
+<li>小心处理带有cookie首部的请求<br>带有cookie的请求结果到达时，就是提示我们，这个请求结果可能是私有内容，必须将私有内容标识为不可缓存。</li>
+</ol>
+<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><h4 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h4><p>DNS（<strong>Domain Name System，域名解析系统</strong>）的作用是将主机名（hostname）解析为对应的IP地址。DNS是一个由<strong>分层</strong>的DNS服务器实现的分布式数据库，一个使得主机能够查询分布式数据库的<strong>应用层协议</strong>。DNS协议运行在UDP上，使用53号端口。</p>
+<h4 id="常规流程"><a href="#常规流程" class="headerlink" title="常规流程"></a>常规流程</h4><ol>
+<li>浏览器从URL中抽出主机名，将其发送给运行中的DNS应用客户端。</li>
+<li>DNS客户端向DNS服务器发送一个带有主机名的请求。</li>
+<li>DNS客户端会收到来自DNS服务器的回答报文，其中包含了与主机名对应的IP地址。</li>
+<li>浏览器获取到IP地址，向位于该地址的服务器进程的某个端口（HTTP为80端口，HTTPS为443端口）发起一个TCP连接。</li>
+</ol>
+<h4 id="分布式、层次数据库"><a href="#分布式、层次数据库" class="headerlink" title="分布式、层次数据库"></a>分布式、层次数据库</h4><p>DNS服务器层次结构中的DNS服务器大致有三种，<em>根DNS服务器</em>、<em>顶级域DNS服务器</em>、<em>权威DNS服务器</em>。根DNS服务器—&gt;顶级域DNS服务器—&gt;权威DNS服务器（自顶向下）。<br>如果要查询www.baidu.com对应的IP地址，查询过程大致如下（分级查询）：</p>
+<ol>
+<li>首先跟根服务器之一联系，获得顶级域名com的TLD服务器的IP地址。</li>
+<li>然后TLD服务器之一联系，获得baidu.com权威服务器的IP地址。</li>
+<li>最后与baidu.com权威服务器之一联系，获得主机名www.baidu.com对应的IP地址。</li>
+</ol>
+<p>除此之外，还有一类DNS服务器很重要，即：本地DNS服务器（尽管它不在DNS服务器层次结构中）。每个ISP都有一个本地DNS服务器，当主机与该ISP连接时，ISP会返回一个IP地址，该地址具有一台或多台的本地DNS服务器的IP地址。<strong>当主机发起DNS请求时，请求被发送到本地DNS服务器，它起着代理和将请求转发到DNS服务器层次结构中（类似HTTP的代理服务器）</strong>。<br><a href="https://i.loli.net/2018/05/16/5afb92dfa36da.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/05/16/5afb92dfa36da.png" alt="DNS查询（一）.png"></a><br>从请求主机到本地DNS服务器的查询是<strong>递归查询</strong>（因为查询请求是以自己的名义，查询结果直接返回给请求主机），其余为<strong>迭代查询</strong>（查询请求是以本地DNS服务器为名义，返回的结果也是给本地DNS服务器）</p>
+<h4 id="DNS缓存"><a href="#DNS缓存" class="headerlink" title="DNS缓存"></a>DNS缓存</h4><p>为了改善实验性能并减少在因特网上到处传播的DNS报文数量，DNS广泛使用了缓存技术。<strong>在一个请求链中，当某个DNS服务器接收到一个DNS回答时，它能将该信息缓存在本地存储器中</strong>（例如，共用一个ISP的小明、小红，如果小明查询了www.baidu.com的IP地址，那么这个IP地址就存在了本地DNS服务器中，在缓存失效前，小红可以直接在本地DNS服务器中获取到www.baidu.com的IP地址）。本地服务器能够缓存顶级域服务器的IP地址，因而允许本地DNS绕过查询链中的根DNS服务器。</p>
+<h3 id="TCP连接"><a href="#TCP连接" class="headerlink" title="TCP连接"></a>TCP连接</h3><p>一个TCP连接是由一对端点或套接字构成，其中通信的每一端都由一对（IP地址，端口号）所唯一标识。<br>一个TCP连接通常分为三个阶段：启动（三次握手）、数据传输、退出（四次挥手）。</p>
+<h4 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h4><h5 id="概览-1"><a href="#概览-1" class="headerlink" title="概览"></a>概览</h5><p><a href="https://i.loli.net/2018/05/16/5afb7dc3ce2c6.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/05/16/5afb7dc3ce2c6.png" alt="three-shake.png"></a><br>如图所示，客户端中的TCP会用一下方式与服务器中TCP建立一条TCP连接：</p>
+<ol>
+<li>第一步，客户端的TCP首先向服务器的TCP发送一个特殊的TCP报文段，该报文段不包含应用层的数据，但是在报文段的首部中的一个标志位（即SYN比特）被置为1，因此这个特殊报文段被称为<strong>SYN报文段</strong>。客户端会随机选择一个初始序号（J）并将此序号放置于该起始的TCP SYN报文段的序号字段里，整个报文字段会封装在一个IP数据报中并发给服务器。此时，客户端进入<strong>SYN-SENT状态</strong>。</li>
+<li>第二步，一旦包含TCP SYN报文段的IP数据报到达了服务器，服务器就会从数据报中提取出TCP SYN报文段，为该TCP连接分配缓存和变量，并向客户端发送允许连接的报文段（ACK(J + 1)），该报文段也不包含应用层数据。与此同时服务器也随机选择一个初始序号（K）并将此序号放置于TCP报文段首部的序号字段中，即（SYN(K)）,随确认字段ACK一并发送给客户端。此报文字段通常被称为<strong>SYNACK报文段</strong>，此时服务器进入<strong>SYN-RECEIVED状态</strong>。</li>
+<li>第三步，客户端接收到<strong>SYNACK报文段</strong>，为该连接分配缓存和变量，此时客户端进入<strong>ESTABLISHED状态</strong>。客户端向服务器发送另外一个报文段，这个报文段是对服务器的允许连接的报文段的确认（ACK(K + 1)），与前两次不同，这次报文段中可携带应用层数据，由于连接已经建立，SYN比特被置为0。服务器收到这个报文段后，也进入<strong>ESTABISHED状态</strong>。<br>完成这三个步骤后，客户端和服务器的每一个报文段中都可以携带应用层的数据，且SYN比特都将被置为0。建立TCP连接的三个步骤也被称为TCP<strong>三次握手</strong>。<br><em>三次握手的目的不仅在于让通信双方了解一个连接正在建立， 还在于利用数据包的选项来承载特殊的信息，交换初始序列号。——-《TCP/IP 详解 卷一：协议》</em></li>
+</ol>
+<h5 id="为什么是三次握手？为什么不是两次握手？"><a href="#为什么是三次握手？为什么不是两次握手？" class="headerlink" title="为什么是三次握手？为什么不是两次握手？"></a>为什么是三次握手？为什么不是两次握手？</h5><p>三次握手：<br>A—-&gt;B: [A: I’m A.]<br>B—-&gt;A: [B: Hello A, I’m B.]<br>A—-&gt;B: [A: Hello B, nice to meet you.]<br>然后愉快的py</p>
+<p>二次握手：<br>A—-&gt;B: [I’m A.]<br>B—-&gt;A: [Hello A, I’m B.]<br>如果A收到了“Hello A,I’m B”，愉快的py<br>如果A没有收到“Hello A,I’m B”，那么while(true){ A—-&gt;B: [I’m A.] }, 疯狂握手<br>三次握手的目的是确认A—&gt;B, B—&gt;A这两个信道都是可靠的；如果只有两次握手就无法确认B—&gt;A的信道是否可靠。如果只需要A—&gt;B信道可靠，那就类似于UDP的需求了。</p>
+<h4 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h4><h5 id="概览-2"><a href="#概览-2" class="headerlink" title="概览"></a>概览</h5><p>连接的任何一方都可以发起关闭连接，在传统情况下往往由客户端来发起关闭连接，如下图所示。<br><a href="https://i.loli.net/2018/05/16/5afb7dc3b7ef7.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/05/16/5afb7dc3b7ef7.png" alt="four-wave.png"></a></p>
+<ol>
+<li>第一步：客户端发送FIN包（包含了客户端的序列号M)，此外FIN包还包含了一个ACK段用于确认对方最后一次发送的数据。</li>
+<li>第二步：服务器收到客户端发送的FIN包后，将M值+1作为响应的ACK值，表明它已经成功接收到来自客户端发送的FIN。此时，处于上层的应用程序会被告知连接的另一方发起了关闭连接的请求，这将导致应用程序发动自己的关闭操作。服务器从被动关闭者变为主动关闭者，向客户端发送FIN(包含了服务器的序列号N)。</li>
+<li>第三步：为了完成连接的关闭，客户端发往服务器最后的报文段中包含了一个确认服务器发送的FIN的ACK字段。</li>
+</ol>
+<h5 id="为什么是四次挥手？"><a href="#为什么是四次挥手？" class="headerlink" title="为什么是四次挥手？"></a>为什么是四次挥手？</h5><p>四次挥手：<br>A —&gt; B, [A: ‘我想关闭连接’]<br>B —&gt; A, [B: ‘好的，我知道了，我不要收到你的东西了’]<br>B —&gt; A, [B: ‘我想关闭连接’]<br>A —&gt; B, [A: ‘好的，我知道了，我也不要收到你的东西了’]<br>主动方发送关闭请求，被动方接受并确认请求后，被动方就无法收到主动方发送的数据了。在前两次挥手后，服务器就无法收到客户端发送的数据了（服务器释放了关于客户端的资源），但是服务器可以给客户端发送数据，所以有了第三次、第四次挥手。</p>
+<h2 id="页面周期概览"><a href="#页面周期概览" class="headerlink" title="页面周期概览"></a>页面周期概览</h2><h3 id="页面构建"><a href="#页面构建" class="headerlink" title="页面构建"></a>页面构建</h3><h4 id="DOM-Tree"><a href="#DOM-Tree" class="headerlink" title="DOM Tree"></a>DOM Tree</h4><h4 id="Style-Rules"><a href="#Style-Rules" class="headerlink" title="Style Rules"></a>Style Rules</h4><h4 id="Rendering-Tree"><a href="#Rendering-Tree" class="headerlink" title="Rendering Tree"></a>Rendering Tree</h4><h3 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h3><h2 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h2><ol>
+<li><a href="https://heyingye.github.io/2018/04/16/%E5%BD%BB%E5%BA%95%E7%90%86%E8%A7%A3%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" target="_blank" rel="noopener">彻底理解浏览器的缓存机制</a></li>
+<li><a href="https://juejin.im/post/5a7835a46fb9a063606eb801" target="_blank" rel="noopener">图解TCP三次握手与四次分手</a></li>
+<li><a href="https://item.jd.com/11056556.html" target="_blank" rel="noopener">《HTTP权威指南》</a></li>
+<li><a href="https://item.jd.com/12306772.html" target="_blank" rel="noopener">《JavaScript忍者秘籍》</a></li>
+<li><a href="https://item.jd.com/11556873.html" target="_blank" rel="noopener">《计算机网络（自顶向下方法）》</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Web缓存/" rel="tag"># Web缓存</a>
+          
+            <a href="/tags/网络/" rel="tag"># 网络</a>
+          
+            <a href="/tags/浏览器/" rel="tag"># 浏览器</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/14/async-await/" rel="next" title="停止书写回调函数并爱上ES8">
+                <i class="fa fa-chevron-left"></i> 停止书写回调函数并爱上ES8
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/09/how-to-deploy-a-static-website/" rel="prev" title="配置Nginx二级域名并部署hexo博客">
+                配置Nginx二级域名并部署hexo博客 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Async" />
+            
+              <p class="site-author-name" itemprop="name">Async</p>
+              <p class="site-description motion-element" itemprop="description">Learn Once, Write Anywhere.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GeniusFunny" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:geniusfunnyyh@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/GeniuFunny" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#网络行为"><span class="nav-number">1.</span> <span class="nav-text">网络行为</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器缓存机制"><span class="nav-number">1.1.</span> <span class="nav-text">浏览器缓存机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#强制缓存"><span class="nav-number">1.1.1.</span> <span class="nav-text">强制缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#概念"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#场景一：不存在该请求对应的缓存结果和缓存标识，强制缓存失效，直接向服务器发起请求"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">场景一：不存在该请求对应的缓存结果和缓存标识，强制缓存失效，直接向服务器发起请求</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#场景二：-存在该请求对应的缓存结果和缓存标识但已失效，强制缓存失效，采用协商缓存"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">场景二： 存在该请求对应的缓存结果和缓存标识但已失效，强制缓存失效，采用协商缓存</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#场景三：-存在该请求对应的缓存结果和缓存标识且尚未失效，强制缓存生效，直接返回该结果"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">场景三： 存在该请求对应的缓存结果和缓存标识且尚未失效，强制缓存生效，直接返回该结果</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#规则"><span class="nav-number">1.1.1.5.</span> <span class="nav-text">规则</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#协商缓存"><span class="nav-number">1.1.2.</span> <span class="nav-text">协商缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#概念-1"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#场景一：-协商缓存生效，返回304"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">场景一： 协商缓存生效，返回304</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#场景二：-协商缓存失效，返回200"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">场景二： 协商缓存失效，返回200</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#规则-1"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">规则</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#浏览器的缓存放在哪里？"><span class="nav-number">1.1.3.</span> <span class="nav-text">浏览器的缓存放在哪里？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#from-disk-cache"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">from disk cache</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#from-memory-cache"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">from memory cache</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#规则-2"><span class="nav-number">1.1.3.3.</span> <span class="nav-text">规则</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存有什么优点？"><span class="nav-number">1.1.4.</span> <span class="nav-text">缓存有什么优点？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存与cookie"><span class="nav-number">1.1.5.</span> <span class="nav-text">缓存与cookie</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS"><span class="nav-number">1.2.</span> <span class="nav-text">DNS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#概览"><span class="nav-number">1.2.1.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常规流程"><span class="nav-number">1.2.2.</span> <span class="nav-text">常规流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分布式、层次数据库"><span class="nav-number">1.2.3.</span> <span class="nav-text">分布式、层次数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DNS缓存"><span class="nav-number">1.2.4.</span> <span class="nav-text">DNS缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP连接"><span class="nav-number">1.3.</span> <span class="nav-text">TCP连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#三次握手"><span class="nav-number">1.3.1.</span> <span class="nav-text">三次握手</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#概览-1"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么是三次握手？为什么不是两次握手？"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">为什么是三次握手？为什么不是两次握手？</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四次挥手"><span class="nav-number">1.3.2.</span> <span class="nav-text">四次挥手</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#概览-2"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么是四次挥手？"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">为什么是四次挥手？</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面周期概览"><span class="nav-number">2.</span> <span class="nav-text">页面周期概览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#页面构建"><span class="nav-number">2.1.</span> <span class="nav-text">页面构建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DOM-Tree"><span class="nav-number">2.1.1.</span> <span class="nav-text">DOM Tree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Style-Rules"><span class="nav-number">2.1.2.</span> <span class="nav-text">Style Rules</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rendering-Tree"><span class="nav-number">2.1.3.</span> <span class="nav-text">Rendering Tree</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件处理"><span class="nav-number">2.2.</span> <span class="nav-text">事件处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献："><span class="nav-number">3.</span> <span class="nav-text">参考文献：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Async</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/05/03/web-life-cycle/';
+          this.page.identifier = '2018/05/03/web-life-cycle/';
+          this.page.title = '从一行url到一个页面我们经历了什么？(更新中)';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
