@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[算法入门之初级排序（选择、插入、希尔）]]></title>
+    <url>%2F2018%2F10%2F03%2Fsort-1%2F</url>
+    <content type="text"><![CDATA[下面是选择排序、插入排序、希尔排序等初级排序的简单介绍及实现。 选择排序步骤 首先找到数组中最小的元素，将其与第一个元素置换位置。 从剩余的元素中找到最小的元素，将其与第二个元素置换位置。 以此类推，直到数组完全有序。 选择排序所需的时间取决于元素的数量 实现123456789101112131415161718public class Selection&#123; public static void sort(Comparable[] a) &#123; int N = a.length; int temp = 0; for (int i = 0; i &lt; N; i++) &#123; int min = i; for (int j = i + 1; j &lt; N; j++) &#123; if (a[min] &gt; a[j]) &#123; min = j; &#125; &#125; temp = a[min]; a[min] = a[i]; a[i] = temp; &#125; &#125;&#125; 插入排序步骤 第二个元素与左侧的元素进行比较，将其插入到合适的位置。 第三个元素与左侧的元素进行比较，将其插入到合适的位置。 以此类推，直到数组完全有序。 实现12345678910111213141516public class Insertion&#123; public static void sort(Comparable[] a) &#123; int N = a.length; int temp = 0; for (int i = 1; i &lt; N; i++) &#123; for (int j = i; j &gt; 0; j--) &#123; if (a[j] &lt; a[j-1]) &#123; temp = a[j]; a[j] = a[j-1]; a[j-1] = temp; &#125; &#125; &#125; &#125;&#125; 插入排序所需的时间取决于元素的初始顺序 希尔排序希尔排序是基于插入排序的快速排序，思想是使数组中任意间隔为h的元素是有序的。 步骤（序列1/2(3^k - 1)） 增幅h为数组长度的某个倍数（最小值为1），然后计算出增长序列(1, 4, 13, …)。 h = h(max)，确保间隔为h的元素有序。 h = h / 3，确保间隔为h的元素有序。 重复第3步，直至数组完全有序。 实现1234567891011121314151617181920212223public class Shell&#123; public static void sort(Comparable[] a) &#123; int N = a.length; int h = 1; int temp = 0; System.out.print(h); while (h &lt; N / 3) h = h * 3 + 1; while (h &gt;= 1) &#123; for (int i = h; i &lt; N; i++) &#123; for (int j = i; j &gt;= h; j -= h) &#123; if (a[j - h] &gt; a[j]) &#123; temp = a[j - h]; a[j - h] = a[j]; a[j] = temp; &#125; &#125; &#125; h /= 3; &#125; &#125;&#125; 名称 使用场景 时间复杂度 效率影响因素 选择排序 小型数组 O(N^2) 数组大小 插入排序 小型数组，数组部分有序 O(N^2) 元素初始顺序 希尔排序 中小型数组，数组部分有序 O(N^3/2), O(N^4/3), O(N^6/5)… 元素初始顺序，增长序列]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[React Diff]]></title>
     <url>%2F2018%2F09%2F23%2Freact-diff%2F</url>
     <content type="text"><![CDATA[计算一棵树形结构转换成另一棵树形结构，传统的diff算法算法复杂度达到O(n^3)。React通过制定策略，将O(n^3)复杂度的问题转换成O(n)复杂度。 Diff 策略 Web UI 中DOM节点跨层级的移动操作特别少，可以忽略不计。 拥有相同类的两个组件将会生成相似的树形结构，拥有不同类的两个组件将会生成不同的树形结构。 对于同一层级的一组子节点，它们可以通过唯一id进行区分。 Tree Diff对树进行分层比较，两棵树只会对同一层次的节点进行比较。 当节点跨层级移动时，并不会出现想象中的移动操作，而是进行create-delete操作（影响性能）。 Component Diff 如果是同类型的组件，按原策略继续比较Virtual DOM tree。 如果不是同类型的组件，则将组件判断为dirty component，从而替换整个组件下的所有子节点。 如果是同一类型的组件，并且Virtual DOM没有发生变化，那么将会省下大量的diff运算时间，因此React允许用户通过shouldComponentUpdate()来判断组件是否需要进行diff。 Element Diff当节点处于同一层级时，React Diff提供了三种节点操作，分别为：INSERT_MARKUP、MOVE_EXISTING、REMOVE_NODE INSERT_MARKUP: 原集合不包含新的component类型，新节点需执行插入操作 MOVE_EXISTING: 原集合包含新的component类型，且element时可更新的类型，generateComponentChildren已调用receiveComponet，这种情况下prevChild=nextChild，就需要做移动操作，可以复用以前的DOM节点。 REMOVE_NODE: 老compone类型，在新集合也有，但对应的element不同则不能直接复用和更新，需执行删除操作，或者老component不在新集合中，也需要执行删除操作。 允许开发者对同一层级的同组子节点添加唯一key作为标识。]]></content>
@@ -78,8 +89,8 @@
         <category>实践</category>
       </categories>
       <tags>
-        <tag>nginx</tag>
         <tag>跨域</tag>
+        <tag>nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -136,8 +147,8 @@
         <category>JavaScript设计模式</category>
       </categories>
       <tags>
-        <tag>设计模式</tag>
         <tag>JavaScript</tag>
+        <tag>设计模式</tag>
       </tags>
   </entry>
   <entry>
@@ -151,13 +162,13 @@
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[tags]]></title>
-    <url>%2Ftags%2Findex.html</url>
+    <title><![CDATA[分类]]></title>
+    <url>%2Fcategories%2Findex.html</url>
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[分类]]></title>
-    <url>%2Fcategories%2Findex.html</url>
+    <title><![CDATA[tags]]></title>
+    <url>%2Ftags%2Findex.html</url>
     <content type="text"></content>
   </entry>
 </search>

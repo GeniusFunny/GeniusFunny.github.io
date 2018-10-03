@@ -12,7 +12,7 @@
     
     <title>
         
-            about | 
+            算法入门之初级排序（选择、插入、希尔） | 
         
         GeniusFunny的个人博客
     </title>
@@ -39,8 +39,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="GeniusFunny">
-    <meta name="description" itemprop="description" content="Learn Once, Write Anywhere.">
-    <meta name="keywords" content="JavaScript">
+    <meta name="description" itemprop="description" content="下面是选择排序、插入排序、希尔排序等初级排序的简单介绍及实现。">
+    <meta name="keywords" content="JavaScript,排序">
 
     <!-- Site Verification -->
     
@@ -69,29 +69,62 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="geniusfunny.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="about | GeniusFunny的个人博客">
+    <meta property="og:title" content="算法入门之初级排序（选择、插入、希尔） | GeniusFunny的个人博客">
     <meta property="og:image" content="/img/favicon.png" />
-    <meta property="og:description" content="Learn Once, Write Anywhere.">
-    
+    <meta property="og:description" content="下面是选择排序、插入排序、希尔排序等初级排序的简单介绍及实现。">
+    <meta property="og:article:tag" content="排序"> 
 
+    
+        <meta property="article:published_time" content="10月 03, 2018" />
+        <meta property="article:modified_time" content="10月 03, 2018" />
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="about | GeniusFunny的个人博客">
-    <meta name="twitter:description" content="Learn Once, Write Anywhere.">
+    <meta name="twitter:title" content="算法入门之初级排序（选择、插入、希尔） | GeniusFunny的个人博客">
+    <meta name="twitter:description" content="下面是选择排序、插入排序、希尔排序等初级排序的简单介绍及实现。">
     <meta name="twitter:image" content="/img/favicon.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="geniusfunny.github.io" />
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="geniusfunny.github.io/about/index.html" />
+        <link rel="canonical" href="geniusfunny.github.io/2018/10/03/sort-1/index.html" />
     
 
     <!-- Structured-data for SEO -->
     
         
 
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "GeniusFunny的个人博客",
+        "logo": "/img/favicon.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "GeniusFunny",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/favicon.png"
+        },
+        "description": "Stay Hungry, Stay Foolish."
+    },
+    "headline": "算法入门之初级排序（选择、插入、希尔）",
+    "url": "geniusfunny.github.io/2018/10/03/sort-1/index.html",
+    "datePublished": "10月 03, 2018",
+    "dateModified": "10月 03, 2018",
+    "description": "下面是选择排序、插入排序、希尔排序等初级排序的简单介绍及实现。",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "geniusfunny.github.io"
+    }
+}
+</script>
 
 
     
@@ -279,6 +312,43 @@
 
                     <!-- Post TOC -->
 
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#选择排序"><span class="post-toc-number">1.</span> <span class="post-toc-text">选择排序</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#步骤"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">步骤</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#实现"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">实现</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#插入排序"><span class="post-toc-number">2.</span> <span class="post-toc-text">插入排序</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#步骤-1"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">步骤</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#实现-1"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">实现</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#希尔排序"><span class="post-toc-number">3.</span> <span class="post-toc-text">希尔排序</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#步骤（序列1-2-3-k-1-）"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">步骤（序列1/2(3^k - 1)）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#实现-2"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">实现</span></a></li></ol></li></ol>
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
+    
+
+
+
+
 
 <!-- Layouts -->
 
@@ -305,7 +375,7 @@
         
     
             <p class="article-headline-p">
-                about
+                算法入门之初级排序（选择、插入、希尔）
             </p>
         </div>
 
@@ -324,7 +394,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>GeniusFunny</strong>
-        <span>2月 03, 2018</span>
+        <span>10月 03, 2018</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -346,7 +416,7 @@
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAAB80lEQVR42u3aUXaDIBAFUPe/6XYBqeY9oE2Vy1eOYuT6MWeY4fh6xDgwMDAwMDAwMP4N44jHD3/0cvd15uvds6faNWBgYOzGeBPaThZ3Bjh98eX8eg0YGBhbMq4D4vWc6yA+9gnehHIMDAyMIDi26d18+oiBgYExxkjCa5syYmBgYMxsYvP514AP78UxMDBuyBhL7Nb+/tP+BgYGxq0Y9RGH/DWXhbYkyP7imREMDIxbMfLAlyeCbXI5+F4MDIxtGG1jcu0SkzS0SA0xMDAezWjLZMn1vG2ZfzIMDIydGW2BbKw92X6+N/+MgYGxPaPdxOZX5mEYGBi7MZIHkut5oT/fuBYBFwMDYwNGG4Lz5a5qiBb9DQwMjMcxZlK3pBkw3/LEwMDAGCu0tY3PNvVccGYEAwPjcYyZNK4uk5UHWwf34hgYGI9jrGoxjm1HB9NHDAwMjHK5SXqXzC/CNAYGxsaM/LDXTBuy/Sh1wMXAwHgQYyxpa0N2W3QbPMCKgYHxUMYRj3ar2aaMbTMVAwNjN0YeZFve/FGMxY0BDAyMmzPyIlrUYoyfGmsqYGBgYLSpW9vgHAvxGBgYGGOMvKC2tj2AgYGxJyNvBuTX2/ZnXnTDwMDYjZFvJtvDW2MJ5a/3NzAwMG7FuO/AwMDAwMDAwPjo+AblHQgUX0B9vAAAAABJRU5ErkJggg==">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACYklEQVR42u3aS5LCMAwFQO5/6ZkLQHiSbBOozoqi8nFnEaue9Pj76eOBh4eHh4eHh4d3M94jPvKrnjwyPmfB2vDw8PCO8N58auNzXj34eunz5+Lh4eF9ipcsLmckVyWvIF8bHh4e3v15+SZR3RLw8PDwfo93fYfJS8HDw8P7Ll7+gc4XMdkePpC14OHh4cW8vMl0/vfR/h4eHh5ewCuPNAWN/2rckJxZWCEeHh7eZt6kIE5iguq4VW89eHh4eCd5vWK3Gq1ebwbJP/krw8PDw9vNy2/Ra19NwojeevDw8PDO8PLCt/r57rXWkjWMUmo8PDy8RTVnEj3M/8lL8+bd8PDw8A7yJlHCqm0mfx0vr8LDw8M7wustdxK/Vu9QKLvx8PDwNvOqo1TV8an5MEF5rAEPDw9vMy+5LB8O6I1eTTabZgMMDw8Pb8yrxql5EVwNi5N44s0/eHh4eJt51fJ3MixVLeXzgh4PDw/vPG8yJpWHFHl5nRT35awFDw8PbykvIVVb+NWyOI9CmvseHh4e3iJe8vHNl1KFbYkn8PDw8I7wes2wfFRr7SaxrAGGh4eHN+blMUSvJVYdR2huFXh4eHgHeRNAbzvJo95C0IyHh4e3mdeLdKubSrWIz6ONBQ0wPDw8vCKv9zleFeNWo4doWAEPDw/vCO/Mp/x6a0nuhoeHh3c3Xq/t1Bt17TXhFmQteHh4eB/l9QrueTn+5v54eHh4X8LLG2l5ad6MifHw8PAO8qql8PUYQT6OMG964eHh4Z3n5RFA9IDWBlAFvzwHDw8PbzPv9w48PDw8PDw8PLwbHP8aYww30t/4IwAAAABJRU5ErkJggg==">
     
 </ul>
     
@@ -359,7 +429,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        
+        <a class="post_tag-link" href="/tags/排序/">排序</a>
     </ul>
     
 
@@ -373,7 +443,7 @@
     <!-- Leancloud Views -->
         <a class="post_share-link" href="#">
             <li class="mdl-menu__item">
-                <span id="/about/index.html" class="leancloud-views_num" data-flag-title="about">
+                <span id="/2018/10/03/sort-1/" class="leancloud-views_num" data-flag-title="算法入门之初级排序（选择、插入、希尔）">
      &nbsp;浏览量
 </span>
 
@@ -385,7 +455,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=about&url=geniusfunny.github.io/about/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=算法入门之初级排序（选择、插入、希尔）&url=geniusfunny.github.io/2018/10/03/sort-1/index.html&pic=&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -394,7 +464,7 @@
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=about&url=geniusfunny.github.io/about/index.html&via=GeniusFunny" target="_blank">
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=算法入门之初级排序（选择、插入、希尔）&url=geniusfunny.github.io/2018/10/03/sort-1/index.html&via=GeniusFunny" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Twitter
             </li>
@@ -403,7 +473,7 @@
 
     <!-- Share Facebook -->
     
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=geniusfunny.github.io/about/index.html" target="_blank">
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=geniusfunny.github.io/2018/10/03/sort-1/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Facebook
             </li>
@@ -412,7 +482,7 @@
 
     <!-- Share Google+ -->
     
-        <a class="post_share-link" href="https://plus.google.com/share?url=geniusfunny.github.io/about/index.html" target="_blank">
+        <a class="post_share-link" href="https://plus.google.com/share?url=geniusfunny.github.io/2018/10/03/sort-1/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Google+
             </li>
@@ -424,7 +494,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=GeniusFunny的个人博客&title=about&summary=Learn Once, Write Anywhere.&pics=geniusfunny.github.io/img/favicon.png&url=geniusfunny.github.io/about/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=GeniusFunny的个人博客&title=算法入门之初级排序（选择、插入、希尔）&summary=Learn Once, Write Anywhere.&pics=geniusfunny.github.io/img/favicon.png&url=geniusfunny.github.io/2018/10/03/sort-1/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -442,7 +512,61 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        
+        <p>下面是选择排序、插入排序、希尔排序等初级排序的简单介绍及实现。</p>
+<a id="more"></a>
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><ol>
+<li>首先找到数组中最小的元素，将其与第一个元素置换位置。</li>
+<li>从剩余的元素中找到最小的元素，将其与第二个元素置换位置。</li>
+<li>以此类推，直到数组完全有序。</li>
+</ol>
+<p><strong>选择排序所需的时间取决于元素的数量</strong></p>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Selection</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> N = a.length;</span><br><span class="line">        <span class="keyword">int</span> temp = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> min = i;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (a[min] &gt; a[j]) &#123;</span><br><span class="line">                    min = j;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        	temp = a[min];</span><br><span class="line">            a[min] = a[i];</span><br><span class="line">            a[i] = temp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><h4 id="步骤-1"><a href="#步骤-1" class="headerlink" title="步骤"></a>步骤</h4><ol>
+<li>第二个元素与左侧的元素进行比较，将其插入到合适的位置。</li>
+<li>第三个元素与左侧的元素进行比较，将其插入到合适的位置。</li>
+<li>以此类推，直到数组完全有序。</li>
+</ol>
+<h4 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Insertion</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> N = a.length;</span><br><span class="line">    	<span class="keyword">int</span> temp = <span class="number">0</span>;</span><br><span class="line">   		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; N; i++) &#123;</span><br><span class="line">      		<span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &gt; <span class="number">0</span>; j--) &#123;</span><br><span class="line">        		<span class="keyword">if</span> (a[j] &lt; a[j-<span class="number">1</span>]) &#123;</span><br><span class="line">          			temp = a[j];</span><br><span class="line">          			a[j] = a[j-<span class="number">1</span>];</span><br><span class="line">          			a[j-<span class="number">1</span>] = temp;</span><br><span class="line">        		&#125;</span><br><span class="line">      		&#125;</span><br><span class="line">    	&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>插入排序所需的时间取决于元素的初始顺序</strong></p>
+<h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h3><p>希尔排序是<strong>基于插入排序</strong>的快速排序，思想是使数组中<strong>任意间隔为h的元素是有序的。</strong></p>
+<h4 id="步骤（序列1-2-3-k-1-）"><a href="#步骤（序列1-2-3-k-1-）" class="headerlink" title="步骤（序列1/2(3^k - 1)）"></a>步骤（序列1/2(3^k - 1)）</h4><ol>
+<li>增幅h为数组长度的某个倍数（最小值为1），然后计算出增长序列(1, 4, 13, …)。</li>
+<li>h = h(max)，确保间隔为h的元素有序。</li>
+<li>h = h / 3，确保间隔为h的元素有序。</li>
+<li>重复第3步，直至数组完全有序。</li>
+</ol>
+<h4 id="实现-2"><a href="#实现-2" class="headerlink" title="实现"></a>实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Shell</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> N = a.length;</span><br><span class="line">    	<span class="keyword">int</span> h = <span class="number">1</span>;</span><br><span class="line">    	<span class="keyword">int</span> temp = <span class="number">0</span>;</span><br><span class="line">    	System.out.print(h);</span><br><span class="line">    	<span class="keyword">while</span> (h &lt; N / <span class="number">3</span>)</span><br><span class="line">      	h = h * <span class="number">3</span> + <span class="number">1</span>;</span><br><span class="line">    	<span class="keyword">while</span> (h &gt;= <span class="number">1</span>) &#123;</span><br><span class="line">      		<span class="keyword">for</span> (<span class="keyword">int</span> i = h; i &lt; N; i++) &#123;</span><br><span class="line">        		<span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &gt;= h; j -= h) &#123;</span><br><span class="line">          			<span class="keyword">if</span> (a[j - h] &gt; a[j]) &#123;</span><br><span class="line">            			temp = a[j - h];</span><br><span class="line">            			a[j - h] = a[j];</span><br><span class="line">            			a[j] = temp;</span><br><span class="line">          			&#125;</span><br><span class="line">        		&#125;</span><br><span class="line">      		&#125;</span><br><span class="line">      		h /= <span class="number">3</span>;</span><br><span class="line">    	&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>使用场景</th>
+<th>时间复杂度</th>
+<th>效率影响因素</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>选择排序</td>
+<td>小型数组</td>
+<td>O(N^2)</td>
+<td>数组大小</td>
+</tr>
+<tr>
+<td>插入排序</td>
+<td>小型数组，数组部分有序</td>
+<td>O(N^2)</td>
+<td>元素初始顺序</td>
+</tr>
+<tr>
+<td>希尔排序</td>
+<td>中小型数组，数组部分有序</td>
+<td>O(N^3/2), O(N^4/3), O(N^6/5)…</td>
+<td>元素初始顺序，增长序列</td>
+</tr>
+</tbody>
+</table>
+
     
 
     
@@ -466,6 +590,14 @@
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
+    
+        <a href="/2018/09/23/react-diff/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
     
 </nav>
 
@@ -647,6 +779,14 @@ It will not impact the appearance and can give developers a lot of support :)
 </aside>
 
                     
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
 
                     
 
