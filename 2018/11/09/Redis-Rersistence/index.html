@@ -12,7 +12,7 @@
     
     <title>
         
-            标签: Web缓存 | 
+            简单了解Redis中的持久化机制 | 
         
         GeniusFunny的个人博客
     </title>
@@ -39,8 +39,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="GeniusFunny">
-    <meta name="description" itemprop="description" content="Learn Once, Write Anywhere.">
-    <meta name="keywords" content="JavaScript">
+    <meta name="description" itemprop="description" content="什么是持久化？为什么需要持久化？持久化就是将内存中的数据模型转换为存储模型，更通俗的说，就是将数据保存到系统硬盘中。
+Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存中的数据就会丢失，所以我们需要持久化。">
+    <meta name="keywords" content="JavaScript,持久化 缓存">
 
     <!-- Site Verification -->
     
@@ -69,29 +70,65 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="geniusfunny.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="标签: Web缓存 | GeniusFunny的个人博客">
+    <meta property="og:title" content="简单了解Redis中的持久化机制 | GeniusFunny的个人博客">
     <meta property="og:image" content="/img/favicon.png" />
-    <meta property="og:description" content="Learn Once, Write Anywhere.">
-    
+    <meta property="og:description" content="什么是持久化？为什么需要持久化？持久化就是将内存中的数据模型转换为存储模型，更通俗的说，就是将数据保存到系统硬盘中。
+Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存中的数据就会丢失，所以我们需要持久化。">
+    <meta property="og:article:tag" content="持久化 缓存"> 
 
+    
+        <meta property="article:published_time" content="11月 09, 2018" />
+        <meta property="article:modified_time" content="11月 09, 2018" />
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="标签: Web缓存 | GeniusFunny的个人博客">
-    <meta name="twitter:description" content="Learn Once, Write Anywhere.">
+    <meta name="twitter:title" content="简单了解Redis中的持久化机制 | GeniusFunny的个人博客">
+    <meta name="twitter:description" content="什么是持久化？为什么需要持久化？持久化就是将内存中的数据模型转换为存储模型，更通俗的说，就是将数据保存到系统硬盘中。
+Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存中的数据就会丢失，所以我们需要持久化。">
     <meta name="twitter:image" content="/img/favicon.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="geniusfunny.github.io" />
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="geniusfunny.github.io/tags/Web缓存/index.html" />
+        <link rel="canonical" href="geniusfunny.github.io/2018/11/09/Redis-Rersistence/index.html" />
     
 
     <!-- Structured-data for SEO -->
     
         
 
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "GeniusFunny的个人博客",
+        "logo": "/img/favicon.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "GeniusFunny",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/favicon.png"
+        },
+        "description": "Stay Hungry, Stay Foolish."
+    },
+    "headline": "简单了解Redis中的持久化机制",
+    "url": "geniusfunny.github.io/2018/11/09/Redis-Rersistence/index.html",
+    "datePublished": "11月 09, 2018",
+    "dateModified": "11月 09, 2018",
+    "description": "什么是持久化？为什么需要持久化？持久化就是将内存中的数据模型转换为存储模型，更通俗的说，就是将数据保存到系统硬盘中。
+Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存中的数据就会丢失，所以我们需要持久化。",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "geniusfunny.github.io"
+    }
+}
+</script>
 
 
     
@@ -277,96 +314,291 @@
                         </button>
                     
 
-                    <!-- Index Module -->
-<div class="material-index mdl-grid">
-    
-    <div class="locate-thumbnail-symbol"></div>
+                    <!-- Post TOC -->
 
-    <!-- Pin on top -->
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#什么是持久化？为什么需要持久化？"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是持久化？为什么需要持久化？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RDB（默认开启）"><span class="post-toc-number">2.</span> <span class="post-toc-text">RDB（默认开启）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#介绍"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">介绍</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#过程"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#优点"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#缺点"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">缺点</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#AOF"><span class="post-toc-number">3.</span> <span class="post-toc-text">AOF</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#介绍-1"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">介绍</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#过程-1"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#AOF缓冲区同步文件策略"><span class="post-toc-number">3.2.1.</span> <span class="post-toc-text">AOF缓冲区同步文件策略</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#AOF重写机制"><span class="post-toc-number">3.2.2.</span> <span class="post-toc-text">AOF重写机制</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#优点-1"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#缺点-1"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">缺点</span></a></li></ol></li></ol>
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
     
 
-    <!-- Normal Post -->
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--3dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
     
         
             <!-- Random Thumbnail -->
             <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
 
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/05/03/web-life-cycle/">从一行url到一个页面我们经历了什么？(更新中)</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            当我们在浏览器地址栏输入一行url，整个页面呈现，整个过程发生了什么？我大致把整个过程分为两个部分，即网络行为与页面周期。浏览器缓存 —&gt; DNS  —&gt; TCP连接 –&gt; HTTP请求/响应 —&gt; 构建页面 —&gt; 事件处理
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/05/03/web-life-cycle/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="GeniusFunny's avatar">
-            </div>
-            <div>
-                <strong>GeniusFunny</strong>
-                <span>5月 03, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/笔记/">笔记</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-
-    
-
-    
-        <script type="text/ls-javascript" id="thumbnail-script">
-    var randomNum;
-
-    var locatePost = $('.locate-thumbnail-symbol').next();
-    for(var i = 0; i < 10; i++) {
-        randomNum = Math.floor(Math.random() * 19 + 1);
-
-        locatePost.children('.post_thumbnail-random').attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
     $('.post_thumbnail-random').addClass('lazy');
-
-        locatePost = locatePost.next();
-    }
 </script>
 
+        
+    
+            <p class="article-headline-p">
+                简单了解Redis中的持久化机制
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>GeniusFunny</strong>
+        <span>11月 09, 2018</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACXklEQVR42u3aUXLCMAwFQO5/6fYALcl7FjGB2XxlaHC8ZsZSJT9+vvp64OHh4eHh4eHh3Yz3iK+/33o2zj+vfDLas/vR3PDw8PC28E622jEmWaDkvdHc8PDw8Dby8u37mDfZ6Cdzw8PDw7szL8fkqfPxmHh4eHifzlsrUhyP/wFxDw8PD2/pH/62AHE89TYpv7zWgoeHhxfz8sntv9/a38PDw8MLePWRpnhDb5/Mg8HJDPHw8PAu5uUb8Rq7Ta/n88HDw8O7mjcpQ0yOFEwKuydHvvDw8PC28PICxKuCylowwMPDw7sPLw8MySdJIMmLuXWCjoeHh/cmXrvpz9mT9BoPDw9vP28+6GSZ2iBx8lc8PDy8t/KSwsHaYiUtsfYTPDw8vD28tnzQJsFtYGgX+iQw4OHh4V3AawsEbeM/P3S1ltwXcQ8PDw/vpbx5gyovUuTl2sVUGw8PD+9i3lqDP9noE3C7KFHhGA8PD+9iXjvcWorcFjLWir94eHh4O3knX4i3+La1NkmmR0cH8PDw8Aa8ttjapsijia4tBB4eHt4W3qsaV2tFjbyQUafUeHh4eBfzJsWIK44ItOPj4eHhvYu39ppJoyt/VzImHh4e3tW89kqOYc1bYnmpAg8PD28/b7Lpt639PE1PAsbTHwAPDw9vC28tGLRPtkes2uCBh4eHt5+3doS03fonxYjox8DDw8O7PS95/njqbenhJHHHw8PD+xBePsWc2oYfPDw8vP28pMSQLETbDGuXDA8PD+8OvLwEsHbflmjXFh0PDw9vD+/7Ljw8PDw8PDw8vBtcv+yIFhGlwg8uAAAAAElFTkSuQmCC">
+    
+</ul>
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/持久化-缓存/">持久化 缓存</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    <!-- Leancloud Views -->
+        <a class="post_share-link" href="#">
+            <li class="mdl-menu__item">
+                <span id="/2018/11/09/Redis-Rersistence/" class="leancloud-views_num" data-flag-title="简单了解Redis中的持久化机制">
+     &nbsp;浏览量
+</span>
+
+            </li>
+        </a>
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=简单了解Redis中的持久化机制&url=geniusfunny.github.io/2018/11/09/Redis-Rersistence/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=简单了解Redis中的持久化机制&url=geniusfunny.github.io/2018/11/09/Redis-Rersistence/index.html&via=GeniusFunny" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=geniusfunny.github.io/2018/11/09/Redis-Rersistence/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=geniusfunny.github.io/2018/11/09/Redis-Rersistence/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=GeniusFunny的个人博客&title=简单了解Redis中的持久化机制&summary=Learn Once, Write Anywhere.&pics=geniusfunny.github.io/img/favicon.png&url=geniusfunny.github.io/2018/11/09/Redis-Rersistence/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h3 id="什么是持久化？为什么需要持久化？"><a href="#什么是持久化？为什么需要持久化？" class="headerlink" title="什么是持久化？为什么需要持久化？"></a>什么是持久化？为什么需要持久化？</h3><p>持久化就是将内存中的数据模型转换为存储模型，更通俗的说，就是将数据保存到系统硬盘中。</p>
+<p>Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存中的数据就会丢失，所以我们需要持久化。</p>
+<a id="more"></a>
+<h3 id="RDB（默认开启）"><a href="#RDB（默认开启）" class="headerlink" title="RDB（默认开启）"></a>RDB（默认开启）</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>RDB持久化是把当前进程数据生成快照保存到硬盘的过程，适用于备份、全量复制等场景。</p>
+<h4 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h4><ol>
+<li>执行bgsave命令，父进程判断当前是否有正在执行的子进程如AOF子进程，若有直接返回。</li>
+<li>父进程执行fork操作创建子进程，fork操作会阻塞父进程。</li>
+<li>fork完成后，父进程处理其他命令。</li>
+<li>子进程创建RDB文件，根据父进程内存生成临时快照文件，完成后对旧文件进行原子替换。</li>
+<li>子进程发送信号通知父进程表示完成，父进程更新统计消息。</li>
+</ol>
+<p><img src="https://i.loli.net/2018/11/09/5be58cf902601.png" alt=""></p>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ol>
+<li>RDB是一个非常紧凑的二进制文件，保存着Redis在某个时间节点上的数据集，非常适合备份、全量复制等场景。</li>
+<li>RDB非常适用于灾难恢复，因为它只有一个文件并且非常紧凑，可以加密后传送到其他数据中心。</li>
+<li>父进程保存RDB文件时仅仅需要花费fork一个子进程的时间，无需执行任何磁盘I/O操作。</li>
+<li>Redis加载RDB恢复数据远远快于AOF的方式。</li>
+</ol>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ol>
+<li>因为RDB文件需要保存整个数据集的状态，花费数分钟的时间，所以一旦发生故障停机，可能会丢失数分钟的数据。</li>
+<li>每次保存RDB时，Redis需要fork一个子进程，并由子进程进行数据持久化；如果数据集很庞大，fork()可能会非常耗时，造成服务器在短时间（毫秒级）内停止处理客户端；如果CPU比较紧张，fork过程可能长达整整一秒。</li>
+</ol>
+<h3 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h3><h4 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h4><p>AOF持久化是以独立的日志记录每次写命令，Redis重启的时候执行AOF文件中的命令来恢复数据。</p>
+<h4 id="过程-1"><a href="#过程-1" class="headerlink" title="过程"></a>过程</h4><ol>
+<li>所有写命令都会追加到AOF缓冲区。</li>
+<li>AOF缓冲区根据对应的策略向硬盘做同步操作。</li>
+<li>随着AOF文件越来越大，需要定期对AOF文件进行重写以达到压缩的目的。</li>
+</ol>
+<p><img src="https://i.loli.net/2018/11/09/5be5935373f4f.png" alt=""></p>
+<h5 id="AOF缓冲区同步文件策略"><a href="#AOF缓冲区同步文件策略" class="headerlink" title="AOF缓冲区同步文件策略"></a>AOF缓冲区同步文件策略</h5><p>可以配置Redis多久将数据同步到磁盘一次。</p>
+<ul>
+<li>always: 每次有写命令追加到AOF缓冲区时就调用系统fsync操作同步到AOF文件。</li>
+<li>everysec：命令写入AOF缓冲区后调用系统write操作，fsync同步文件操作由专门线程每秒调用一次。</li>
+<li>no：命令写入AOF缓冲区后调用系统write操作，不对AOF文件做fsync操作，同步硬盘由系统负责，通常同步周期为30s。</li>
+</ul>
+<h5 id="AOF重写机制"><a href="#AOF重写机制" class="headerlink" title="AOF重写机制"></a>AOF重写机制</h5><p>AOF文件重写是把Redis进程内的数据转化为写命令同步到新AOF文件的过程。（因为重写AOF文件时，Redis会合并多条写命令、丢弃超时的数据、删除无效命令，所以重写后的AOF文件要小于旧文件）</p>
+<p><img src="https://i.loli.net/2018/11/09/5be5998076507.png" alt=""></p>
+<h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4><ol>
+<li>使用AOF持久化使得Redis更加耐久，AOF缓冲区同步文件策略可以使得Redis就算发生故障停机，也最多丢失1s的数据（实际上最多为2s）。</li>
+<li>AOF文件有序地保存了对数据库执行的所有写入操作，这些写入操作以Redis协议的格式保存，文件内容易懂且容易分析、导出。</li>
+</ol>
+<h4 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h4><ol>
+<li>AOF文件的体积通常大于RDB文件的体积。</li>
+<li>AOF的速度可能慢于RDB。</li>
+</ol>
+
+    
+
     
 </div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/10/03/sort-1/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
 
 
                     
@@ -542,6 +774,14 @@ It will not impact the appearance and can give developers a lot of support :)
 </aside>
 
                     
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
 
                     
 

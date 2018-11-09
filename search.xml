@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[简单了解Redis中的持久化机制]]></title>
+    <url>%2F2018%2F11%2F09%2FRedis-Rersistence%2F</url>
+    <content type="text"><![CDATA[什么是持久化？为什么需要持久化？持久化就是将内存中的数据模型转换为存储模型，更通俗的说，就是将数据保存到系统硬盘中。 Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存中的数据就会丢失，所以我们需要持久化。 RDB（默认开启）介绍RDB持久化是把当前进程数据生成快照保存到硬盘的过程，适用于备份、全量复制等场景。 过程 执行bgsave命令，父进程判断当前是否有正在执行的子进程如AOF子进程，若有直接返回。 父进程执行fork操作创建子进程，fork操作会阻塞父进程。 fork完成后，父进程处理其他命令。 子进程创建RDB文件，根据父进程内存生成临时快照文件，完成后对旧文件进行原子替换。 子进程发送信号通知父进程表示完成，父进程更新统计消息。 优点 RDB是一个非常紧凑的二进制文件，保存着Redis在某个时间节点上的数据集，非常适合备份、全量复制等场景。 RDB非常适用于灾难恢复，因为它只有一个文件并且非常紧凑，可以加密后传送到其他数据中心。 父进程保存RDB文件时仅仅需要花费fork一个子进程的时间，无需执行任何磁盘I/O操作。 Redis加载RDB恢复数据远远快于AOF的方式。 缺点 因为RDB文件需要保存整个数据集的状态，花费数分钟的时间，所以一旦发生故障停机，可能会丢失数分钟的数据。 每次保存RDB时，Redis需要fork一个子进程，并由子进程进行数据持久化；如果数据集很庞大，fork()可能会非常耗时，造成服务器在短时间（毫秒级）内停止处理客户端；如果CPU比较紧张，fork过程可能长达整整一秒。 AOF介绍AOF持久化是以独立的日志记录每次写命令，Redis重启的时候执行AOF文件中的命令来恢复数据。 过程 所有写命令都会追加到AOF缓冲区。 AOF缓冲区根据对应的策略向硬盘做同步操作。 随着AOF文件越来越大，需要定期对AOF文件进行重写以达到压缩的目的。 AOF缓冲区同步文件策略可以配置Redis多久将数据同步到磁盘一次。 always: 每次有写命令追加到AOF缓冲区时就调用系统fsync操作同步到AOF文件。 everysec：命令写入AOF缓冲区后调用系统write操作，fsync同步文件操作由专门线程每秒调用一次。 no：命令写入AOF缓冲区后调用系统write操作，不对AOF文件做fsync操作，同步硬盘由系统负责，通常同步周期为30s。 AOF重写机制AOF文件重写是把Redis进程内的数据转化为写命令同步到新AOF文件的过程。（因为重写AOF文件时，Redis会合并多条写命令、丢弃超时的数据、删除无效命令，所以重写后的AOF文件要小于旧文件） 优点 使用AOF持久化使得Redis更加耐久，AOF缓冲区同步文件策略可以使得Redis就算发生故障停机，也最多丢失1s的数据（实际上最多为2s）。 AOF文件有序地保存了对数据库执行的所有写入操作，这些写入操作以Redis协议的格式保存，文件内容易懂且容易分析、导出。 缺点 AOF文件的体积通常大于RDB文件的体积。 AOF的速度可能慢于RDB。]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>持久化 缓存</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[算法入门之初级排序（选择、插入、希尔）]]></title>
     <url>%2F2018%2F10%2F03%2Fsort-1%2F</url>
     <content type="text"><![CDATA[下面是选择排序、插入排序、希尔排序等初级排序的简单介绍及实现。 选择排序步骤 首先找到数组中最小的元素，将其与第一个元素置换位置。 从剩余的元素中找到最小的元素，将其与第二个元素置换位置。 以此类推，直到数组完全有序。 选择排序所需的时间取决于元素的数量 实现123456789101112131415161718public class Selection&#123; public static void sort(Comparable[] a) &#123; int N = a.length; int temp = 0; for (int i = 0; i &lt; N; i++) &#123; int min = i; for (int j = i + 1; j &lt; N; j++) &#123; if (a[min] &gt; a[j]) &#123; min = j; &#125; &#125; temp = a[min]; a[min] = a[i]; a[i] = temp; &#125; &#125;&#125; 插入排序步骤 第二个元素与左侧的元素进行比较，将其插入到合适的位置。 第三个元素与左侧的元素进行比较，将其插入到合适的位置。 以此类推，直到数组完全有序。 实现12345678910111213141516public class Insertion&#123; public static void sort(Comparable[] a) &#123; int N = a.length; int temp = 0; for (int i = 1; i &lt; N; i++) &#123; for (int j = i; j &gt; 0; j--) &#123; if (a[j] &lt; a[j-1]) &#123; temp = a[j]; a[j] = a[j-1]; a[j-1] = temp; &#125; &#125; &#125; &#125;&#125; 插入排序所需的时间取决于元素的初始顺序 希尔排序希尔排序是基于插入排序的快速排序，思想是使数组中任意间隔为h的元素是有序的。 步骤（序列1/2(3^k - 1)） 增幅h为数组长度的某个倍数（最小值为1），然后计算出增长序列(1, 4, 13, …)。 h = h(max)，确保间隔为h的元素有序。 h = h / 3，确保间隔为h的元素有序。 重复第3步，直至数组完全有序。 实现1234567891011121314151617181920212223public class Shell&#123; public static void sort(Comparable[] a) &#123; int N = a.length; int h = 1; int temp = 0; System.out.print(h); while (h &lt; N / 3) h = h * 3 + 1; while (h &gt;= 1) &#123; for (int i = h; i &lt; N; i++) &#123; for (int j = i; j &gt;= h; j -= h) &#123; if (a[j - h] &gt; a[j]) &#123; temp = a[j - h]; a[j - h] = a[j]; a[j] = temp; &#125; &#125; &#125; h /= 3; &#125; &#125;&#125; 名称 使用场景 时间复杂度 效率影响因素 选择排序 小型数组 O(N^2) 数组大小 插入排序 小型数组，数组部分有序 O(N^2) 元素初始顺序 希尔排序 中小型数组，数组部分有序 O(N^3/2), O(N^4/3), O(N^6/5)… 元素初始顺序，增长序列]]></content>
@@ -147,8 +158,8 @@
         <category>JavaScript设计模式</category>
       </categories>
       <tags>
-        <tag>JavaScript</tag>
         <tag>设计模式</tag>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
