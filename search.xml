@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[简析Redis哨兵实现原理]]></title>
+    <url>%2F2018%2F11%2F23%2Fredis-sentinel%2F</url>
+    <content type="text"><![CDATA[Redis Sentinel 是一个分布式架构(Sentinel节点、Redis数据节点、Redis客户端分布在不同的物理节点上)，其中包括了若干个Sentinel节点和Redis数据节点，每个Sentinel节点对数据节点和其他Sentinel节点进行监控，当它发现节点不可达时，会对节点做下线标识。若该节点为主节点，它会和其他Sentinel节点共同协商，若大部分节点皆表示该主节点不可达，那么就会从Sentinel中选举出一个Sentinel节点来完成自动故障转移的工作，同时将这个变化实时通知给Redis应用方。 实现原理三个定时监控任务Redis通过三个定时监控任务完成对各个节点的发现和监控。_s_ 获取最新拓扑结构每隔10s，每个Sentinel节点会向主节点和从节点发送info命令获取最新的拓扑结构。 作用： 通过向主节点执行info命令，获取从节点信息，所以Sentinel节点不需要显式配置监控从节点。 当有新的从节点加入时都可以立刻感知出来。 节点不可达或者故障转移后，可以通过info命令实时更新节点拓扑信息。 Sentinel节点发布和订阅sentinel:hello频道每隔2s，每个Sentinel节点会向Redis数据节点的__sentinel__:hello频道发送该sentinel节点对于主节点的判断以及当前Sentinel节点的信息，同时每个Sentinel节点也会订阅该频道来了解其他Sentinel节点以及它们对主节点的判断。 作用： 发现新的Sentinel节点。 Sentinel节点之间交换主节点的状态，作为后面客观下线以及领导者选举的依据。 心跳检测每隔1s，每隔Sentinel节点会向主节点、从节点、其余Sentinel节点发送一条ping命令做一次心跳检测，来确定这些节点是否可达。 作用： 判断节点是否可达的重要依据。 ###主观下线和客观下线 主观下线上面提到心跳检测，如果这些节点超过down-after-millionsections还没有进行有效回复，Sentinel节点就会对该节点做失败判断，这个行为叫做主观下线。Sentinel节点、从节点，主观下线后没有后续的故障转移操作。 客观下线当Sentinel节点主观下线的节点是主节点时，该Sentinel节点会通过sentinel is-master-down-by-addr命令向其他Sentinel节点询问对主节点的判断，当超过个数，Sentinel认为主节点的确出现问题，此时该Sentinel对主节点做出客观下线的决定。 领导者Sentinel节点选举当Sentinel节点对主节点完成了客观下线后，Sentinel节点之间还会选举出一个结点作为领导者进行故障转移工作；Redis使用了Raft算法实现领导者选举。 Raft算法大致思路 每个在线的Sentinel节点都有资格成为领导者，当它确认主节点主观下线后，会向其他节点发送sentinel is-master-down-by-addr命令，要求将自己设置为领导者。 收到命令的Sentinel节点，如果没有同意过其他的Sentinel节点的sentinel is-master-down-by-addr命令，将同意该请求，反之拒绝。 如果该Sentinel节点发现自己的票数已经大于或等于max(quorum, num(sentinels) / 2 + 1)，那么它就成为领导者。 如果此过程没有选举出领导者，将进入下一次选举。 基本上谁先完成客观下线，谁就是领导者。 故障转移领导者选举出的Sentinel将负责故障转移。 过程 从节点列表中选举出一个节点作为新的主节点。 过滤掉不主观下线、掉线、5秒内没有回复Sentinel ping响应等等的节点… 选择从节点优先级最高的节点，如果存在则返回，不存在则继续下一步。 选择复制偏移量最大的从节点，如果存在则返回，不存在则继续下一步。 选择runid最小的从节点。 对选举出的节点执行slave of no one，升级为主节点。 Sentinel领导者节点向其他节点发送命令，让它们成为新主节点的从节点。 Sentinel集合节点将原主节点更新为从节点，并保持对其关注，当其恢复后命令它去复制新的主节点。]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>哨兵</tag>
+        <tag>高可用</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[简析Redis复制原理]]></title>
     <url>%2F2018%2F11%2F11%2FRedis-Replication%2F</url>
     <content type="text"><![CDATA[在分布式系统中为了解决单点问题，通常会把数据复制成多个副本部署到不同的机器上，以满足负载均衡和故障恢复等需求，Redis也是如此，Redis支持简单且易用的主从复制（master-slave replication）功能。 复制过程 slave执行slaveof命令，slave只保存master的地址信息后就返回。 slave通过内部每秒运行的定时任务维护复制相关的逻辑，当定时任务发现新的master信息时，开始尝试与master建立网络连接。如果无法建立连接，slave会一直无限次重连直到连接成功或者取消复制。 连接建立成功后slave会发送ping请求进行首次通信，检测主从之间网络套接字是否可用、检测msater当前是否可接受处理命令。 如果master设置了requirepass参数，则需要密码验证。 首次建立复制，主从节点会进行一次全量复制。 同步数据集成功后，master持续把后续的写命令发送给slave，保证主从一致性。 数据同步如何进行数据同步？复制偏移量（offset）参与主从复制的master和slave会保存各自的复制偏移量，slave的复制偏移量初始值为-1。master处理写入命令后，会对自己的复制偏移量进行累加；slave收到master发送的命令后，也会对自己的复制偏移量进行累加，并且slave每秒上报自身的复制偏移量给master，所以master也保存了slave的复制偏移量。倘若主从复制偏移量差距过大，则有可能是因为阻塞或网络延迟高造成的。 复制积压缓冲区复制积压缓冲区是保存在master上的一个固定长度的队列。当master处理写入命令后，不仅会把命令发送给slave，也会把命令写入复制积压缓冲区。复制积压缓冲区用于保存最近已复制数据，可用于部分复制或复制命令丢失的数据补救。 主节点运行ID（runId）每个Redis启动后会动态分配一个40位的十六进制的字符串作为运行ID，运行ID的主要作用是唯一识别Redis节点。如果master运行ID发生变化后，主从节点将进行全量复制。 psync命令slave使用psync命令完成部分复制和全量复制功能，命令格式：psync {runId} {offset}。slave发送psync命令给master，master根据psync的参数和自身数据决定响应结果（全量复制、部分复制、错误）。 全量复制全量复制是redis最早支持的复制方式，也是主从第一次建立后必须经历的阶段。 过程 发送psync命令进行数据同步，由于是第一次进行复制，从节点没有复制偏移量和主节点运行ID，所以发送psync ? -1。 主节点根据psync解析当前为全量复制，回复+FULLRESYNC响应。 slave接收到master的响应数据，保存runId和offset。 master开始执行bgsave，保存RDB到本地。 master发送RDB文件给slave，slave接受到RDB文件后存储为自己的数据文件。（如果文件过大，存在超时全量复制失败的风险）。 从slave开始接受RDB到接受完成期间，master仍在处理读写命令。在这期间，master将写命令写入客户端缓冲区，当slave加载完RDB后，再把缓冲区内的数据发送给slave，保证主从之间数据一致性。 slave接受完master传送的数据后会清空自身旧数据。 slave清空数据后开始价值RDB文件，如果RDB文件过大，这个过程非常耗时。如果slave正处于全量复制阶段或者复制中断，那么slave响应读命令时可能拿到过期或错误的数据，数据出现不一致。（可以通过设置slave-serve-stable-data参数来关闭对读命令的响应） slave加载完RDB后，如果slave开启了AOF持久化，它会立即执行bgrewriteaof操作，保证全量复制后AOF持久化文件立刻可用。 时间开销 master bgsave时间 RDB文件网络传输时间 salve清空数据时间 slave加载RDB时间 可能的AOF重写时间 由此可见，全量复制的时间开销大，除此之外，全量复制过程中也会消耗大量的CPU、内存、网络资源。所以除了第一次复制采用全量复制，其余场景应该规避全量复制的发生。 部分复制部分复制主要是Redis针对全量复制过高开销作出的一种优化措施。当slave正在复制master时，如果出现网络闪断或者命令丢失等异常情况时，slave会向master要求补发丢失的命令数据，如果master的复制积压缓冲区内存在这部分数据则之间发给slave，这样可以确保主从节点复制的一致性。补发的这部分数据一般远远小于全量数据，所以开销很小。 过程 主从节点之间网络出现中断时，如果超过repl-timeout时间，master会认为slave故障并中断复制连接。 主从连接中断期间master依然响应客户端的命令，但复制连接中断命令无法发送给slave，不过master内部存在复制积压缓冲区，可以保存最近一段时间的命令数据，默认最大缓存1MB。 主从节点网络恢复后，slave再次连上master。 主从连接恢复后，由于slave保存了自身已复制的偏移量和主节点的运行ID，此时将他们作为参数发送给master，要求进行部分复制。 master接到psync命令后进行核对，然后根据offset在自身复制积压缓冲区插座，如果数据存在于缓冲区，则对slave发送+CONTINUE响应，表示可以进行部分复制。 master根据offset把复制积压缓冲区里的数据发送给slave，保证主从复制进入正常状态。 异步复制（写命令同步）master不仅负责数据读写，还负责把写命令同步给slave。写命令的发送是异步完成，master自身处理完写命令后直接返回给客户端，并不等待slave复制完成。由于主从复制过程是异步的，就会造成salve数据相对master存在延迟。 心跳机制主从节点建立复制后，它们之间维护着长连接并彼此发送心跳命令。 主从心跳判断机制 主从节点各自都有心跳检测机制，各自模拟成对方的客户端进行通信。 master默认每隔10s对slave发送ping命令，判断slave的存活性和连接状态。 slave每隔1s对master发送replconf ack {offset}命令，给master上报自身当前的复制偏移量。replconf命令常用于检测主从节点网络状态、上报自身复制偏移量，检测复制数据是否丢失，如果slave数据丢失，再从master的复制缓冲区拉取丢失数据。、实现保证slave的数量和延迟性功能。]]></content>
@@ -134,9 +146,9 @@
         <category>实践</category>
       </categories>
       <tags>
+        <tag>设计模式</tag>
         <tag>React</tag>
         <tag>Redux</tag>
-        <tag>设计模式</tag>
       </tags>
   </entry>
   <entry>
@@ -169,8 +181,8 @@
         <category>JavaScript设计模式</category>
       </categories>
       <tags>
-        <tag>设计模式</tag>
         <tag>JavaScript</tag>
+        <tag>设计模式</tag>
       </tags>
   </entry>
   <entry>

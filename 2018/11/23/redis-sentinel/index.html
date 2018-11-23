@@ -12,7 +12,7 @@
     
     <title>
         
-            about | 
+            简析Redis哨兵实现原理 | 
         
         GeniusFunny的个人博客
     </title>
@@ -39,8 +39,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="GeniusFunny">
-    <meta name="description" itemprop="description" content="Learn Once, Write Anywhere.">
-    <meta name="keywords" content="JavaScript">
+    <meta name="description" itemprop="description" content="Redis Sentinel 是一个分布式架构(Sentinel节点、Redis数据节点、Redis客户端分布在不同的物理节点上)，其中包括了若干个Sentinel节点和Redis数据节点，每个Sentinel节点对数据节点和其他Sentinel节点进行监控，当它发现节点不可达时，会对节点做下线标识。若该节点为主节点，它会和其他Sentinel节点共同协商，若大部分节点皆表示该主节点不可达，那么就会从Sentinel中选举出一个Sentinel节点来完成自动故障转移的工作，同时将这个变化实时通知给Redis应用方。">
+    <meta name="keywords" content="JavaScript,哨兵,高可用">
 
     <!-- Site Verification -->
     
@@ -69,29 +69,62 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="geniusfunny.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="about | GeniusFunny的个人博客">
+    <meta property="og:title" content="简析Redis哨兵实现原理 | GeniusFunny的个人博客">
     <meta property="og:image" content="/img/favicon.png" />
-    <meta property="og:description" content="Learn Once, Write Anywhere.">
-    
+    <meta property="og:description" content="Redis Sentinel 是一个分布式架构(Sentinel节点、Redis数据节点、Redis客户端分布在不同的物理节点上)，其中包括了若干个Sentinel节点和Redis数据节点，每个Sentinel节点对数据节点和其他Sentinel节点进行监控，当它发现节点不可达时，会对节点做下线标识。若该节点为主节点，它会和其他Sentinel节点共同协商，若大部分节点皆表示该主节点不可达，那么就会从Sentinel中选举出一个Sentinel节点来完成自动故障转移的工作，同时将这个变化实时通知给Redis应用方。">
+    <meta property="og:article:tag" content="哨兵"> <meta property="og:article:tag" content="高可用"> 
 
+    
+        <meta property="article:published_time" content="11月 23, 2018" />
+        <meta property="article:modified_time" content="11月 23, 2018" />
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="about | GeniusFunny的个人博客">
-    <meta name="twitter:description" content="Learn Once, Write Anywhere.">
+    <meta name="twitter:title" content="简析Redis哨兵实现原理 | GeniusFunny的个人博客">
+    <meta name="twitter:description" content="Redis Sentinel 是一个分布式架构(Sentinel节点、Redis数据节点、Redis客户端分布在不同的物理节点上)，其中包括了若干个Sentinel节点和Redis数据节点，每个Sentinel节点对数据节点和其他Sentinel节点进行监控，当它发现节点不可达时，会对节点做下线标识。若该节点为主节点，它会和其他Sentinel节点共同协商，若大部分节点皆表示该主节点不可达，那么就会从Sentinel中选举出一个Sentinel节点来完成自动故障转移的工作，同时将这个变化实时通知给Redis应用方。">
     <meta name="twitter:image" content="/img/favicon.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="geniusfunny.github.io" />
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="geniusfunny.github.io/about/index.html" />
+        <link rel="canonical" href="geniusfunny.github.io/2018/11/23/redis-sentinel/index.html" />
     
 
     <!-- Structured-data for SEO -->
     
         
 
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "GeniusFunny的个人博客",
+        "logo": "/img/favicon.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "GeniusFunny",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/favicon.png"
+        },
+        "description": "Stay Hungry, Stay Foolish."
+    },
+    "headline": "简析Redis哨兵实现原理",
+    "url": "geniusfunny.github.io/2018/11/23/redis-sentinel/index.html",
+    "datePublished": "11月 23, 2018",
+    "dateModified": "11月 23, 2018",
+    "description": "Redis Sentinel 是一个分布式架构(Sentinel节点、Redis数据节点、Redis客户端分布在不同的物理节点上)，其中包括了若干个Sentinel节点和Redis数据节点，每个Sentinel节点对数据节点和其他Sentinel节点进行监控，当它发现节点不可达时，会对节点做下线标识。若该节点为主节点，它会和其他Sentinel节点共同协商，若大部分节点皆表示该主节点不可达，那么就会从Sentinel中选举出一个Sentinel节点来完成自动故障转移的工作，同时将这个变化实时通知给Redis应用方。",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "geniusfunny.github.io"
+    }
+}
+</script>
 
 
     
@@ -279,6 +312,43 @@
 
                     <!-- Post TOC -->
 
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实现原理"><span class="post-toc-number">1.</span> <span class="post-toc-text">实现原理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#三个定时监控任务"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">三个定时监控任务</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#获取最新拓扑结构"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">获取最新拓扑结构</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Sentinel节点发布和订阅sentinel-hello频道"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">Sentinel节点发布和订阅sentinel:hello频道</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#心跳检测"><span class="post-toc-number">1.1.3.</span> <span class="post-toc-text">心跳检测</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#主观下线"><span class="post-toc-number">1.1.4.</span> <span class="post-toc-text">主观下线</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#客观下线"><span class="post-toc-number">1.1.5.</span> <span class="post-toc-text">客观下线</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#领导者Sentinel节点选举"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">领导者Sentinel节点选举</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Raft算法大致思路"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">Raft算法大致思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#故障转移"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">故障转移</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#过程"><span class="post-toc-number">1.3.1.</span> <span class="post-toc-text">过程</span></a></li></ol></li></ol></li></ol>
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
+    
+
+
+
+
 
 <!-- Layouts -->
 
@@ -305,7 +375,7 @@
         
     
             <p class="article-headline-p">
-                about
+                简析Redis哨兵实现原理
             </p>
         </div>
 
@@ -324,7 +394,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>GeniusFunny</strong>
-        <span>2月 03, 2018</span>
+        <span>11月 23, 2018</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -346,7 +416,7 @@
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAAB80lEQVR42u3aUXaDIBAFUPe/6XYBqeY9oE2Vy1eOYuT6MWeY4fh6xDgwMDAwMDAwMP4N44jHD3/0cvd15uvds6faNWBgYOzGeBPaThZ3Bjh98eX8eg0YGBhbMq4D4vWc6yA+9gnehHIMDAyMIDi26d18+oiBgYExxkjCa5syYmBgYMxsYvP514AP78UxMDBuyBhL7Nb+/tP+BgYGxq0Y9RGH/DWXhbYkyP7imREMDIxbMfLAlyeCbXI5+F4MDIxtGG1jcu0SkzS0SA0xMDAezWjLZMn1vG2ZfzIMDIydGW2BbKw92X6+N/+MgYGxPaPdxOZX5mEYGBi7MZIHkut5oT/fuBYBFwMDYwNGG4Lz5a5qiBb9DQwMjMcxZlK3pBkw3/LEwMDAGCu0tY3PNvVccGYEAwPjcYyZNK4uk5UHWwf34hgYGI9jrGoxjm1HB9NHDAwMjHK5SXqXzC/CNAYGxsaM/LDXTBuy/Sh1wMXAwHgQYyxpa0N2W3QbPMCKgYHxUMYRj3ar2aaMbTMVAwNjN0YeZFve/FGMxY0BDAyMmzPyIlrUYoyfGmsqYGBgYLSpW9vgHAvxGBgYGGOMvKC2tj2AgYGxJyNvBuTX2/ZnXnTDwMDYjZFvJtvDW2MJ5a/3NzAwMG7FuO/AwMDAwMDAwPjo+AblHQgUX0B9vAAAAABJRU5ErkJggg==">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACZElEQVR42u3aQW7DQAgF0Nz/0u22UhvnAzZ1oudV1EzseV4MFHh8ffT1wMPDw8PDw8PDuxnvEV9/3OjH35OV+d0me8PDw8Pb4b04ag/XPEP+fnzyeb43PDw8vE1evq08VCQH/fH6fG94eHh49+flCfQ8YODh4eG9O+9ZkMg3dxwG8PDw8N6Fl5cbjlfmmLzMsVRrwcPDw4t5V6S/Z31e7e/h4eHhBbzySFNwxOeHfpIij4au8PDw8C7g5QdxFV8d3jp+Tfl+8PDw8HZ480b+/LdJaDnhPwY8PDy8MW/esM+3Mg8GUZjBw8PDu5g3KSJU71NF5g02PDw8vE1e7xCvYpKEe5Je4+Hh4W3yJuNQk43maXr+4vDw8PA2eflwVdLgLxzirTDzIu3Gw8PDu5iX/zgv4+afj4sOvXEEPDw8vKt5vdS2yqtieqECDw8Pb4fXa4b1xgh66XU5gOHh4eGt8PIGWK+hNSkZJ+UPPDw8vE1edeCp+shyKWHQQsPDw8Pb5FWbUr0x08maUWDAw8PDu4BXKJK2ihS9JzYLFnh4eHgrvGpgmJQe8qdXv8XDw8P7L95xWaFaeM1LCXlhYhQY8PDw8E7l5UnwvDibM/IkHg8PD2+HV72S11EdAmgykgYYHh4e3gW83qHcS3aryXrScis0wPDw8PBO5U2CQV727Q1RlYvFeHh4eIu8/IDulTPy11ctSeDh4eG9C2++vld6eJHu4+Hh4d2SVy1YTNpm5TCDh4eHt8irtqyqAwf5mtE98fDw8FZ4eQkgOaznI1m9l46Hh4e3w/u8Cw8PDw8PDw8P7wbXN0g8FhFRJZg2AAAAAElFTkSuQmCC">
     
 </ul>
     
@@ -359,7 +429,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        
+        <a class="post_tag-link" href="/tags/哨兵/">哨兵</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/高可用/">高可用</a>
     </ul>
     
 
@@ -373,7 +443,7 @@
     <!-- Leancloud Views -->
         <a class="post_share-link" href="#">
             <li class="mdl-menu__item">
-                <span id="/about/index.html" class="leancloud-views_num" data-flag-title="about">
+                <span id="/2018/11/23/redis-sentinel/" class="leancloud-views_num" data-flag-title="简析Redis哨兵实现原理">
      &nbsp;浏览量
 </span>
 
@@ -385,7 +455,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=about&url=geniusfunny.github.io/about/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=简析Redis哨兵实现原理&url=geniusfunny.github.io/2018/11/23/redis-sentinel/index.html&pic=&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -394,7 +464,7 @@
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=about&url=geniusfunny.github.io/about/index.html&via=GeniusFunny" target="_blank">
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=简析Redis哨兵实现原理&url=geniusfunny.github.io/2018/11/23/redis-sentinel/index.html&via=GeniusFunny" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Twitter
             </li>
@@ -403,7 +473,7 @@
 
     <!-- Share Facebook -->
     
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=geniusfunny.github.io/about/index.html" target="_blank">
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=geniusfunny.github.io/2018/11/23/redis-sentinel/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Facebook
             </li>
@@ -412,7 +482,7 @@
 
     <!-- Share Google+ -->
     
-        <a class="post_share-link" href="https://plus.google.com/share?url=geniusfunny.github.io/about/index.html" target="_blank">
+        <a class="post_share-link" href="https://plus.google.com/share?url=geniusfunny.github.io/2018/11/23/redis-sentinel/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Google+
             </li>
@@ -424,7 +494,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=GeniusFunny的个人博客&title=about&summary=Learn Once, Write Anywhere.&pics=geniusfunny.github.io/img/favicon.png&url=geniusfunny.github.io/about/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=GeniusFunny的个人博客&title=简析Redis哨兵实现原理&summary=Learn Once, Write Anywhere.&pics=geniusfunny.github.io/img/favicon.png&url=geniusfunny.github.io/2018/11/23/redis-sentinel/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -442,7 +512,52 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        
+        <p>Redis Sentinel 是一个分布式架构(Sentinel节点、Redis数据节点、Redis客户端分布在不同的物理节点上)，其中包括了若干个Sentinel节点和Redis数据节点，每个Sentinel节点对数据节点和其他Sentinel节点进行监控，当它发现节点不可达时，会对节点做下线标识。若该节点为主节点，它会和其他Sentinel节点共同协商，若大部分节点皆表示该主节点不可达，那么就会从Sentinel中选举出一个Sentinel节点来完成自动故障转移的工作，同时将这个变化实时通知给Redis应用方。</p>
+<a id="more"></a>
+<h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><h3 id="三个定时监控任务"><a href="#三个定时监控任务" class="headerlink" title="三个定时监控任务"></a>三个定时监控任务</h3><p>Redis通过三个定时监控任务完成对各个节点的发现和监控。<strong>_</strong>s_</p>
+<h4 id="获取最新拓扑结构"><a href="#获取最新拓扑结构" class="headerlink" title="获取最新拓扑结构"></a>获取最新拓扑结构</h4><p>每隔10s，每个Sentinel节点会向主节点和从节点发送<code>info</code>命令获取最新的拓扑结构。</p>
+<p>作用：</p>
+<ol>
+<li>通过向主节点执行info命令，获取从节点信息，所以Sentinel节点不需要显式配置监控从节点。</li>
+<li>当有新的从节点加入时都可以立刻感知出来。</li>
+<li>节点不可达或者故障转移后，可以通过info命令实时更新节点拓扑信息。</li>
+</ol>
+<h4 id="Sentinel节点发布和订阅sentinel-hello频道"><a href="#Sentinel节点发布和订阅sentinel-hello频道" class="headerlink" title="Sentinel节点发布和订阅sentinel:hello频道"></a>Sentinel节点发布和订阅<strong>sentinel</strong>:hello频道</h4><p>每隔2s，每个Sentinel节点会向Redis数据节点的<strong>__</strong>sentinel__:hello频道发送该sentinel节点对于主节点的判断以及当前Sentinel节点的信息，同时每个Sentinel节点也会订阅该频道来了解其他Sentinel节点以及它们对主节点的判断。</p>
+<p>作用：</p>
+<ol>
+<li>发现新的Sentinel节点。</li>
+<li>Sentinel节点之间交换主节点的状态，作为后面客观下线以及领导者选举的依据。</li>
+</ol>
+<h4 id="心跳检测"><a href="#心跳检测" class="headerlink" title="心跳检测"></a>心跳检测</h4><p>每隔1s，每隔Sentinel节点会向主节点、从节点、其余Sentinel节点发送一条ping命令做一次心跳检测，来确定这些节点是否可达。</p>
+<p>作用：</p>
+<ol>
+<li>判断节点是否可达的重要依据。</li>
+</ol>
+<p>###主观下线和客观下线</p>
+<h4 id="主观下线"><a href="#主观下线" class="headerlink" title="主观下线"></a>主观下线</h4><p>上面提到心跳检测，如果这些节点超过down-after-millionsections还没有进行有效回复，Sentinel节点就会对该节点做失败判断，这个行为叫做主观下线。Sentinel节点、从节点，主观下线后没有后续的故障转移操作。</p>
+<h4 id="客观下线"><a href="#客观下线" class="headerlink" title="客观下线"></a>客观下线</h4><p>当Sentinel节点主观下线的节点是主节点时，该Sentinel节点会通过<code>sentinel is-master-down-by-addr</code>命令向其他Sentinel节点询问对主节点的判断，当超过<quorum>个数，Sentinel认为主节点的确出现问题，此时该Sentinel对主节点做出客观下线的决定。</quorum></p>
+<h3 id="领导者Sentinel节点选举"><a href="#领导者Sentinel节点选举" class="headerlink" title="领导者Sentinel节点选举"></a>领导者Sentinel节点选举</h3><p>当Sentinel节点对主节点完成了客观下线后，Sentinel节点之间还会选举出一个结点作为领导者进行故障转移工作；Redis使用了Raft算法实现领导者选举。</p>
+<h4 id="Raft算法大致思路"><a href="#Raft算法大致思路" class="headerlink" title="Raft算法大致思路"></a>Raft算法大致思路</h4><ol>
+<li>每个在线的Sentinel节点都有资格成为领导者，当它确认主节点主观下线后，会向其他节点发送<code>sentinel is-master-down-by-addr</code>命令，要求将自己设置为领导者。</li>
+<li>收到命令的Sentinel节点，如果没有同意过其他的Sentinel节点的<code>sentinel is-master-down-by-addr</code>命令，将同意该请求，反之拒绝。</li>
+<li>如果该Sentinel节点发现自己的票数已经大于或等于max(quorum, num(sentinels) / 2 + 1)，那么它就成为领导者。</li>
+<li>如果此过程没有选举出领导者，将进入下一次选举。</li>
+<li>基本上谁先完成客观下线，谁就是领导者。</li>
+</ol>
+<h3 id="故障转移"><a href="#故障转移" class="headerlink" title="故障转移"></a>故障转移</h3><p>领导者选举出的Sentinel将负责故障转移。</p>
+<h4 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h4><ol>
+<li>从节点列表中选举出一个节点作为新的主节点。<ul>
+<li>过滤掉不主观下线、掉线、5秒内没有回复Sentinel ping响应等等的节点…</li>
+<li>选择从节点优先级最高的节点，如果存在则返回，不存在则继续下一步。</li>
+<li>选择复制偏移量最大的从节点，如果存在则返回，不存在则继续下一步。</li>
+<li>选择runid最小的从节点。</li>
+</ul>
+</li>
+<li>对选举出的节点执行slave of no one，升级为主节点。</li>
+<li>Sentinel领导者节点向其他节点发送命令，让它们成为新主节点的从节点。</li>
+<li>Sentinel集合节点将原主节点更新为从节点，并保持对其关注，当其恢复后命令它去复制新的主节点。</li>
+</ol>
+
     
 
     
@@ -466,6 +581,14 @@
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
+    
+        <a href="/2018/11/11/Redis-Replication/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
     
 </nav>
 
@@ -647,6 +770,14 @@ It will not impact the appearance and can give developers a lot of support :)
 </aside>
 
                     
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
 
                     
 
