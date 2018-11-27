@@ -12,6 +12,8 @@
     
     <title>
         
+            简析Redis集群 | 
+        
         GeniusFunny的个人博客
     </title>
 
@@ -37,8 +39,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="GeniusFunny">
-    <meta name="description" itemprop="description" content="Learn Once, Write Anywhere.">
-    <meta name="keywords" content="JavaScript">
+    <meta name="description" itemprop="description" content="Redis Cluster是Redis的分布式解决方案，有效地解决了Redis分布式方面的需求。当遇到单机内存、并发、流量等瓶颈时，可以采用Cluster的架构来达到负载均衡的目的。">
+    <meta name="keywords" content="JavaScript,分布式,集群">
 
     <!-- Site Verification -->
     
@@ -67,51 +69,62 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="geniusfunny.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="GeniusFunny的个人博客">
+    <meta property="og:title" content="简析Redis集群 | GeniusFunny的个人博客">
     <meta property="og:image" content="/img/favicon.png" />
-    <meta property="og:description" content="Learn Once, Write Anywhere.">
-    
+    <meta property="og:description" content="Redis Cluster是Redis的分布式解决方案，有效地解决了Redis分布式方面的需求。当遇到单机内存、并发、流量等瓶颈时，可以采用Cluster的架构来达到负载均衡的目的。">
+    <meta property="og:article:tag" content="分布式"> <meta property="og:article:tag" content="集群"> 
 
+    
+        <meta property="article:published_time" content="11月 27, 2018" />
+        <meta property="article:modified_time" content="11月 27, 2018" />
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="GeniusFunny的个人博客">
-    <meta name="twitter:description" content="Learn Once, Write Anywhere.">
+    <meta name="twitter:title" content="简析Redis集群 | GeniusFunny的个人博客">
+    <meta name="twitter:description" content="Redis Cluster是Redis的分布式解决方案，有效地解决了Redis分布式方面的需求。当遇到单机内存、并发、流量等瓶颈时，可以采用Cluster的架构来达到负载均衡的目的。">
     <meta name="twitter:image" content="/img/favicon.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="geniusfunny.github.io" />
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="geniusfunny.github.io" />
+        <link rel="canonical" href="geniusfunny.github.io/2018/11/27/redis-cluster/index.html" />
     
 
     <!-- Structured-data for SEO -->
     
         
+
+
 <script type="application/ld+json">
 {
-    "@context": "http://schema.org",
-    "@type": "Website",
+    "@context": "https://schema.org",
+    "@type": "Article",
     "publisher": {
         "@type": "Organization",
         "name": "GeniusFunny的个人博客",
         "logo": "/img/favicon.png"
     },
-    "url": "geniusfunny.github.io/index.html",
-    "image": {
-        "@type": "ImageObject",
-        "url": "/img/favicon.png"
+    "author": {
+        "@type": "Person",
+        "name": "GeniusFunny",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/favicon.png"
+        },
+        "description": "Stay Hungry, Stay Foolish."
     },
+    "headline": "简析Redis集群",
+    "url": "geniusfunny.github.io/2018/11/27/redis-cluster/index.html",
+    "datePublished": "11月 27, 2018",
+    "dateModified": "11月 27, 2018",
+    "description": "Redis Cluster是Redis的分布式解决方案，有效地解决了Redis分布式方面的需求。当遇到单机内存、并发、流量等瓶颈时，可以采用Cluster的架构来达到负载均衡的目的。",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "geniusfunny.github.io"
-    },
-    "description": "Learn Once, Write Anywhere."
+    }
 }
 </script>
-
-
 
 
     
@@ -297,773 +310,288 @@
                         </button>
                     
 
-                    <!-- Index Module -->
-<div class="material-index mdl-grid">
+                    <!-- Post TOC -->
+
     
-        <!-- Paradox Header -->
-        <!-- Daily pic -->
-<div class="mdl-card mdl-shadow--3dp daily-pic mdl-cell mdl-cell--8-col index-top-block">
-
-    <!-- Pic & Slogan -->
-    <div class="mdl-card__media mdl-color-text--grey-50" style="background-image:url(/img/daily_pic.png)">
-        <p class="index-top-block-slogan"><a href="#">
-        
-            
-                Stay Hungry, Stay Foolish.
-            
-        
-        </a></p>
-    </div>
-
-    <!-- Avatar & Name -->
-    <div class="mdl-card__supporting-text meta mdl-color-text--grey-600">
-        <!-- Author Avatar -->
-        <div id="author-avatar">
-            <img src="/img/avatar.jpg" width="32px" height="32px" alt="avatar">
-        </div>
-        <div>
-            <strong>GeniusFunny</strong>
-        </div>
-    </div>
-</div>
-
-        <!-- Blog info -->
-<div class="mdl-card mdl-shadow--3dp something-else mdl-cell mdl-cell--8-col mdl-cell--4-col-desktop index-top-block">
-
-    <!-- Search -->
-    
-
-
-
-
-    <!-- Local -->
-    <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable" method="post" action="">
-        <label id="search-label" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--fab mdl-color--accent mdl-shadow--4dp" for="search">
-            <i class="material-icons mdl-color-text--white" role="presentation">search</i>
-        </label>
-
-        <form autocomplete="off" id="search-form" class="mdl-textfield__expandable-holder">
-            <input type="text" id="search" class="form-control mdl-textfield__input search-input" name="q" results="0" placeholder=""/>
-            <label id="search-form-label" class="mdl-textfield__label" for="search"></label>
-        </form>
-    </div>
-    <div id="local-search-result"></div>
-
-
-
-    <!-- LOGO -->
-    <div class="something-else-logo mdl-color--white mdl-color-text--grey-600">
-        <a href="#" target="_blank">
-            <img src="/img/avatar.jpg" alt="logo" />
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
         </a>
     </div>
+    -->
 
-    <!-- Infomation -->
-    <div class="mdl-card__supporting-text meta meta--fill mdl-color-text--grey-600">
-        <!-- Blog Title -->
-        <div>
-            <strong>GeniusFunny的个人博客</strong>
-        </div>
-        <div class="section-spacer"></div>
-
-        <!-- Pages -->
-        <button id="show-pages-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-            <i class="material-icons" role="presentation">view_carousel</i>
-            <span class="visuallyhidden">Pages</span>
-        </button>
-        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="show-pages-button">
-            
-                <a class="index_share-link" href="tags" title="标签">
-                    <li class="mdl-menu__item mdl-js-ripple-effect">
-                        标签
-                    </li>
-                </a>
-            
-        </ul>
-
-        <!-- Menu -->
-        <button id="menubtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-            <i class="material-icons" role="presentation">more_vert</i>
-            <span class="visuallyhidden">show menu</span>
-        </button>
-        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="menubtn">
-            
-
-            
-
-            
-                <a class="index_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=GeniusFunny的个人博客&url=geniusfunny.github.io/&pic=&searchPic=false&style=simple" target="_blank">
-                    <li class="mdl-menu__item mdl-js-ripple-effect">
-                        分享到微博
-                    </li>
-                </a>
-            
-
-            
-                <a class="index_share-link" href="https://twitter.com/intent/tweet?text=GeniusFunny的个人博客&url=geniusfunny.github.io/&via=GeniusFunny" target="_blank">
-                    <li class="mdl-menu__item mdl-js-ripple-effect">
-                        分享到 Twitter
-                    </li>
-                </a>
-            
-
-            
-                <a class="index_share-link" href="https://www.facebook.com/sharer/sharer.php?u=geniusfunny.github.io/index.html" target="_blank">
-                    <li class="mdl-menu__item mdl-js-ripple-effect">
-                        分享到 Facebook
-                    </li>
-                </a>
-            
-
-            
-                <a class="index_share-link" href="https://plus.google.com/share?url=geniusfunny.github.io/" target="_blank">
-                    <li class="mdl-menu__item mdl-js-ripple-effect">
-                        分享到 Google+
-                    </li>
-                </a>
-            
-
-            
-
-            
-                <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=GeniusFunny的个人博客&title=GeniusFunny的个人博客&summary=Learn Once, Write Anywhere.&pics=geniusfunny.github.io/img/favicon.png&url=geniusfunny.github.io/" target="_blank">
-                    <li class="mdl-menu__item">
-                        分享到 QQ
-                    </li>
-                </a>
-            
-
-            
-        </ul>
-    </div>
-</div>
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
 
     
-    <div class="locate-thumbnail-symbol"></div>
-
-    <!-- Pin on top -->
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#数据分布"><span class="post-toc-number">1.</span> <span class="post-toc-text">数据分布</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#节点取余分区"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">节点取余分区</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#一致性哈希分区"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">一致性哈希分区</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#虚拟槽分区"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">虚拟槽分区</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Redis数据分区"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">Redis数据分区</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#搭建集群"><span class="post-toc-number">2.</span> <span class="post-toc-text">搭建集群</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#准备节点"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">准备节点</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#节点握手"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">节点握手</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#分配槽"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">分配槽</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#节点通信"><span class="post-toc-number">3.</span> <span class="post-toc-text">节点通信</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#通信过程"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">通信过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Gossip消息"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">Gossip消息</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#节点选择"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">节点选择</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#集群伸缩"><span class="post-toc-number">4.</span> <span class="post-toc-text">集群伸缩</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#扩容集群"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">扩容集群</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#迁移槽和数据"><span class="post-toc-number">4.1.1.</span> <span class="post-toc-text">迁移槽和数据</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#收缩集群"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">收缩集群</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#下线迁移槽"><span class="post-toc-number">4.2.1.</span> <span class="post-toc-text">下线迁移槽</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#忘记节点"><span class="post-toc-number">4.2.2.</span> <span class="post-toc-text">忘记节点</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#请求路由"><span class="post-toc-number">5.</span> <span class="post-toc-text">请求路由</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#请求重定向"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">请求重定向</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#计算槽"><span class="post-toc-number">5.1.1.</span> <span class="post-toc-text">计算槽</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#槽节点查询"><span class="post-toc-number">5.1.2.</span> <span class="post-toc-text">槽节点查询</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Smart客户端"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">Smart客户端</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ASK重定向"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">ASK重定向</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#故障转移"><span class="post-toc-number">6.</span> <span class="post-toc-text">故障转移</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#故障发现"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">故障发现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#主观下线"><span class="post-toc-number">6.1.1.</span> <span class="post-toc-text">主观下线</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#客观下线"><span class="post-toc-number">6.1.2.</span> <span class="post-toc-text">客观下线</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#故障恢复"><span class="post-toc-number">6.2.</span> <span class="post-toc-text">故障恢复</span></a></li></ol></li></ol>
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
     
 
-    <!-- Normal Post -->
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--3dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
     
         
             <!-- Random Thumbnail -->
             <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
 
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/11/27/redis-cluster/">简析Redis集群</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            Redis Cluster是Redis的分布式解决方案，有效地解决了Redis分布式方面的需求。当遇到单机内存、并发、流量等瓶颈时，可以采用Cluster的架构来达到负载均衡的目的。
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/11/27/redis-cluster/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="GeniusFunny's avatar">
-            </div>
-            <div>
-                <strong>GeniusFunny</strong>
-                <span>11月 27, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/Redis/">Redis</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--3dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/11/23/redis-sentinel/">简析Redis哨兵实现原理</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            Redis Sentinel 是一个分布式架构(Sentinel节点、Redis数据节点、Redis客户端分布在不同的物理节点上)，其中包括了若干个Sentinel节点和Redis数据节点，每个Sentinel节点对数据节点和其他Sentinel节点进行监控，当它发现节点不可达时，会对节点做下线标识。若该节点为主节点，它会和其他Sentinel节点共同协商，若大部分节点皆表示该主节点不可达，那么就会从Sentinel中选举出一个Sentinel节点来完成自动故障转移的工作，同时将这个变化实时通知给Redis应用方。
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/11/23/redis-sentinel/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="GeniusFunny's avatar">
-            </div>
-            <div>
-                <strong>GeniusFunny</strong>
-                <span>11月 23, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/Redis/">Redis</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--3dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/11/11/Redis-Replication/">简析Redis复制原理</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            在分布式系统中为了解决单点问题，通常会把数据复制成多个副本部署到不同的机器上，以满足负载均衡和故障恢复等需求，Redis也是如此，Redis支持简单且易用的主从复制（master-slave replication）功能。
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/11/11/Redis-Replication/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="GeniusFunny's avatar">
-            </div>
-            <div>
-                <strong>GeniusFunny</strong>
-                <span>11月 11, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/Redis/">Redis</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--3dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/11/09/Redis-Rersistence/">简单了解Redis中的持久化机制</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            什么是持久化？为什么需要持久化？持久化就是将内存中的数据模型转换为存储模型，更通俗的说，就是将数据保存到系统硬盘中。
-Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存中的数据就会丢失，所以我们需要持久化。
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/11/09/Redis-Rersistence/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="GeniusFunny's avatar">
-            </div>
-            <div>
-                <strong>GeniusFunny</strong>
-                <span>11月 09, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/Redis/">Redis</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--3dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/10/03/sort-1/">算法入门之初级排序（选择、插入、希尔）</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            下面是选择排序、插入排序、希尔排序等初级排序的简单介绍及实现。
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/10/03/sort-1/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="GeniusFunny's avatar">
-            </div>
-            <div>
-                <strong>GeniusFunny</strong>
-                <span>10月 03, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/算法/">算法</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--3dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/09/23/react-diff/">React Diff</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            计算一棵树形结构转换成另一棵树形结构，传统的diff算法算法复杂度达到O(n^3)。React通过制定策略，将O(n^3)复杂度的问题转换成O(n)复杂度。
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/09/23/react-diff/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="GeniusFunny's avatar">
-            </div>
-            <div>
-                <strong>GeniusFunny</strong>
-                <span>9月 23, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/笔记/">笔记</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--3dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/06/27/event-loop/">深入理解JavaScript之Event Loop</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            前言最近阅读《高性能JavaScript》时，第六章谈到“通过定时器将JavaScript执行代码的控制权先让给浏览器用于更新UI状态，然后再将控制权交回给JavaScript代码，这样就可以使得页面更为流畅”，就联想到了之前理解的事件循环。
-这篇文章就是为了解释为什么这么做可以提升页面的流畅度。
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/06/27/event-loop/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="GeniusFunny's avatar">
-            </div>
-            <div>
-                <strong>GeniusFunny</strong>
-                <span>6月 27, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/JavaScript核心/">JavaScript核心</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--3dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/05/24/my-first-interview/">第一次面试经历</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            第一次投简历面试……
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/05/24/my-first-interview/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="GeniusFunny's avatar">
-            </div>
-            <div>
-                <strong>GeniusFunny</strong>
-                <span>5月 24, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/其他/">其他</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--3dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/05/09/how-to-deploy-a-static-website/">配置Nginx二级域名并部署hexo博客</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            因为有不同的项目需要部署，所以我打算为每个项目分配一个二级域名。下面是整个流程的复盘:
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/05/09/how-to-deploy-a-static-website/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="GeniusFunny's avatar">
-            </div>
-            <div>
-                <strong>GeniusFunny</strong>
-                <span>5月 09, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/实践/">实践</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--3dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/05/03/web-life-cycle/">从一行url到一个页面我们经历了什么？(更新中)</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            当我们在浏览器地址栏输入一行url，整个页面呈现，整个过程发生了什么？我大致把整个过程分为两个部分，即网络行为与页面周期。浏览器缓存 —&gt; DNS  —&gt; TCP连接 –&gt; HTTP请求/响应 —&gt; 构建页面 —&gt; 事件处理
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/05/03/web-life-cycle/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="GeniusFunny's avatar">
-            </div>
-            <div>
-                <strong>GeniusFunny</strong>
-                <span>5月 03, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/笔记/">笔记</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-
-    
-    <!-- Index nav -->
-        <nav class="material-nav mdl-cell mdl-cell--12-col">
-            <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"><i class="material-icons" role="presentation">arrow_forward</i></button></a>
-        </nav>
-    
-
-    
-        <script type="text/ls-javascript" id="thumbnail-script">
-    var randomNum;
-
-    var locatePost = $('.locate-thumbnail-symbol').next();
-    for(var i = 0; i < 10; i++) {
-        randomNum = Math.floor(Math.random() * 19 + 1);
-
-        locatePost.children('.post_thumbnail-random').attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
     $('.post_thumbnail-random').addClass('lazy');
-
-        locatePost = locatePost.next();
-    }
 </script>
 
+        
+    
+            <p class="article-headline-p">
+                简析Redis集群
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>GeniusFunny</strong>
+        <span>11月 27, 2018</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACYElEQVR42u3aQXLjMAwEQP//07sPyK4zA0iMnGqeVCVbZOtAQgBef371eOHh4eHh4eHh4T2M94rH198XU7592tfr2drw8PDwTvKSxV173eKTteHh4eGd5+XTJJt4QvrfE1Zrw8PDw3sYLw+m29A5ucbDw8P7RN5su09SDHh4eHifyMs/+JMpi8Rr/LJuz7Xg4eHhxby2AHby+gfqe3h4eHhveXVLUzDBLHSeNSX8Y148PDy8m3nvG6paRpKczYPm5JnDXAseHh7emjcrcW2os6bY1RcDHh4e3kW8ZIn5NEkr1b69oDgY8PDw8G7g5QvNF7dvJmjv4uHh4Z3k5Qu6NoHbNq1efO7h4eHhXcRrG1WLKeMjZ3MXDw8P7ySv3ZT3L2UfguPh4eE9mZfA2mXlbQpJ8QwPDw/vJK9NoSbTJ5t4m7AoSm54eHh4N/NmJfzZgZFv8a9y4OHh4Z3k5Rv3BtmW3Ga/wcPDwzvJa1tUkwTu/skzMB4eHt7dvDwsnoXdeap3lg7Gw8PDO8+ry0tlciE5KtqmgW9eLh4eHt7NvCRgzZMRbRg9++83a8DDw8M7wktC2zYIzpe1OTyiLwY8PDy8S3n5FjxLVWxe2Xvq8IsBDw8Pb81rR/sK2vTurL0VDw8P7ySvbQndX8/SEMWLwMPDwzvCa1O6s0TtrORWz4uHh4d3kDdb+izIfo1GVJzDw8PDexhv3ziVh+DtXTw8PLxP4eUlqzwN0R45eHh4eD/F2xe9ZumGWbr2llwLHh4eXsybJQKSstY+sK7BeHh4eDfzft/Aw8PDw8PDw8N7wPgLVxnjX/Cz6VcAAAAASUVORK5CYII=">
+    
+</ul>
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/分布式/">分布式</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/集群/">集群</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    <!-- Leancloud Views -->
+        <a class="post_share-link" href="#">
+            <li class="mdl-menu__item">
+                <span id="/2018/11/27/redis-cluster/" class="leancloud-views_num" data-flag-title="简析Redis集群">
+     &nbsp;浏览量
+</span>
+
+            </li>
+        </a>
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=简析Redis集群&url=geniusfunny.github.io/2018/11/27/redis-cluster/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=简析Redis集群&url=geniusfunny.github.io/2018/11/27/redis-cluster/index.html&via=GeniusFunny" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=geniusfunny.github.io/2018/11/27/redis-cluster/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=geniusfunny.github.io/2018/11/27/redis-cluster/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=GeniusFunny的个人博客&title=简析Redis集群&summary=Learn Once, Write Anywhere.&pics=geniusfunny.github.io/img/favicon.png&url=geniusfunny.github.io/2018/11/27/redis-cluster/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p>Redis Cluster是Redis的分布式解决方案，有效地解决了Redis分布式方面的需求。当遇到单机内存、并发、流量等瓶颈时，可以采用Cluster的架构来达到负载均衡的目的。</p>
+<a id="more"></a>
+<h3 id="数据分布"><a href="#数据分布" class="headerlink" title="数据分布"></a>数据分布</h3><p>分布式数据库首先要解决把整个数据集按照分区规则映射到多个节点的问题，即将数据姐划分到多个节点上，每个节点只负责整体数据的一个子集。常见的分区规则有顺序分区和哈希分区两种，Redis采用的哈希分区规则。</p>
+<p>下面是常见的几种哈希分区规则</p>
+<h4 id="节点取余分区"><a href="#节点取余分区" class="headerlink" title="节点取余分区"></a>节点取余分区</h4><p>使用特定的数据key，再根据节点的数量N使用公式：hash(key)%N计算出哈希值，用来决定数据 映射到哪个节点上。这样的方式比较简单，常用于数据库的分库分表规则，一般采用预分区的的方式，提前根据数据量规划好分区数。但是缺点也比较明显，扩容和收缩时，数据节点的映射关系需要重新计算，会导致数据的重写迁移。</p>
+<h4 id="一致性哈希分区"><a href="#一致性哈希分区" class="headerlink" title="一致性哈希分区"></a>一致性哈希分区</h4><p>系统为每个节点分配一个token，范围一般在0～2^32，这些token构成一个哈希环。数据读写执行时，先根据key计算hash值，然后顺时针找到第一个不小于该哈希值的token节点。相对于节点取余的方式，加入或删除节点只影响哈喜欢中相邻的节点，对其他节点无影响。但是，一致性哈希也存在一些问题：加减节点会造成哈希环中部分数据无法命中；当使用少量节点时，节点变化将大范围影响哈希环中数据映射；普通的一致性哈希分区在增减节点时需要增加一倍或删去一杯节点才能保证数据和负载的均衡。<a href="http://www.zsythink.net/archives/1182" target="_blank" rel="noopener">白话解析—一致性哈希算法</a></p>
+<h4 id="虚拟槽分区"><a href="#虚拟槽分区" class="headerlink" title="虚拟槽分区"></a>虚拟槽分区</h4><p>虚拟槽分区使用分散度良好的哈希函数把所有的数据映射到一个固定范围的整数集合中，整数定义为槽(slot)。Redis Cluster的槽范围为0～16383，远远大于实际中的数据节点数。slot是集群内数据管理和迁移的基本单位。</p>
+<h4 id="Redis数据分区"><a href="#Redis数据分区" class="headerlink" title="Redis数据分区"></a>Redis数据分区</h4><p>Redis Cluster采用虚拟槽分区，所有的键根据哈希函数映射到0～16383整数槽内。每一个结点复制维护一部分槽以及槽所映射的键值数据。这样做的好处是：解耦数据与节点之间的关系；节点自身维护槽的映射关系，不需要客户端或代理服务维护槽分区元数据；支持节点、槽、键之间的映射查询，用于数据路由、在线伸缩等场景。</p>
+<h3 id="搭建集群"><a href="#搭建集群" class="headerlink" title="搭建集群"></a>搭建集群</h3><p>搭建集群分为准备节点、节点握手、分配槽等三个步骤。（可以用redis-trib.rb搭建集群，也可以根据Redis手动建立一个集群）</p>
+<h4 id="准备节点"><a href="#准备节点" class="headerlink" title="准备节点"></a>准备节点</h4><p>略</p>
+<h4 id="节点握手"><a href="#节点握手" class="headerlink" title="节点握手"></a>节点握手</h4><p>节点握手是指一批运行在集群模式下的节点通过Gossip协议彼此通信，达到感知对方的过程。</p>
+<h4 id="分配槽"><a href="#分配槽" class="headerlink" title="分配槽"></a>分配槽</h4><p>只有把16384个槽全部分配给节点后，集群才进入在线状态。Redis Cluster会把所有数据映射到这16384个槽中，每个key会映射到一个固定的槽中，只有当节点分配了槽，才能响应和这些槽关联的键命令。</p>
+<h3 id="节点通信"><a href="#节点通信" class="headerlink" title="节点通信"></a>节点通信</h3><p>在分布式存储中需要提供维护节点元数据（节点负责哪些数据，是否出现故障等状态信息）信息的机制。Redis Cluster采用用于p2p的Gossip协议，Gossip协议的工作原理就是节点不断通信交换信息，一段时间后所有节点都会知道集群完整的信息，类似流行病传播。</p>
+<h4 id="通信过程"><a href="#通信过程" class="headerlink" title="通信过程"></a>通信过程</h4><ol>
+<li>集群中每个节点都会单独开辟一个TCP通道，用于节点之间彼此通信，通信端口号在基础端口上加10000。</li>
+<li>每个节点在固定周期内通过特定规则选择几个节点发送ping消息。</li>
+<li>接到ping消息的节点用pong消息作为响应。</li>
+</ol>
+<h4 id="Gossip消息"><a href="#Gossip消息" class="headerlink" title="Gossip消息"></a>Gossip消息</h4><p>Gossip协议的主要职责就是信息交换，信息交换的载体就是节点彼此发送的Gossip消息。常用的Gossip消息分为：ping消息、pong消息、meet消息、fail消息。所有的消息格式划分为消息头和消息体，消息头包含发送节点自身状态数据，接受节点根据消息头就可以获取到发送节点的相关数据。</p>
+<p>meet消息：用于通知新节点加入。</p>
+<p>ping消息：集群内交换最频繁的消息，集群内每个节点每秒向多个其他节点发送ping消息，用于检测节点是否在线和交换彼此状态消息。</p>
+<p>pong消息：当接收到ping、meet消息时，作为响应消息回复给发送方 确认消息正常通信。pong消息内部风中了自身状态数据。</p>
+<p>fail消息：当节点判断集群内另一个结点下线时，会向集群内广播一个fail消息，其他节点接收到fail消息之后把对应节点更新为下线状态。</p>
+<h4 id="节点选择"><a href="#节点选择" class="headerlink" title="节点选择"></a>节点选择</h4><p>Redis Cluster内节点通信采用固定频率（定时任务每秒执行10次）。因此节点每次选择需要通信的节点列表变得非常重要。通信节点选择过多虽然可以做到信息及时交换但成本过高，节点选择过少会降低集群内所有节点彼此信息交换频率，从而影响故障判断、新节点发现等需求的速度。</p>
+<h3 id="集群伸缩"><a href="#集群伸缩" class="headerlink" title="集群伸缩"></a>集群伸缩</h3><p>Redis Cluster提供了灵活的节点扩容和收缩方案，在不影响对外服务的同时，为集群添加节点进行扩容或下线部分节点进行缩容，其中原理可抽象为槽和对应数据在不同节点之间灵活移动。</p>
+<h4 id="扩容集群"><a href="#扩容集群" class="headerlink" title="扩容集群"></a>扩容集群</h4><p>扩容集群的过程为准备新节点、新节点加入集群、迁移槽和数据等三个步骤。</p>
+<h5 id="迁移槽和数据"><a href="#迁移槽和数据" class="headerlink" title="迁移槽和数据"></a>迁移槽和数据</h5><p>槽在迁移过程中，集群可以正常提供读写服务。槽是Redis Cluster数据管理和迁移的最小单位，所以首先需要为新节点制定槽迁移计划。槽迁移计划需要确保每个节点分配的槽数量接近，从而保证各节点的数据均匀。</p>
+<p>数据迁移过程是逐个槽进行的，大体流程为：（1）目标节点准备导入槽；（2）源节点准备导出槽；（3）获取槽下{count}个键；（4）批量迁移相关键的数据；（5）循环迁移键，重复第3、4步；（6）通知槽分配给目标节点。</p>
+<h4 id="收缩集群"><a href="#收缩集群" class="headerlink" title="收缩集群"></a>收缩集群</h4><p>收缩集群以为需要下线部分节点，整个过程可分为下线迁移槽、忘记节点等两个步骤。</p>
+<h5 id="下线迁移槽"><a href="#下线迁移槽" class="headerlink" title="下线迁移槽"></a>下线迁移槽</h5><p>与扩容集群中的迁移槽和数据相似～</p>
+<h5 id="忘记节点"><a href="#忘记节点" class="headerlink" title="忘记节点"></a>忘记节点</h5><p>由于集群内的节点不断通过Gossip消息彼此交换节点状态，所以需要让其他节点不再与要下线的节点进行Gossip消息交换。</p>
+<h3 id="请求路由"><a href="#请求路由" class="headerlink" title="请求路由"></a>请求路由</h3><p>为了追求性能最大化，Redis Cluster采用的是客户端直连节点的方式。</p>
+<h4 id="请求重定向"><a href="#请求重定向" class="headerlink" title="请求重定向"></a>请求重定向</h4><p>在集群模式下，Redis接受任何key相关的命令时首先计算对应的槽，再根据槽找出对应的节点，如果节点是自身，则处理命令；否则返回MOVED重定向错误，通知客户端请求正确的节点。节点对于不属于它的键命令只回复重定向响应，并不负责转发。键命令执行步骤主要分为两步：计算槽、查找槽所对应的节点。</p>
+<h5 id="计算槽"><a href="#计算槽" class="headerlink" title="计算槽"></a>计算槽</h5><p>通过CRC16计算key的有效部分的hash值，再对16383取余，使每个键都能映射到0～16383槽范围内。</p>
+<h5 id="槽节点查询"><a href="#槽节点查询" class="headerlink" title="槽节点查询"></a>槽节点查询</h5><p>Redis计算得到key对应的槽后，需要查询对应的节点。集群内通过消息交换每个节点都会知道所有节点的槽信息，内部保存在clusterState结构中。</p>
+<h4 id="Smart客户端"><a href="#Smart客户端" class="headerlink" title="Smart客户端"></a>Smart客户端</h4><p>Smart客户端在内部维护者从slot-&gt;node的映射关系，本地就可以实现键到节点的查询，从而保证IO效率最大化，而MOVED重定向负责协助Smart客户端更新slot-&gt;node映射。</p>
+<h4 id="ASK重定向"><a href="#ASK重定向" class="headerlink" title="ASK重定向"></a>ASK重定向</h4><p>Redis集群支持在线迁移槽和数据来完成水平伸缩。ASK重定向说明集群正在进行slot数据迁移，客户端无法知道什么时候迁移完成，因此只能是临时性的重定向，客户端不会更新slots缓存。但是MOVED重定向说明键对应的槽已经明确指定到新的节点，因此需要更新slots缓存。</p>
+<h3 id="故障转移"><a href="#故障转移" class="headerlink" title="故障转移"></a>故障转移</h3><p>Redis Cluster实现了高可用，当集群内少量节点出现故障时通过自动故障转移保证集群可以正常的对外提供服务。</p>
+<h4 id="故障发现"><a href="#故障发现" class="headerlink" title="故障发现"></a>故障发现</h4><p>Redis集群内节点通过ping/pong消息实现节点通信，消息不但可以传播节点槽信息，还可以传播主从状态、节点故障等信息，所以故障发现也是通过消息传播机制实现的。</p>
+<h5 id="主观下线"><a href="#主观下线" class="headerlink" title="主观下线"></a>主观下线</h5><p>指某个节点认为另一个节点不可用，即下线状态。</p>
+<h5 id="客观下线"><a href="#客观下线" class="headerlink" title="客观下线"></a>客观下线</h5><p>指标记一个节点真正的下线，集群内多个节点都认为该节点不可用，从而达成共识的结果。</p>
+<h4 id="故障恢复"><a href="#故障恢复" class="headerlink" title="故障恢复"></a>故障恢复</h4><p>故障节点变为客观下线后，如果下线节点是持有槽的主节点，则需要从它的从节点中选出一个替换他，从而保证见的高可用。整个大致分为资格检查、准备选举时间、发起选举、选举投票、替换主节点。</p>
+
+    
+
     
 </div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/11/23/redis-sentinel/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
 
 
                     
@@ -1454,112 +982,6 @@ It will not impact the appearance and can give developers a lot of support :)
 
 
 
-
-    <!-- Swiftye -->
-    
-
-    <!-- Local Search-->
-    
-        <script type="text/ls-javascript" id="search-local-js-script">
-    var searchFunc = function(path, search_id, content_id) {
-        'use strict';
-        $.ajax({
-            url: path,
-            dataType: 'xml',
-            success: function( xmlResponse ) {
-                // get the contents from search data
-                var datas = $( 'entry', xmlResponse ).map(function() {
-                    return {
-                        title: $( 'title', this ).text(),
-                        content: $('content',this).text(),
-                        url: $( 'url' , this).text()
-                    };
-                }).get();
-                var $input = document.getElementById(search_id);
-                var $resultContent = document.getElementById(content_id);
-                $input.addEventListener('input', function() {
-                    var str='<ul class=\"search-result-list\">';
-                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
-                    $resultContent.innerHTML = '';
-                    if (this.value.trim().length <= 0) {
-                        return;
-                    }
-                    // perform local searching
-                    datas.forEach(function(data) {
-                        var isMatch = true;
-                        var content_index = [];
-                        var data_title = data.title.trim().toLowerCase();
-                        var data_content = data.content.trim().replace(/<[^>]+>/g,'').toLowerCase();
-                        var data_url = data.url;
-                        var index_title = -1;
-                        var index_content = -1;
-                        var first_occur = -1;
-                        // only match artiles with not empty titles and contents
-                        if(data_title !== '' && data_content !== '') {
-                            keywords.forEach(function(keyword, i) {
-                                index_title = data_title.indexOf(keyword);
-                                index_content = data_content.indexOf(keyword);
-                                if( index_title < 0 && index_content < 0 ) {
-                                    isMatch = false;
-                                } else {
-                                    if (index_content < 0) {
-                                        index_content = 0;
-                                    }
-                                    if (i === 0) {
-                                        first_occur = index_content;
-                                    }
-                                }
-                            });
-                        }
-                        // show search results
-                        if (isMatch) {
-                            str += '<li><a href="'+ data_url +'" class="search-result-title" target="_blank">'+ data_title;
-                            var content = data.content.trim().replace(/<[^>]+>/g, '');
-                            if (first_occur >= 0) {
-                                // cut out characters
-                                var start = first_occur - 6;
-                                var end = first_occur + 6;
-                                if (start < 0) {
-                                    start = 0;
-                                }
-                                if (start === 0) {
-                                    end = 10;
-                                }
-                                if (end > content.length) {
-                                    end = content.length;
-                                }
-                                var match_content = content.substr(start, end);
-                                // highlight all keywords
-                                keywords.forEach(function(keyword) {
-                                    var regS = new RegExp(keyword, 'gi');
-                                    match_content = match_content.replace(regS, '<em class="search-keyword">'+keyword+'</em>');
-                                })
-                                str += '<p class="search-result">' + match_content + '...</p>' +'</a>';
-                            }
-                        }
-                    });
-                    $resultContent.innerHTML = str;
-                });
-            }
-        });
-    }
-</script>
-
-
-        <script type="text/ls-javascript" id="search-input-script">
-            var inputArea = document.querySelector('#search');
-            var getSearchFile = function() {
-                var path = 'search.xml';
-                searchFunc(path, 'search', 'local-search-result');
-            }
-
-            if(inputArea) {
-                inputArea.onfocus = function() {
-                    getSearchFile();
-                }
-            }
-        </script>
-    
 
 
 <!-- UC Browser Compatible -->
