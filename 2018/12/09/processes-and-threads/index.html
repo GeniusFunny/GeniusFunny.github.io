@@ -12,7 +12,7 @@
     
     <title>
         
-            分类: JavaScript核心 | 
+            Processes and Threads | 
         
         GeniusFunny的个人博客
     </title>
@@ -39,8 +39,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="GeniusFunny">
-    <meta name="description" itemprop="description" content="Learn Once, Write Anywhere.">
-    <meta name="keywords" content="JavaScript">
+    <meta name="description" itemprop="description" content="Process and Thread are most important concepts in Operating System.">
+    <meta name="keywords" content="JavaScript,操作系统,笔记">
 
     <!-- Site Verification -->
     
@@ -69,29 +69,62 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="geniusfunny.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="分类: JavaScript核心 | GeniusFunny的个人博客">
+    <meta property="og:title" content="Processes and Threads | GeniusFunny的个人博客">
     <meta property="og:image" content="/img/favicon.png" />
-    <meta property="og:description" content="Learn Once, Write Anywhere.">
-    
+    <meta property="og:description" content="Process and Thread are most important concepts in Operating System.">
+    <meta property="og:article:tag" content="操作系统"> <meta property="og:article:tag" content="笔记"> 
 
+    
+        <meta property="article:published_time" content="12月 09, 2018" />
+        <meta property="article:modified_time" content="12月 09, 2018" />
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="分类: JavaScript核心 | GeniusFunny的个人博客">
-    <meta name="twitter:description" content="Learn Once, Write Anywhere.">
+    <meta name="twitter:title" content="Processes and Threads | GeniusFunny的个人博客">
+    <meta name="twitter:description" content="Process and Thread are most important concepts in Operating System.">
     <meta name="twitter:image" content="/img/favicon.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="geniusfunny.github.io" />
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="geniusfunny.github.io/categories/JavaScript核心/index.html" />
+        <link rel="canonical" href="geniusfunny.github.io/2018/12/09/processes-and-threads/index.html" />
     
 
     <!-- Structured-data for SEO -->
     
         
 
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "GeniusFunny的个人博客",
+        "logo": "/img/favicon.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "GeniusFunny",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/favicon.png"
+        },
+        "description": "Stay Hungry, Stay Foolish."
+    },
+    "headline": "Processes and Threads",
+    "url": "geniusfunny.github.io/2018/12/09/processes-and-threads/index.html",
+    "datePublished": "12月 09, 2018",
+    "dateModified": "12月 09, 2018",
+    "description": "Process and Thread are most important concepts in Operating System.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "geniusfunny.github.io"
+    }
+}
+</script>
 
 
     
@@ -277,97 +310,316 @@
                         </button>
                     
 
-                    <!-- Index Module -->
-<div class="material-index mdl-grid">
-    
-    <div class="locate-thumbnail-symbol"></div>
+                    <!-- Post TOC -->
 
-    <!-- Pin on top -->
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Processes-and-Threads"><span class="post-toc-number">1.</span> <span class="post-toc-text">Processes and Threads</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Process"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">Process</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Concept"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">Concept</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Process-Creation"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">Process Creation</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Process-Termination"><span class="post-toc-number">1.1.3.</span> <span class="post-toc-text">Process Termination</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Process-Hierarchies"><span class="post-toc-number">1.1.4.</span> <span class="post-toc-text">Process Hierarchies</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Process-States"><span class="post-toc-number">1.1.5.</span> <span class="post-toc-text">Process States</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Implementation-of-Processes"><span class="post-toc-number">1.1.6.</span> <span class="post-toc-text">Implementation of Processes</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Thread"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">Thread</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Concept-1"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">Concept</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#The-Classical-Thread-Model"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">The Classical Thread Model</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Implementing-Threads-in-User-Space"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">Implementing Threads in User Space</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Implementing-Threads-in-the-Kernel"><span class="post-toc-number">1.2.4.</span> <span class="post-toc-text">Implementing Threads in the Kernel</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Hybird-Implementations"><span class="post-toc-number">1.2.5.</span> <span class="post-toc-text">Hybird Implementations</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Scheduler-Activations"><span class="post-toc-number">1.2.6.</span> <span class="post-toc-text">Scheduler Activations</span></a></li></ol></li></ol></li></ol>
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
     
 
-    <!-- Normal Post -->
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--3dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
     
         
             <!-- Random Thumbnail -->
             <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
 
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/06/27/event-loop/">深入理解JavaScript之Event Loop</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            前言最近阅读《高性能JavaScript》时，第六章谈到“通过定时器将JavaScript执行代码的控制权先让给浏览器用于更新UI状态，然后再将控制权交回给JavaScript代码，这样就可以使得页面更为流畅”，就联想到了之前理解的事件循环。
-这篇文章就是为了解释为什么这么做可以提升页面的流畅度。
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/06/27/event-loop/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="GeniusFunny's avatar">
-            </div>
-            <div>
-                <strong>GeniusFunny</strong>
-                <span>6月 27, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/JavaScript核心/">JavaScript核心</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-
-    
-
-    
-        <script type="text/ls-javascript" id="thumbnail-script">
-    var randomNum;
-
-    var locatePost = $('.locate-thumbnail-symbol').next();
-    for(var i = 0; i < 10; i++) {
-        randomNum = Math.floor(Math.random() * 19 + 1);
-
-        locatePost.children('.post_thumbnail-random').attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
     $('.post_thumbnail-random').addClass('lazy');
-
-        locatePost = locatePost.next();
-    }
 </script>
 
+        
+    
+            <p class="article-headline-p">
+                Processes and Threads
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>GeniusFunny</strong>
+        <span>12月 09, 2018</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAAC4UlEQVR42u3aUVLrMAwF0O5/07wFMPhdSQkk9slXB9rEx51B+EqfryOvDzY2NjY2NjY2NvYj2Z/4+v6pyU9+un/yxOaasbGxsbdm/+dP//I964WuSb2nNz+FjY2NfQB7XVSqBWa9Qcmzks0q3AcbGxsbe3xUWN9hvUGTNWNjY2Nj56/zQOq+52JjY2OfzE4CmqTwJJ+tkv44S8PGxsZ+PDtvmj7n9a/2t7GxsbEfzK5e1aAnv0N+zGiuHBsbG3tTdi8YmsT6efNgch9sbGzsc9jJ7arlLW/oTsKsatiEjY2NvSs7v11vdCZp7lZ/kpdebGxs7HPY84NHdaHX/jb6krCxsbE3ZVcj+17boDcYlA9ZNhu92NjY2BuxC9FMa1AyHwDKBy4vy9KwsbGxX86uFoNqCFUtbPNAqpylYWNjY7+cncQ31U0pHA/i9yRFrhkqYWNjY7+c3btFdYOqoX++nkKhxcbGxt6aXQ2AJiM1yTuTLc4b0tjY2NjnsCfjMvkhJD9s5OUwalRgY2Njb8ruHT+SQZxqONVrPBdKIDY2Nvam7HmBuXa4Z9KiKPe3sbGxsTdiz5sBeXh01YhP9cvAxsbG3pU9KQyThd4dURUmlbCxsbG3YM/HcfIjSi88qhZabGxs7HPYeRGaB0/JeFC1ZBa2AxsbG/swdvUg0Stp65Bo0sbAxsbGPo2d/+ufjNpMRiR7Yz3Nowg2Njb2puxJ0epFRfkA0GXtAWxsbOxN2fmBJI/mk4CpGhglW4CNjY19Dvuqduz68XNMfuyJQiVsbGzsjdjVVmshxCmOZubb3RzoxMbGxt6a3XtkHuVftbl5K6LZ6MXGxsZ+OTsPa3oHj96hpTqaOcrSsLGxsQ9j944fk7DplqMINjY2NnbcNs6HeKpHjui52NjY2Aewe0uZjPXkjYd8629pD2BjY2M/nl0NbnoNgLyAVT8bhVnY2NjYm7LPubCxsbGxsbGxsbEfc/0DiuRTJYjKwd8AAAAASUVORK5CYII=">
+    
+</ul>
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/操作系统/">操作系统</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/笔记/">笔记</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    <!-- Leancloud Views -->
+        <a class="post_share-link" href="#">
+            <li class="mdl-menu__item">
+                <span id="/2018/12/09/processes-and-threads/" class="leancloud-views_num" data-flag-title="Processes and Threads">
+     &nbsp;浏览量
+</span>
+
+            </li>
+        </a>
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Processes and Threads&url=geniusfunny.github.io/2018/12/09/processes-and-threads/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Processes and Threads&url=geniusfunny.github.io/2018/12/09/processes-and-threads/index.html&via=GeniusFunny" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=geniusfunny.github.io/2018/12/09/processes-and-threads/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=geniusfunny.github.io/2018/12/09/processes-and-threads/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=GeniusFunny的个人博客&title=Processes and Threads&summary=Learn Once, Write Anywhere.&pics=geniusfunny.github.io/img/favicon.png&url=geniusfunny.github.io/2018/12/09/processes-and-threads/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p>Process and Thread are most important concepts in Operating System.</p>
+<a id="more"></a>
+<h2 id="Processes-and-Threads"><a href="#Processes-and-Threads" class="headerlink" title="Processes and Threads"></a>Processes and Threads</h2><h3 id="Process"><a href="#Process" class="headerlink" title="Process"></a>Process</h3><h4 id="Concept"><a href="#Concept" class="headerlink" title="Concept"></a>Concept</h4><p>In process model, all the runnable software on the computer, sometimes include operating system, is organized into a number of <strong>sequential process</strong>.</p>
+<p>A process is just an instance of an executing program, including the current vlaues of program counter, registers, and variables.</p>
+<p>A CPU can really run only one process at a time.</p>
+<p>In traditional operating systems, each process has an address space and a single thread of control.</p>
+<p>In many situations , it is desirable to have multiple threads of control in the same address space running in quasi-parallel, as though they were (almost) separate processes(except for the shared address spaces).</p>
+<h4 id="Process-Creation"><a href="#Process-Creation" class="headerlink" title="Process Creation"></a>Process Creation</h4><ol>
+<li>System initialization.</li>
+<li>Execution of a process-creation system call by running process.</li>
+<li>A user request to create a new process.</li>
+<li>A initiation of a batch job.</li>
+</ol>
+<p>Daemons: Processes that stay in the background to handle some activity.</p>
+<p>Fork: this system call creates an exact clone of the calling process. After the fork, the two processes, the parent and the child, have the same memory image, the same environment strings, and the same open files.</p>
+<h4 id="Process-Termination"><a href="#Process-Termination" class="headerlink" title="Process Termination"></a>Process Termination</h4><ol>
+<li>Normal exit(voluntary).</li>
+<li>Error exit(voluntary).</li>
+<li>Fatal error(involuntary).</li>
+<li>Killed by aother process(involuntary).</li>
+</ol>
+<h4 id="Process-Hierarchies"><a href="#Process-Hierarchies" class="headerlink" title="Process Hierarchies"></a>Process Hierarchies</h4><p>In <strong>UNIX</strong>, a process and all of its children and further descendants together from a process group.</p>
+<p><strong>Windows</strong> has no concept of a process hierarchy, all processes are equal. The only hint of a process hierarchy is that when a process is created, the parent is given a special token (called a handle) that it can use to control the child.</p>
+<h4 id="Process-States"><a href="#Process-States" class="headerlink" title="Process States"></a>Process States</h4><ol>
+<li>Running.（actually using the CPU at that instant）</li>
+<li>Ready. (runnable; temporatily stopped to let another process run)</li>
+<li>Blocked.(unable to run until some external event happens)</li>
+</ol>
+<h4 id="Implementation-of-Processes"><a href="#Implementation-of-Processes" class="headerlink" title="Implementation of Processes"></a>Implementation of Processes</h4><p><strong>Process Table</strong>: contains per process, each entry contains important information about the process state, including its program counter, stack pointer, memory allocation, the status of its open files, its accounting and scheduling infomation, and everything else about the process that must be saved when the process is switched from running to ready or blocked state so that it can be restarted later as if it had never been stopped.</p>
+<p>Skeleton of what the lowest level of the operating system does when an interrupt occurs:</p>
+<ol>
+<li>Hardware stacks program counter, etc.</li>
+<li>Hardware loads new program counter from interrupt vector.</li>
+<li>Assembly-language procedure saves registers.</li>
+<li>Assembly-language procedure sets up new stack.</li>
+<li>C interrupt service runs (typically reads and buffers input).</li>
+<li>Scheduler decides which process is to run next.</li>
+<li>C procedure returns to the assembly code.</li>
+<li>Assembly-language procedure starts up new current process.</li>
+</ol>
+<p>A process may be interrputed thousands of times during its execution, but the key idea is that after each interrupt the interrupted process returns to precisely the same state it was in before the interrupt occurred.</p>
+<h3 id="Thread"><a href="#Thread" class="headerlink" title="Thread"></a>Thread</h3><h4 id="Concept-1"><a href="#Concept-1" class="headerlink" title="Concept"></a>Concept</h4><p>A thread can be reguard as  a miniprocess.</p>
+<p>Why would anyone want to have threads?</p>
+<ol>
+<li>Only now with threads we add a element: the ability for parallel entities to share an address space and all of its data, which is why having multiple processes (with their separate address spaces) will not work.</li>
+<li>Threads are lighter weight than processes, they are easier to create and destory than process.</li>
+<li>Threads yield no performance gain when all of then are CPU bound, but when where is substantial computing and also substantial I/O, having threads allows these activities to overlap, thus speeding up the application.</li>
+</ol>
+<h4 id="The-Classical-Thread-Model"><a href="#The-Classical-Thread-Model" class="headerlink" title="The Classical Thread Model"></a>The Classical Thread Model</h4><p>The process model is based on two independent concepts: resource grouping and execution.</p>
+<p>A process has a  thread of execution, usually shortened to just thread. </p>
+<p>Processes are used to group resources together; threads are the entities scheduled for executing on the CPU.</p>
+<h4 id="Implementing-Threads-in-User-Space"><a href="#Implementing-Threads-in-User-Space" class="headerlink" title="Implementing Threads in User Space"></a>Implementing Threads in User Space</h4><p>Advantage :</p>
+<ol>
+<li>When a thread is finished running for the moment, for example, when it calls thread yield, the code of<br>thread yield can save the thread’s information in the thread table itself. Furthermore, it can then call the thread scheduler to pick another thread to run. The procedure that saves the thread’s state and the scheduler are just local procedures, so invoking them is much more efficient than making a kernel call. Among other issues, no trap is needed, no context switch is needed, the memory cache need not be flushed, and so on. This makes thread scheduling very fast.</li>
+<li>They allow each process to have its own customized scheduling algorithm.</li>
+</ol>
+<p>Problem:</p>
+<ol>
+<li>How implement blocking system call?</li>
+<li>if a thread starts running, no other thread in that process will ever run unless the first thread voluntarily gives up the CPU.</li>
+</ol>
+<h4 id="Implementing-Threads-in-the-Kernel"><a href="#Implementing-Threads-in-the-Kernel" class="headerlink" title="Implementing Threads in the Kernel"></a>Implementing Threads in the Kernel</h4><ol>
+<li>All calls that might block a thread are implemented as system calls, at consid-<br>erably greater cost than a call to a run-time system procedure. </li>
+<li>Kernel threads do not require any new, nonblocking system calls.</li>
+</ol>
+<p>While kernel threads solve some problems, they do not solve all problems. </p>
+<h4 id="Hybird-Implementations"><a href="#Hybird-Implementations" class="headerlink" title="Hybird Implementations"></a>Hybird Implementations</h4><p>Using kernel-level threads and then multiplex user-level threads onto some or all of them.With this approach, the kernel is aware of only the kernel-level threads and schedules those. Some of those threads may have multiple user-level threads multiplexed on top of them.</p>
+<h4 id="Scheduler-Activations"><a href="#Scheduler-Activations" class="headerlink" title="Scheduler Activations"></a>Scheduler Activations</h4><p>The goals of the scheduler activation work are to mimic the functionality of kernel threads, but with the better performance and greater flexibility usually associated with threads packages implemented in user space.</p>
+<p>When scheduler activations are used, the kernel assigns a certain number of virtual processors to each process and lets the (user-space) run-time system allocate threads to processors.</p>
+<p>The basic idea that makes this scheme work is that when the kernel knows that a thread has blocked (e.g., by its having executed a blocking system call or caused a page fault), the kernel notifies the process’ run-time system, passing as parameters on the stack the number of the thread in question and a description of the event that occurred. The notification happens by having the kernel activate the run-time system at a known starting address, roughly analogous to a signal in UNIX. This mechanism is called an upcall.</p>
+
+    
+
     
 </div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/12/07/X-react/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
 
 
                     
