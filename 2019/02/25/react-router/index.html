@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.4.0 -->
+    <script>window.materialVersion = "1.4.0"</script>
+
+    <!-- Title -->
+    
+    <title>
+        
+            前端路由的设计思想与实现 &amp;&amp; React-Router v4 | 
+        
+        GeniusFunny的个人博客
+    </title>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    
+        <link rel="dns-prefetch" href="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js">
+    
+    
+    
+        <link rel="dns-prefetch" href="https://hm.baidu.com">
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="GeniusFunny">
+    <meta name="description" itemprop="description" content="前端路由的实现前端路由分为两种实现方式：
+
+HashHistory，通过修改location.hash，然后监听hashchange事件来进行对应操作。
+BroswerHistory，通过HTML5提供的History对象的pushState、replaceStateAPI，然后监听popstate事件来进行对应操作。
+
+二者的优劣：
+第一种方法兼容性更好，但是实现比较复杂，并且url比较丑陋（例如：http://www.test.com/#/xxx）。
+第二种方法是浏览器提供的能力，所以实现比较简单，url与正常相同（例如：http://www.test.com/xxx），但是可能存在兼容性问题。
+其实还有第三种，MemoryHistory，用于non-DOM环境下，例如React Native。">
+    <meta name="keywords" content="JavaScript,React,前端路由">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!--iOS -->
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="GeniusFunny的个人博客">
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="geniusfunny.github.io">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="前端路由的设计思想与实现 &amp;&amp; React-Router v4 | GeniusFunny的个人博客">
+    <meta property="og:image" content="/img/favicon.png">
+    <meta property="og:description" content="前端路由的实现前端路由分为两种实现方式：
+
+HashHistory，通过修改location.hash，然后监听hashchange事件来进行对应操作。
+BroswerHistory，通过HTML5提供的History对象的pushState、replaceStateAPI，然后监听popstate事件来进行对应操作。
+
+二者的优劣：
+第一种方法兼容性更好，但是实现比较复杂，并且url比较丑陋（例如：http://www.test.com/#/xxx）。
+第二种方法是浏览器提供的能力，所以实现比较简单，url与正常相同（例如：http://www.test.com/xxx），但是可能存在兼容性问题。
+其实还有第三种，MemoryHistory，用于non-DOM环境下，例如React Native。">
+    <meta property="og:article:tag" content="React"> <meta property="og:article:tag" content="前端路由"> 
+
+    
+        <meta property="article:published_time" content="2月 25, 2019">
+        <meta property="article:modified_time" content="2月 25, 2019">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:title" content="前端路由的设计思想与实现 &amp;&amp; React-Router v4 | GeniusFunny的个人博客">
+    <meta name="twitter:description" content="前端路由的实现前端路由分为两种实现方式：
+
+HashHistory，通过修改location.hash，然后监听hashchange事件来进行对应操作。
+BroswerHistory，通过HTML5提供的History对象的pushState、replaceStateAPI，然后监听popstate事件来进行对应操作。
+
+二者的优劣：
+第一种方法兼容性更好，但是实现比较复杂，并且url比较丑陋（例如：http://www.test.com/#/xxx）。
+第二种方法是浏览器提供的能力，所以实现比较简单，url与正常相同（例如：http://www.test.com/xxx），但是可能存在兼容性问题。
+其实还有第三种，MemoryHistory，用于non-DOM环境下，例如React Native。">
+    <meta name="twitter:image" content="/img/favicon.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="geniusfunny.github.io">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="geniusfunny.github.io/2019/02/25/react-router/index.html">
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "GeniusFunny的个人博客",
+        "logo": "/img/favicon.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "GeniusFunny",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/favicon.png"
+        },
+        "description": "Stay Hungry, Stay Foolish."
+    },
+    "headline": "前端路由的设计思想与实现 && React-Router v4",
+    "url": "geniusfunny.github.io/2019/02/25/react-router/index.html",
+    "datePublished": "2月 25, 2019",
+    "dateModified": "2月 25, 2019",
+    "description": "前端路由的实现前端路由分为两种实现方式：
+
+HashHistory，通过修改location.hash，然后监听hashchange事件来进行对应操作。
+BroswerHistory，通过HTML5提供的History对象的pushState、replaceStateAPI，然后监听popstate事件来进行对应操作。
+
+二者的优劣：
+第一种方法兼容性更好，但是实现比较复杂，并且url比较丑陋（例如：http://www.test.com/#/xxx）。
+第二种方法是浏览器提供的能力，所以实现比较简单，url与正常相同（例如：http://www.test.com/xxx），但是可能存在兼容性问题。
+其实还有第三种，MemoryHistory，用于non-DOM环境下，例如React Native。",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "geniusfunny.github.io"
+    }
+}
+</script>
+
+
+    
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+materialVersion+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(data&&data.indexOf(versionString)===-1){lsloader.removeLS(key)}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload){cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}code=code.split(versionString)[1];if(/\.js?.+$/.test(versionNumber)){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload)}};lsloader.requestResource=function(name,path,cssonload){var that=this;if(/\.js?.+$/.test(path)){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else if(/\.css?.+$/.test(path)){this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
+
+    <!-- Import CSS & jQuery -->
+    
+        <style id="css/material.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/material.min.css","/css/material.min.css?fJTiM/K1J3dWIruo3pxtAw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        <style id="css/style.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/style.min.css","/css/style.min.css?oCSEO3ST+aEypEwttTDI9g==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        
+        
+            <style>
+    
+    
+    .footer-sns-twitter {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgY2xhc3M9Imljb24iIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiPjxwYXRoIGQ9Ik0xMzguNiA3OGMtMjIuNCA1LjItNTUuOCA0MC4yLTYwLjYgNjMuNC0xLjQgNi40LTIgMTI5LjgtMS42IDM2Ny42LjYgMjk4LjYgMSAzNTguOCAzLjQgMzYzIDExIDIwLjIgMjEuNiAzMi40IDM3LjIgNDMgMTUgMTAuMiAxNy40IDExLjIgMzMgMTMgMTEuMiAxLjQgMTM2IDIgMzY1IDEuNiAzMTQtLjYgMzQ4LjYtMSAzNTUtMy44IDE1LjgtNy4yIDMzLjgtMjIgNDMuMi0zNS40IDUuMi03LjQgMTAuOC0xNi42IDEyLjYtMjAuNCAyLjgtNi40IDMuMi00MC44IDMuOC0zNTQgLjQtMjIzLS4yLTM1My40LTEuNC0zNjUtMi0xNy0yLjYtMTguNi0xMy0zNC04LjYtMTIuNi0xNC4yLTE4LjQtMjUuMi0yNS44LTcuOC01LjQtMTcuNC0xMS0yMS42LTEyLjQtNi0yLjItNzIuOC0yLjYtMzY1LjQtMi42LTE5Ni44LjItMzYxIC44LTM2NC40IDEuOHptNTMyLjggMjA1YzEwIDQgMjMgMTAuOCAyOC44IDE1LjIgMTIuNiA5LjIgMTYuNiAxMC42IDI5LjQgOS40IDYuNi0uNiAxMy0zLjIgMjAuNC04LjIgMTEuMi03LjYgMTkuNC05LjIgMjMuNi01IDMuNiAzLjYgMi44IDktMi44IDE4LjYtNy4yIDEyLjQtNiAxOC44IDQuMiAyNC4yIDQuNCAyLjIgOC4yIDUuNiA4LjYgNy40IDEgNC44LTEyLjYgMjQuMi0yMiAzMS44LTExLjggOS4yLTE3LjIgMjIuNi0xOS42IDQ3LjgtNC44IDUwLjQtNy44IDY2LjYtMTYuNCA4NS40LTMgNy03IDE3LjgtOC44IDI0LTEuOCA2LjQtNSAxNC42LTcuNCAxOC40LTIuMiAzLjgtNy40IDEzLTExLjQgMjAuNC0xNy4yIDMwLjgtNDMuNCA2MS40LTcxLjQgODMuOC0yNS42IDIwLjQtNDYgMzMuMi02NC4yIDQwLjItOC40IDMuMi0xOCA3LjYtMjEuNCA5LjYtNy40IDQuNi0yMi40IDguNi01Ny4yIDE1LTYyLjIgMTEuNi03OS4yIDExLjQtMTM1LjYtMS0zMi40LTctMzguNi05LTUyLTE2LjgtMjEuNC0xMi42LTI0LjItMTQuOC0yNC4yLTE5LjQgMC02LjIgMTAuMi05LjIgMzUtMTAuNCAyMi40LTEgMjguNi0yLjYgNTctMTQuMiAyMy44LTkuOCAyOS40LTEyLjggMzAuNC0xNi44IDIuMi04LjItMy0xMy4yLTI2LjgtMjUuNC0yNS44LTEzLjItMzIuMi0xOC40LTQzLjgtMzUuOC05LTEzLjYtMTAtMjEuMi0zLjYtMzMuNiA1LjQtMTAuOCAzLjYtMTUtMTEuOC0yNS40LTktNi0xNC0xMS42LTIwLjgtMjIuNi0yMy40LTM3LjgtMjUtNTAuOC03LjItNTkuOCA0LjgtMi40IDkuNC01LjQgMTAuMi02LjYgMi44LTQuMi0uNC0xNS42LTguNC0yOS0xMS42LTE5LjYtMTMuMi0yNS44LTEzLjItNTUuMiAwLTI4LjggMi42LTM3LjggMTItNDAuMiA5LTIuMiAxNC44IDEgMzUuNiAyMC4yIDI0LjggMjIuOCA0My42IDM2LjYgNjIuOCA0NS44IDggMy44IDE3LjggOS4yIDIyIDEyIDQuMiAyLjggMTQuOCA3IDIzLjQgOS4yIDguNiAyLjIgMjQuMiA2LjggMzQuOCAxMC4yIDEzLjQgNC40IDIzLjYgNi40IDMzIDYuNiAxMi44LjIgMTQuMi0uMiAxOC42LTUuNCA0LTQuOCA0LjgtNy44IDQuOC0xOS4yIDAtMTQuNCA1LjYtMzkuNiAxMS4yLTUwLjYgNC4yLTguNCAyOS4yLTM0LjIgMzkuOC00MS40IDcuOC01LjQgMzUuNi0xNiA1Mi0yMCAxNC4yLTMuNiAzMi42LTEuMiA1Mi40IDYuOHoiLz48L3N2Zz4=);
+    }
+    
+    
+    
+    
+    
+    
+    .footer-sns-github {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgY2xhc3M9Imljb24iIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiPjxwYXRoIGQ9Ik0xMzguNCA3OGMtNi40IDEuNC0yNi40IDE0LjItMzYgMjIuOC04IDcuMi0yMiAyOS44LTI0LjQgMzkuMi0xLjYgNi40LTIgMTEzLjItMS42IDM2OCAuNiAyOTkuNCAxIDM1OS44IDMuNCAzNjQgMTEgMjAuMiAyMS42IDMyLjQgMzcuMiA0MyAxNS42IDEwLjYgMTcuMiAxMS4yIDM0LjIgMTMuMiAxMC42IDEuMiA2My40IDEuNiAxMjcuNiAxLjRsMTA5LjYtLjYgNi02LjggNi4yLTYuOC0xLjItMjUuMmMtLjgtMTUuOC0uMi0zMy40IDEuNC00Ny4yIDMtMjUuNCAxLjQtMzYuMi02LTQzLjItNS00LjYtNi4yLTQuOC0zMC42LTQuMi0yNy42LjgtMjQgMS42LTY4LjgtMTYtOC42LTMuNC0yMi42LTE4LTI4LjQtMjkuOC0xMS40LTIyLjgtMjctNDUtMzkuMi01NS42LTE0LTEyLjItMTkuOC0yMC44LTE5LjgtMjguNiAwLTExLjYgMTMuNi0xMi42IDMzLjItMi40IDE2LjYgOC44IDIwLjggMTIuNCA0MC44IDM2LjIgMjQuMiAyOC42IDMxIDMzLjYgNTQgMzkuNiAxNS4yIDQgNDIuMiAzIDUxLjQtMS44IDktNC42IDE4LTE1LjIgMjQuNC0yOS4yIDExLjQtMjQuMiA3LjQtMzEuMi0yMC42LTM2LjgtOS44LTItMjkuMi04LTQzLjQtMTMuNC00MC40LTE1LjgtNjQuNi0zNy40LTg1LjQtNzYuMi0xMS42LTIxLjgtMTUuNC0zMy0xOC4yLTUzLjYtNC4yLTMyLjItNC44LTYwLjItMS40LTg0IDMuNC0yMy44IDYuOC0zMi44IDIwLjItNTQgNC02IDguOC0xNS42IDExLTIxLjQgMy44LTEwIDMuOC0xMS42IDEtMzAtNS4yLTM0LjItMy4yLTUyLjQgNy42LTcwLjIgNy4yLTEyLjIgMTUtMTcuMiAyNC4yLTE1LjggMTIuOCAyLjIgNTIgMTcuNCA2Ni44IDI2LjIgMjYgMTUgMjkgMTUuNCA4Mi40IDcuMiAyNC42LTMuOCAzMy44LTQuMiA2MC0zLjIgMTcgLjYgNDEuNCAzIDU0IDUuMiAzOC40IDYuNiA0OS42IDUuMiA3My0xMCA2LjYtNC4yIDE3LjQtOS40IDI0LTExLjYgNi42LTIuMiAxNi01LjggMjEtOC4yIDEzLTYgMjgtNS42IDM1LjYuOCAxMi40IDEwLjQgMTguNiA0MS40IDE0LjQgNzEuNi00LjQgMzAuNi0zIDM5LjQgOC40IDUzLjggMy40IDQuNCAxMS4yIDE5LjIgMTcuNCAzMy4yTDc3NSA0NDN2NzhsLTEwIDI4Yy0xNS4yIDQzLjItMzYuOCA3My4yLTY2LjIgOTIuOC0xMy40IDguOC01NyAyNS40LTc2LjggMjktMjguMiA1LjItMzMuMiAxMi42LTIyIDMyLjIgMTEuMiAxOS40IDEyLjQgMzIuOCAxMS42IDEyOS42bC0uNiA4NS44IDUuNCA0LjZjMy42IDMgOS4yIDUuMiAxNiA2IDUuOC44IDYwLjIgMSAxMjAuNi42IDEwOC40LS42IDExMC4yLS42IDExOS01IDI0LTExLjYgNDAtMjcuNCA1MS42LTUwLjZsNS40LTExIC42LTM0N2MuNC0yMjMtLjItMzUzLjQtMS40LTM2NS0yLTE3LTIuNi0xOC42LTEzLTM0LTEwLjYtMTUuNC0yMi44LTI2LjItNDMuMi0zNy4yLTQuMi0yLjQtNjQuNi0yLjgtMzY2LTMuMi0xOTguNiAwLTM2NCAuNC0zNjcuNiAxLjR6Ii8+PC9zdmc+);
+    }
+    
+    
+    
+    
+    
+</style>
+
+        
+        <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-image: url(/img/bg.jpg);
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+        <script>lsloader.load("js/jquery.min.js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==")</script>
+    
+    
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Analytics -->
+    <script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    <!-- Custom Head -->
+    
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn" class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#前端路由的实现"><span class="post-toc-number">1.</span> <span class="post-toc-text">前端路由的实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#基于hash的前端路由实现"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">基于hash的前端路由实现</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#基于History的前端路由实现"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">基于History的前端路由实现</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#React-Router-v4"><span class="post-toc-number">2.</span> <span class="post-toc-text">React-Router v4</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#模块结构"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">模块结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Router（react-router-Router、react-router-RouterContext、react-router-dom-BrowserRouter）"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">Router（react-router/Router、react-router/RouterContext、react-router-dom/BrowserRouter）</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Route（react-router-Route）"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">Route（react-router/Route）</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Switch（react-router-Switch）"><span class="post-toc-number">2.1.3.</span> <span class="post-toc-text">Switch（react-router/Switch）</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#matchPath（react-router-matchPath）"><span class="post-toc-number">2.1.4.</span> <span class="post-toc-text">matchPath（react-router/matchPath）</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Link（react-router-dom-Link）"><span class="post-toc-number">2.1.5.</span> <span class="post-toc-text">Link（react-router-dom/Link）</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#createTransitionManager（history-createTransitionManager）"><span class="post-toc-number">2.1.6.</span> <span class="post-toc-text">createTransitionManager（history/createTransitionManager）</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#WithRouter（react-router-WithRouter）"><span class="post-toc-number">2.1.7.</span> <span class="post-toc-text">WithRouter（react-router/WithRouter）</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#总结"><span class="post-toc-number">3.</span> <span class="post-toc-text">总结</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考资源"><span class="post-toc-number">4.</span> <span class="post-toc-text">参考资源</span></a></li></ol>
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
+    
+
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
+        
+    
+            <p class="article-headline-p">
+                前端路由的设计思想与实现 && React-Router v4
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar">
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>GeniusFunny</strong>
+        <span>2月 25, 2019</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACaUlEQVR42u3aQW7DMAwEwPz/0+0HamdJSoobjE9BEcseBZDUJV8/X3298PDw8PDw8PDwHsZ7xVd+1x+PvPjO1efRu+Hh4eEd4b1Zam+/U52UVc+9nBQ8PDy8g7zJ8j2ZiHzk6C48PDy8f8K7H6e6JeDh4eF9H686EVcjvDkc4+Hh4T2ely/Q87A1P4IfzVrw8PDwYl7+cuc/H63v4eHh4QW8cktT8dhdDXMXN13h4eHhbeDlC3ESHMxH642Ah4eH9yle9K9+q0iWT0QS9S5rV8XDw8Nr8e4fnJSm8r/MN4MoGsbDw8M7wuu1Rq1qDsif3twY8PDw8Lbx8sJYHtdOmg/y4zUeHh7eSV61UaAX4CbbTzJCNFl4eHh4m3nJgl5lFxbx4hQkYQceHh7eSV61XWAS1zZffVUBDA8PD2/cOlBtdSq0QLWarnqhMB4eHt4Z3oRUKOcPQo1yywIeHh7eh3i98lgSQOTH8eY38fDw8D7Eyw/K1dealNyiTQgPDw/vOK96gK6WvnpFr2VhBB4eHt6Yl5Sa8kNtfshuBg3JRODh4eF9iFcNeasTlMS+yUbV3Bjw8PDwNvD2bQzVkLd8Fx4eHt5BXk6dB7IJu9qUgIeHh3eGV73uAdW7CmWtuDUBDw8Pbzev14Q62U7yg3i1aQAPDw/vJG/VZtBrI6gGu1sKYHh4eHgt3mSB7h2Lq2FE9GPg4eHhPZJXbTIol//j4tmWjQEPDw9vMy9vMljVwDpqHcDDw8NbykvCiGp0m4cLSTCBh4eH9xxeHgHkL1ENKarRw+VoeHh4eJt533fh4eHh4eHh4eE94PoFDlk1APXmRR4AAAAASUVORK5CYII=">
+    
+</ul>
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/React/">React</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/前端路由/">前端路由</a>
+    </li></ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    <!-- Leancloud Views -->
+        <a class="post_share-link" href="#">
+            <li class="mdl-menu__item">
+                <span id="/2019/02/25/react-router/" class="leancloud-views_num" data-flag-title="前端路由的设计思想与实现 &amp;&amp; React-Router v4">
+     &nbsp;浏览量
+</span>
+
+            </li>
+        </a>
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=前端路由的设计思想与实现 &amp;&amp; React-Router v4&url=geniusfunny.github.io/2019/02/25/react-router/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=前端路由的设计思想与实现 &amp;&amp; React-Router v4&url=geniusfunny.github.io/2019/02/25/react-router/index.html&via=GeniusFunny" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=geniusfunny.github.io/2019/02/25/react-router/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=geniusfunny.github.io/2019/02/25/react-router/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=GeniusFunny的个人博客&title=前端路由的设计思想与实现 &amp;&amp; React-Router v4&summary=Learn Once, Write Anywhere.&pics=geniusfunny.github.io/img/favicon.png&url=geniusfunny.github.io/2019/02/25/react-router/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h3 id="前端路由的实现"><a href="#前端路由的实现" class="headerlink" title="前端路由的实现"></a>前端路由的实现</h3><p>前端路由分为两种实现方式：</p>
+<ol>
+<li><strong>HashHistory</strong>，通过修改<code>location.hash</code>，然后监听<code>hashchange</code>事件来进行对应操作。</li>
+<li><strong>BroswerHistory</strong>，通过HTML5提供的History对象的<code>pushState</code>、<code>replaceState</code>API，然后监听<code>popstate</code>事件来进行对应操作。</li>
+</ol>
+<p>二者的优劣：</p>
+<p>第一种方法兼容性更好，但是<strong>实现比较复杂</strong>，并且url<strong>比较丑陋</strong>（例如：<code>http://www.test.com/#/xxx</code>）。</p>
+<p>第二种方法是浏览器提供的能力，所以实现比较简单，url与正常相同（例如：<code>http://www.test.com/xxx</code>），但是可能<strong>存在兼容性问题</strong>。</p>
+<p>其实还有第三种，<strong>MemoryHistory</strong>，用于non-DOM环境下，例如React Native。</p>
+<a id="more"></a>
+<h4 id="基于hash的前端路由实现"><a href="#基于hash的前端路由实现" class="headerlink" title="基于hash的前端路由实现"></a>基于hash的前端路由实现</h4><p>_routes用来存储路由对应的回调函数，当hash变化时调用refresh函数（从_routes总找到对应的回调函数然后执行）；通过back函数进行回退，所以我们需要引入布尔值判定当前操作是否为回退。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HashRouter</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="keyword">this</span>._routes = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line">        <span class="keyword">this</span>._history = []</span><br><span class="line">        <span class="keyword">this</span>._currentUrl = <span class="string">''</span></span><br><span class="line">        <span class="keyword">this</span>._backIndex = <span class="keyword">this</span>._routes.length - <span class="number">1</span></span><br><span class="line">        <span class="keyword">this</span>._currentIndex = <span class="keyword">this</span>._routes.length - <span class="number">1</span></span><br><span class="line">        <span class="keyword">this</span>._isBack = <span class="literal">false</span></span><br><span class="line">        <span class="keyword">this</span>._bindEvent()</span><br><span class="line">    &#125;</span><br><span class="line">    _bindEvent = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">window</span>.addEventListener(<span class="string">'laod'</span>, <span class="keyword">this</span>.refresh, <span class="literal">false</span>)	<span class="comment">// 加载后就触发更新</span></span><br><span class="line">        <span class="built_in">window</span>.addEventListener(<span class="string">'hashchange'</span>, <span class="keyword">this</span>.refresh, <span class="literal">false</span>)	<span class="comment">//监听hash的变化，然后调用更新函数</span></span><br><span class="line">    &#125;</span><br><span class="line">    route(path, cb = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;) &#123;</span><br><span class="line">        <span class="keyword">this</span>._routes.set(path, cb)</span><br><span class="line">    &#125;</span><br><span class="line">    refresh = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>._currentUrl = location.hash.slice(<span class="number">1</span>) || <span class="string">'/'</span> <span class="comment">//读取url中'#'后面的内容</span></span><br><span class="line">        <span class="keyword">this</span>._history.push(<span class="keyword">this</span>._currentUrl)</span><br><span class="line">        <span class="keyword">this</span>._currentIndex++</span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">this</span>._isBack) &#123;</span><br><span class="line">            <span class="keyword">this</span>._backIndex = <span class="keyword">this</span>._currentIndex</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> cb = <span class="keyword">this</span>._routes.get(<span class="keyword">this</span>._currentUrl)</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> cb === <span class="string">'function'</span>) cb()	<span class="comment">//	执行路由对应的回调函数</span></span><br><span class="line">        <span class="keyword">this</span>._isBack = <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    back = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>._isBack = <span class="literal">true</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>._backIndex &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">this</span>._backIndex = <span class="number">0</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>._backIndex -= <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">        location.hash = <span class="string">`#&#123;this._history[this._backIndex]&#125;`</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="基于History的前端路由实现"><a href="#基于History的前端路由实现" class="headerlink" title="基于History的前端路由实现"></a>基于History的前端路由实现</h4><p>依赖于HTML5提供的History对象，Router的实现简便很多；使用go来进行前往指定路由，用back回退。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BroswerRouter</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="keyword">this</span>._routes = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line">        <span class="keyword">this</span>._bindEvent()</span><br><span class="line">    &#125;</span><br><span class="line">    _bindEvent = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">window</span>.addEventListener(<span class="string">'popstate'</span>, e =&gt; &#123;</span><br><span class="line">            <span class="keyword">let</span> path = e.state &amp;&amp; e.state.path</span><br><span class="line">            <span class="keyword">let</span> cb = <span class="keyword">this</span>._routes.get(path)</span><br><span class="line">        	<span class="keyword">if</span> (<span class="keyword">typeof</span> cb = <span class="string">'function'</span>) cb()</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    init(path) &#123;</span><br><span class="line">        history.replaceState(&#123;<span class="attr">path</span>: path&#125;, <span class="string">''</span>, path)</span><br><span class="line">        <span class="keyword">let</span> cb = <span class="keyword">this</span>._routes.get(path)</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> cb = <span class="string">'function'</span>) cb()</span><br><span class="line">    &#125;</span><br><span class="line">    route(path, cb = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;) &#123;</span><br><span class="line">        <span class="keyword">this</span>._routes.set(path, cb)</span><br><span class="line">    &#125;</span><br><span class="line">    go = <span class="function">(<span class="params">path</span>) =&gt;</span> &#123;</span><br><span class="line">        history.pushState(&#123;<span class="attr">path</span>: path&#125;, <span class="string">''</span>, path)</span><br><span class="line">        <span class="keyword">let</span> cb = <span class="keyword">this</span>._routes.get(path)</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> cb === <span class="string">'function'</span>) cb()</span><br><span class="line">    &#125;</span><br><span class="line">    back = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        history.back()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="React-Router-v4"><a href="#React-Router-v4" class="headerlink" title="React-Router v4"></a>React-Router v4</h3><p>👆👆👆只是简单的前度路由的模拟，但是涉及到React或者Vue的时候，我们需要另外处理渲染逻辑，所以会牵扯到生命周期和组件通信。</p>
+<p>下面简单分析概述一下React-Router v4</p>
+<h4 id="模块结构"><a href="#模块结构" class="headerlink" title="模块结构"></a>模块结构</h4><p>React-Router分为4个package，分别为：react-router、react-router-dom、react-router-native、react-router-config。</p>
+<p><strong>react-router</strong>：负责通用的路由逻辑，被其他package所依赖，无需特别引入。</p>
+<p><strong>react-router-dom</strong>: 负责浏览器的路由管理。</p>
+<p>react-router-native：负责react-native的路由管理。</p>
+<p>react-router-config: 用于配置特别的react-router，比如SSR环境下。</p>
+<p>下面介绍一下react-router中只要的模块👇👇👇</p>
+<h5 id="Router（react-router-Router、react-router-RouterContext、react-router-dom-BrowserRouter）"><a href="#Router（react-router-Router、react-router-RouterContext、react-router-dom-BrowserRouter）" class="headerlink" title="Router（react-router/Router、react-router/RouterContext、react-router-dom/BrowserRouter）"></a>Router（react-router/Router、react-router/RouterContext、react-router-dom/BrowserRouter）</h5><p>BroswerRouter在内部创建一个全局对象history，然后通过props传递给Router组件，Router组件再将这个history属性作为context传递给子组件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//	创建context，用于全局传递信息</span></span><br><span class="line"><span class="keyword">const</span> createNamedContext = <span class="function"><span class="params">name</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> context = React.createContext();</span><br><span class="line">  context.Provider.displayName = <span class="string">`<span class="subst">$&#123;name&#125;</span>.Provider`</span>;</span><br><span class="line">  context.Consumer.displayName = <span class="string">`<span class="subst">$&#123;name&#125;</span>.Consumer`</span>;</span><br><span class="line">  <span class="keyword">return</span> context;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> RouterContext = createNamedContext(<span class="string">'Router'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Router</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> computeRootMatch(pathname) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">path</span>: <span class="string">"/"</span>, <span class="attr">url</span>: <span class="string">"/"</span>, <span class="attr">params</span>: &#123;&#125;, <span class="attr">isExact</span>: pathname === <span class="string">"/"</span> &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      location: props.history.location</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// This is a bit of a hack. We have to start listening for location</span></span><br><span class="line">    <span class="comment">// changes here in the constructor in case there are any &lt;Redirect&gt;s</span></span><br><span class="line">    <span class="comment">// on the initial render. If there are, they will replace/push when</span></span><br><span class="line">    <span class="comment">// they mount and since cDM fires in children before parents, we may</span></span><br><span class="line">    <span class="comment">// get a new location before the &lt;Router&gt; is mounted.</span></span><br><span class="line">    <span class="keyword">this</span>._isMounted = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">this</span>._pendingLocation = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">if</span> (!props.staticContext) &#123;</span><br><span class="line">        <span class="comment">//	！！！在这里进行监听，每次路由变化都会触发顶层Router的回调事件，然后Router进行setState，再向下传递context，最下面的Route根据context内容判断是否进行渲染！！！</span></span><br><span class="line">      <span class="keyword">this</span>.unlisten = props.history.listen(<span class="function"><span class="params">location</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>._isMounted) &#123;</span><br><span class="line">          <span class="keyword">this</span>.setState(&#123; location &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">this</span>._pendingLocation = location;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    <span class="keyword">this</span>._isMounted = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>._pendingLocation) &#123;</span><br><span class="line">      <span class="keyword">this</span>.setState(&#123; <span class="attr">location</span>: <span class="keyword">this</span>._pendingLocation &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  componentWillUnmount() &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.unlisten) <span class="keyword">this</span>.unlisten();</span><br><span class="line">  &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;RouterContext.Provider</span><br><span class="line">        children=&#123;<span class="keyword">this</span>.props.children || <span class="literal">null</span>&#125;</span><br><span class="line">        value=&#123;&#123;</span><br><span class="line">          history: <span class="keyword">this</span>.props.history,</span><br><span class="line">          location: <span class="keyword">this</span>.state.location,</span><br><span class="line">          match: Router.computeRootMatch(<span class="keyword">this</span>.state.location.pathname),</span><br><span class="line">          staticContext: <span class="keyword">this</span>.props.staticContext</span><br><span class="line">        &#125;&#125;</span><br><span class="line">      /&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BrowserRouter</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  history = createHistory(<span class="keyword">this</span>.props);</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> &lt;Router history=&#123;this.history&#125; children=&#123;this.props.children&#125; /&gt;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Route（react-router-Route）"><a href="#Route（react-router-Route）" class="headerlink" title="Route（react-router/Route）"></a>Route（react-router/Route）</h5><p>Router是借助context向Route传递内容的，Router作为Provider、Route作为Comsumer，所以Route必须包含在Router内部。</p>
+<p>同时，Route借助context将history、location、match作为三个独立的属性传递给要渲染的组件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Route</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;RouterContext.Consumer&gt;</span><br><span class="line">        &#123;context =&gt; &#123;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">const</span> location = <span class="keyword">this</span>.props.location || context.location</span><br><span class="line">          <span class="keyword">const</span> match = <span class="keyword">this</span>.props.computedMatch</span><br><span class="line">            ? <span class="keyword">this</span>.props.computedMatch <span class="comment">// &lt;Switch&gt; already computed the match for us</span></span><br><span class="line">            : <span class="keyword">this</span>.props.path</span><br><span class="line">              ? matchPath(location.pathname, <span class="keyword">this</span>.props)</span><br><span class="line">              : context.match</span><br><span class="line"></span><br><span class="line">          <span class="keyword">const</span> props = &#123; ...context, location, match &#125;	<span class="comment">//	传递给要渲染的组件</span></span><br><span class="line"></span><br><span class="line">          <span class="keyword">let</span> &#123; children, component, render &#125; = <span class="keyword">this</span>.props</span><br><span class="line"></span><br><span class="line">          <span class="comment">// Preact uses an empty array as children by</span></span><br><span class="line">          <span class="comment">// default, so use null if that's the case.</span></span><br><span class="line">          <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(children) &amp;&amp; children.length === <span class="number">0</span>) &#123;</span><br><span class="line">            children = <span class="literal">null</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">if</span> (<span class="keyword">typeof</span> children === <span class="string">"function"</span>) &#123;</span><br><span class="line">            children = children(props);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (children === <span class="literal">undefined</span>) &#123;</span><br><span class="line">              children = <span class="literal">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">return</span> (</span><br><span class="line">              <span class="comment">//	提供了多种渲染的方式，children(子元素)、component（props）、render(props)</span></span><br><span class="line">            &lt;RouterContext.Provider value=&#123;props&#125;&gt;</span><br><span class="line">              &#123;children &amp;&amp; !isEmptyChildren(children)</span><br><span class="line">                ? children</span><br><span class="line">                : props.match</span><br><span class="line">                  ? component</span><br><span class="line">                    ? React.createElement(component, props)	<span class="comment">//	这里是通过React.creareElement创建组件的，所以React Diff认为每次都不一样，更新的时候会先卸载之前的组件再重新安装新的组件。</span></span><br><span class="line">                    : render</span><br><span class="line">                      ? render(props)</span><br><span class="line">                      : <span class="literal">null</span></span><br><span class="line">                  : <span class="literal">null</span>&#125;</span><br><span class="line">            &lt;<span class="regexp">/RouterContext.Provider&gt;</span></span><br><span class="line"><span class="regexp">          );</span></span><br><span class="line"><span class="regexp">        &#125;&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>RouterContext.Consumer&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Switch（react-router-Switch）"><a href="#Switch（react-router-Switch）" class="headerlink" title="Switch（react-router/Switch）"></a>Switch（react-router/Switch）</h5><p>Switch的作用是，当Switch中的第一个Route匹配后就不会渲染其他的Route，类似swich这个语法。源码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Switch</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;RouterContext.Consumer&gt;</span><br><span class="line">        &#123;context =&gt; &#123;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">const</span> location = <span class="keyword">this</span>.props.location || context.location;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">let</span> element, match;</span><br><span class="line"></span><br><span class="line">          <span class="comment">// We use React.Children.forEach instead of React.Children.toArray().find()</span></span><br><span class="line">          <span class="comment">// here because toArray adds keys to all child elements and we do not want</span></span><br><span class="line">          <span class="comment">// to trigger an unmount/remount for two &lt;Route&gt;s that render the same</span></span><br><span class="line">          <span class="comment">// component at different URLs.</span></span><br><span class="line">          React.Children.forEach(<span class="keyword">this</span>.props.children, child =&gt; &#123;</span><br><span class="line">         <span class="comment">//	按children的顺序依次遍历子元素，成功就标记这个子元素和对应的location和comutedMatch，最后调用React.cloneElement渲染，否则返回null</span></span><br><span class="line">            <span class="keyword">if</span> (match == <span class="literal">null</span> &amp;&amp; React.isValidElement(child)) &#123;</span><br><span class="line">              element = child;</span><br><span class="line"></span><br><span class="line">              <span class="keyword">const</span> path = child.props.path || child.props.from;</span><br><span class="line">			<span class="comment">//	Switch通过matchPath来判断是否匹配成功</span></span><br><span class="line">              match = path</span><br><span class="line">                ? matchPath(location.pathname, &#123; ...child.props, path &#125;)</span><br><span class="line">                : context.match;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;);</span><br><span class="line"></span><br><span class="line">          <span class="keyword">return</span> match</span><br><span class="line">            ? React.cloneElement(element, &#123; location, <span class="attr">computedMatch</span>: match &#125;)</span><br><span class="line">            : <span class="literal">null</span>;</span><br><span class="line">        &#125;&#125;</span><br><span class="line">      &lt;<span class="regexp">/RouterContext.Consumer&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<h5 id="matchPath（react-router-matchPath）"><a href="#matchPath（react-router-matchPath）" class="headerlink" title="matchPath（react-router/matchPath）"></a>matchPath（react-router/matchPath）</h5><p>前面多次提到使用matchPath来判断是否匹配成功，那么到底是如何进行匹配的呢？下面是matchPath的源码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//	缓存，不必每次都生成一个正则表达式用于判断</span></span><br><span class="line"><span class="keyword">const</span> cache = &#123;&#125;;</span><br><span class="line"><span class="keyword">const</span> cacheLimit = <span class="number">10000</span>;</span><br><span class="line"><span class="keyword">let</span> cacheCount = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compilePath</span>(<span class="params">path, options</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> cacheKey = <span class="string">`<span class="subst">$&#123;options.end&#125;</span><span class="subst">$&#123;options.strict&#125;</span><span class="subst">$&#123;options.sensitive&#125;</span>`</span>;</span><br><span class="line">  <span class="keyword">const</span> pathCache = cache[cacheKey] || (cache[cacheKey] = &#123;&#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (pathCache[path]) <span class="keyword">return</span> pathCache[path];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> keys = [];</span><br><span class="line">  <span class="keyword">const</span> regexp = pathToRegexp(path, keys, options);</span><br><span class="line">  <span class="keyword">const</span> result = &#123; regexp, keys &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (cacheCount &lt; cacheLimit) &#123;</span><br><span class="line">    pathCache[path] = result;</span><br><span class="line">    cacheCount++;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Public API for matching a URL pathname to a path.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">matchPath</span>(<span class="params">pathname, options = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> options === <span class="string">"string"</span>) options = &#123; <span class="attr">path</span>: options &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> &#123; path, exact = <span class="literal">false</span>, strict = <span class="literal">false</span>, sensitive = <span class="literal">false</span> &#125; = options;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> paths = [].concat(path);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> paths.reduce(<span class="function">(<span class="params">matched, path</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (matched) <span class="keyword">return</span> matched;</span><br><span class="line">    <span class="keyword">const</span> &#123; regexp, keys &#125; = compilePath(path, &#123;</span><br><span class="line">      end: exact,</span><br><span class="line">      strict,</span><br><span class="line">      sensitive</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">const</span> match = regexp.exec(pathname);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!match) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> [url, ...values] = match;</span><br><span class="line">    <span class="keyword">const</span> isExact = pathname === url;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (exact &amp;&amp; !isExact) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      path, <span class="comment">// the path used to match</span></span><br><span class="line">      url: path === <span class="string">"/"</span> &amp;&amp; url === <span class="string">""</span> ? <span class="string">"/"</span> : url, <span class="comment">// the matched portion of the URL</span></span><br><span class="line">      isExact, <span class="comment">// whether or not we matched exactly</span></span><br><span class="line">      params: keys.reduce(<span class="function">(<span class="params">memo, key, index</span>) =&gt;</span> &#123;</span><br><span class="line">        memo[key.name] = values[index];</span><br><span class="line">        <span class="keyword">return</span> memo;</span><br><span class="line">      &#125;, &#123;&#125;)</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;, <span class="literal">null</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Link（react-router-dom-Link）"><a href="#Link（react-router-dom-Link）" class="headerlink" title="Link（react-router-dom/Link）"></a>Link（react-router-dom/Link）</h5><p>Link是react-router-dom中的，而不是通用模块里的元素；Link是一个用a标签包裹、用来实现跳转的元素。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Link</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  handleClick(event, history) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.props.onClick) <span class="keyword">this</span>.props.onClick(event);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">      !event.defaultPrevented &amp;&amp; <span class="comment">// onClick prevented default</span></span><br><span class="line">      event.button === <span class="number">0</span> &amp;&amp; <span class="comment">// ignore everything but left clicks</span></span><br><span class="line">      (!<span class="keyword">this</span>.props.target || <span class="keyword">this</span>.props.target === <span class="string">"_self"</span>) &amp;&amp; <span class="comment">// let browser handle "target=_blank" etc.</span></span><br><span class="line">      !isModifiedEvent(event) <span class="comment">// ignore clicks with modifier keys</span></span><br><span class="line">    ) &#123;</span><br><span class="line">      event.preventDefault();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">const</span> method = <span class="keyword">this</span>.props.replace ? history.replace : history.push;</span><br><span class="line"></span><br><span class="line">      method(<span class="keyword">this</span>.props.to);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; innerRef, replace, to, ...rest &#125; = <span class="keyword">this</span>.props; <span class="comment">// eslint-disable-line no-unused-vars</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;RouterContext.Consumer&gt;</span><br><span class="line">        &#123;context =&gt; &#123;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">const</span> location =</span><br><span class="line">            <span class="keyword">typeof</span> to === <span class="string">"string"</span></span><br><span class="line">              ? createLocation(to, <span class="literal">null</span>, <span class="literal">null</span>, context.location)</span><br><span class="line">              : to;</span><br><span class="line">          <span class="keyword">const</span> href = location ? context.history.createHref(location) : <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">return</span> (</span><br><span class="line">            &lt;a</span><br><span class="line">              &#123;...rest&#125;</span><br><span class="line">              onClick=&#123;event =&gt; <span class="keyword">this</span>.handleClick(event, context.history)&#125;</span><br><span class="line">              href=&#123;href&#125;</span><br><span class="line">              ref=&#123;innerRef&#125;</span><br><span class="line">            /&gt;</span><br><span class="line">          );</span><br><span class="line">        &#125;&#125;</span><br><span class="line">      &lt;<span class="regexp">/RouterContext.Consumer&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>H5的history对象中通过pushState、replaceState只会改变路由而不会发生跳转，但是之前提的Router中的listen可以监听到路由的变化然后更新props和context，让下层的Route重新匹配，完成需要渲染部分的更新。如何监听的呢？这部分在history库中的createTransitionManager中（React-Router依赖于history）。</p>
+<h5 id="createTransitionManager（history-createTransitionManager）"><a href="#createTransitionManager（history-createTransitionManager）" class="headerlink" title="createTransitionManager（history/createTransitionManager）"></a>createTransitionManager（history/createTransitionManager）</h5><p>下面就是源码，观察者模式的一个应用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createTransitionManager</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> prompt = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">setPrompt</span>(<span class="params">nextPrompt</span>) </span>&#123;</span><br><span class="line">    prompt = nextPrompt;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (prompt === nextPrompt) prompt = <span class="literal">null</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">confirmTransitionTo</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">    location,</span></span></span><br><span class="line"><span class="function"><span class="params">    action,</span></span></span><br><span class="line"><span class="function"><span class="params">    getUserConfirmation,</span></span></span><br><span class="line"><span class="function"><span class="params">    callback</span></span></span><br><span class="line"><span class="function"><span class="params">  </span>) </span>&#123;</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> If another transition starts while we're still confirming</span></span><br><span class="line">    <span class="comment">// the previous one, we may end up in a weird state. Figure out the</span></span><br><span class="line">    <span class="comment">// best way to handle this.</span></span><br><span class="line">    <span class="keyword">if</span> (prompt != <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> result =</span><br><span class="line">        <span class="keyword">typeof</span> prompt === <span class="string">'function'</span> ? prompt(location, action) : prompt;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">typeof</span> result === <span class="string">'string'</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> getUserConfirmation === <span class="string">'function'</span>) &#123;</span><br><span class="line">          getUserConfirmation(result, callback);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         </span><br><span class="line">          callback(<span class="literal">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Return false from a transition hook to cancel the transition.</span></span><br><span class="line">        callback(result !== <span class="literal">false</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      callback(<span class="literal">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> listeners = [];</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">appendListener</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> isActive = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">listener</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (isActive) fn(...args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    listeners.push(listener);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      isActive = <span class="literal">false</span>;</span><br><span class="line">      listeners = listeners.filter(<span class="function"><span class="params">item</span> =&gt;</span> item !== listener);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">notifyListeners</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    listeners.forEach(<span class="function"><span class="params">listener</span> =&gt;</span> listener(...args));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    setPrompt,</span><br><span class="line">    confirmTransitionTo,</span><br><span class="line">    appendListener,</span><br><span class="line">    notifyListeners</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="WithRouter（react-router-WithRouter）"><a href="#WithRouter（react-router-WithRouter）" class="headerlink" title="WithRouter（react-router/WithRouter）"></a>WithRouter（react-router/WithRouter）</h5><p>光从名字上看就知道，这是一个HOC，这个高阶组件的作用就是让我们在非Route中的组件也能获取到路由信息。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">withRouter</span>(<span class="params">Component</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> C = <span class="function"><span class="params">props</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; wrappedComponentRef, ...remainingProps &#125; = props;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;Route</span><br><span class="line">        children=&#123;routeComponentProps =&gt; (</span><br><span class="line">          &lt;Component</span><br><span class="line">            &#123;...remainingProps&#125;</span><br><span class="line">            &#123;...routeComponentProps&#125;</span><br><span class="line">            ref=&#123;wrappedComponentRef&#125;</span><br><span class="line">          /&gt;</span><br><span class="line">        )&#125;</span><br><span class="line">      /&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  C.displayName = <span class="string">`withRouter(<span class="subst">$&#123;Component.displayName || Component.name&#125;</span>)`</span>;</span><br><span class="line">  C.WrappedComponent = Component;</span><br><span class="line">  <span class="keyword">return</span> hoistStatics(C, Component);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>现在我们来大致梳理一下，前端路由的过程。</p>
+<ol>
+<li>当Router组件创建时，我们会在上面注册一个事件用于监听路由的变化，一旦路由变化就会触发setState。</li>
+<li>点击Link其实就是点击a标签进行跳转，但是我们阻止了跳转；实际上我们在这里调用history的pushState方法，将当前path存储，并<strong>修改路由</strong>（此时并没有改变页面的渲染）。</li>
+<li>每次路由的变化就会触发Router的setState，所以此时会成新context传递给下层。</li>
+<li>下层的Route拿到新的context后根据matchPath判断path是否和location匹配，匹配就渲染，不匹配不渲染，此时<strong>页面的渲染改变</strong>。</li>
+</ol>
+<p>所以说整个前端路由的思路（以React-Router为例）就是：</p>
+<ol>
+<li>首先创建一个全局对象，通过context API向下传递histpry对象，从而控制具体的渲染；（渲染变化）</li>
+<li>添加一个Event Emitter，用于响应路由变化/Hash变化，然后进行对应的逻辑处理；（路由变化）</li>
+<li>路由变化/Hash变化导致context变化，context变化又导致渲染改变；（渲染变化）</li>
+</ol>
+<p><strong>那么，前端路由跟后端路由有什么区别呢？</strong></p>
+<p>后端路由，数据渲染是由服务器解决，例如利用express构建的服务端应用，render(‘xxx.pug’)，服务器渲染好页面后返回给浏览器端，浏览器显示。表现形式就是，跳转页面会白屏，加载～</p>
+<p>前端路由，数据渲染是由浏览器端解决，例如上述的例子，但是路由变化和渲染变化是分隔开的，所以我们需要通过<code>hashchange</code> or <code>popstate</code>将路由变化和渲染变化连接起来。表现形式则是，跳转页面不会白屏～</p>
+<p>那是不是前端路由就可以完全取代后端路由了呢？不是的，前端路由也存在不足，SEO就是一个big problem。</p>
+<p>那是不是前端路由和后端路由就是相互隔绝的呢？不是的，二者之间又衍生出许多新的hack手段，例如预渲染（服务端线构建出一部分静态HTML，用于直出浏览器，然后剩余使用前端渲染来实现）、SSR。</p>
+<p><strong>既然谈到了预渲染和SSR；那就先占个坑位，学习一下SSR和预渲染～</strong></p>
+<h3 id="参考资源"><a href="#参考资源" class="headerlink" title="参考资源"></a>参考资源</h3><ol>
+<li><a href="https://segmentfault.com/a/1190000007238999#articleHeader1" target="_blank" rel="noopener">前端路由的两种实现原理</a></li>
+<li><a href="https://juejin.im/post/5ac61da66fb9a028c71eae1b" target="_blank" rel="noopener">面试官：你了解前端路由吗</a></li>
+<li><a href="https://github.com/ReactTraining/react-router/tree/master/packages/react-router" target="_blank" rel="noopener">React-Router源码</a></li>
+<li><a href="https://github.com/ReactTraining/history" target="_blank" rel="noopener">history源码—Manage session history with JavaScript</a></li>
+</ol>
+
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/12/09/processes-and-threads/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.jpg" alt="GeniusFunny's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        geniusfunnyyh@gmail.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="mailto:geniusfunnyyh@gmail.com" target="_blank" title="Contact Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Contact Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2019/02/">二月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/12/">十二月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/11/">十一月 2018<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/10/">十月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/09/">九月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/06/">六月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/05/">五月 2018<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/04/">四月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/02/">二月 2018<span class="sidebar_archives-count">6</span></a>
+            </li></ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/CSS/">CSS<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/JavaScript/">JavaScript<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/JavaScript核心/">JavaScript核心<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/JavaScript设计模式/">JavaScript设计模式<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/React/">React<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/Redis/">Redis<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/其他/">其他<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/前端框架/">前端框架<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/实践/">实践<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/笔记/">笔记<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/算法/">算法<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/翻译/">翻译<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/计算机基础/">计算机基础<span class="sidebar_archives-count">1</span></a>
+            </li></ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+        <li>
+            <a href="tags" title="标签">
+                
+                    <i class="material-icons sidebar-material-icons">turned_in</i>
+                
+                标签
+            </a>
+        </li>
+        
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/archives">
+                文章总数
+                <span class="sidebar-badge">21</span>
+            </a>
+        </li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+
+<!-- Theme Material -->
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+    <span id="footer-image">
+        <a href="https://www.upyun.com/" target="_blank" title="upyun_logo">
+            <img src="/img/upyun_logo.svg" alt="upyun_logo"><!--
+     --></a>
+    </span>
+
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+        <a href="https://twitter.com/GeniuFunny" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-twitter">
+                <span class="visuallyhidden">Twitter</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/GeniusFunny" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-github">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>GeniusFunny的个人博客
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import File -->
+
+
+    <script>lsloader.load("js/lazyload.min.js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==")</script>
+    <script>lsloader.load("js/js.min.js","/js/js.min.js?oAl/+lvaqTFV31JXTmbrNA==")</script>
+
+
+
+    <script>lsloader.load("js/nprogress.js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==")</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+    <!-- Leancloud -->
+    <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+    <script>
+        AV.initialize('etC3TLV8Pj1FSAVvtfsGcRNq-gzGzoHsz', 'esJd1ihFxVqwDejivs92D9To');
+    </script>
+    <script type="text/ls-javascript" id="leancloud-views-script">
+    function showTime(Counter) {
+        var query = new AV.Query(Counter);
+        $('.leancloud-views_num').each(function() {
+            var url = $(this).attr('id').trim();
+            query.equalTo('url', url);
+            query.find({
+                success: function(results) {
+                    if (results.length === 0) {
+                        var content = '0 ' + $(document.getElementById(url)).text();
+                        $(document.getElementById(url)).text(content);
+                        return;
+                    }
+                    for (var i = 0; i < results.length; i++) {
+                        var object = results[i];
+                        var content = object.get('time') + ' ' + $(document.getElementById(url)).text();
+                        $(document.getElementById(url)).text(content);
+                    }
+                },
+                error: function(object, error) {
+                    console.log('Error: ' + error.code + ' ' + error.message);
+                }
+            });
+        });
+    }
+
+    function addCount(Counter) {
+      var Counter = AV.Object.extend('Counter');
+      url = $('.leancloud-views_num').attr('id').trim();
+      title = $('.leancloud-views_num').attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+      query.equalTo('url', url);
+      query.find({
+          success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment('time');
+                counter.save(null, {
+                    success: function(counter) {
+                        var content =  counter.get('time') + ' ' + $(document.getElementById(url)).text();
+                        $(document.getElementById(url)).text(content);
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+              var newcounter = new Counter();
+              newcounter.set('title', title);
+              newcounter.set('url', url);
+              newcounter.set('time', 1);
+              newcounter.save(null, {
+                  success: function(newcounter) {
+                      console.log('newcounter.get(\'time\')='+newcounter.get('time'));
+                      var content = newcounter.get('time') + ' ' + $(document.getElementById(url)).text();
+                      $(document.getElementById(url)).text(content);
+                  },
+                  error: function(newcounter, error) {
+                      console.log('Failed to create');
+                  }
+              });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + ' ' + error.message);
+        }
+      });
+    }
+    $(function() {
+        var Counter = AV.Object.extend('Counter');
+        if ($('.leancloud-views_num').length === 1) {
+            addCount(Counter);
+        } else if ($('.post-title-link').length > 1) {
+            showTime(Counter);
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Window Load-->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+</script>
+
+<!-- MathJax Load-->
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Bing Background -->
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.4.0 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>
