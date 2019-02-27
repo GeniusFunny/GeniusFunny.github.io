@@ -12,7 +12,7 @@
     
     <title>
         
-            通过Nginx反向代理跨域 | 
+            如何评价前端性能好坏？ | 
         
         GeniusFunny的个人博客
     </title>
@@ -39,8 +39,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="GeniusFunny">
-    <meta name="description" itemprop="description" content="由于项目前后端分离且后端真实接口已出，所以我开发时首先考虑通过跨域获取真实接口数据配合前端开发。（赶工期啊：）根据create-react-app官方提示，在package.json中添加字段&amp;quot;proxy&amp;quot;: &amp;quot;http://admin.xiaoyaoeden.top&amp;quot;emmm🤭无效 😂所以改为使用Nginx反向代理跨域😊current origin：http://localhost:3000target origin：http://admin.xiaoyaoeden.top">
-    <meta name="keywords" content="JavaScript,跨域,nginx">
+    <meta name="description" itemprop="description" content="背景加载时间是我们用于评价前端性能好坏的一个参考数据，但是加载时间与用户使用的手机类型以及当前网络状况有关，除此之外，即使页面加载完成用户也可能无法操作，所以仅仅用一个加载时间是不能描述前端性能的好坏，我们需要一套完整的性能评价体系。">
+    <meta name="keywords" content="JavaScript,FP/FCP,性能优化">
 
     <!-- Site Verification -->
     
@@ -69,26 +69,26 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="geniusfunny.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="通过Nginx反向代理跨域 | GeniusFunny的个人博客">
+    <meta property="og:title" content="如何评价前端性能好坏？ | GeniusFunny的个人博客">
     <meta property="og:image" content="/img/favicon.png">
-    <meta property="og:description" content="由于项目前后端分离且后端真实接口已出，所以我开发时首先考虑通过跨域获取真实接口数据配合前端开发。（赶工期啊：）根据create-react-app官方提示，在package.json中添加字段&amp;quot;proxy&amp;quot;: &amp;quot;http://admin.xiaoyaoeden.top&amp;quot;emmm🤭无效 😂所以改为使用Nginx反向代理跨域😊current origin：http://localhost:3000target origin：http://admin.xiaoyaoeden.top">
-    <meta property="og:article:tag" content="跨域"> <meta property="og:article:tag" content="nginx"> 
+    <meta property="og:description" content="背景加载时间是我们用于评价前端性能好坏的一个参考数据，但是加载时间与用户使用的手机类型以及当前网络状况有关，除此之外，即使页面加载完成用户也可能无法操作，所以仅仅用一个加载时间是不能描述前端性能的好坏，我们需要一套完整的性能评价体系。">
+    <meta property="og:article:tag" content="FP/FCP"> <meta property="og:article:tag" content="性能优化"> 
 
     
-        <meta property="article:published_time" content="4月 08, 2018">
-        <meta property="article:modified_time" content="5月 09, 2018">
+        <meta property="article:published_time" content="2月 27, 2019">
+        <meta property="article:modified_time" content="2月 27, 2019">
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="通过Nginx反向代理跨域 | GeniusFunny的个人博客">
-    <meta name="twitter:description" content="由于项目前后端分离且后端真实接口已出，所以我开发时首先考虑通过跨域获取真实接口数据配合前端开发。（赶工期啊：）根据create-react-app官方提示，在package.json中添加字段&amp;quot;proxy&amp;quot;: &amp;quot;http://admin.xiaoyaoeden.top&amp;quot;emmm🤭无效 😂所以改为使用Nginx反向代理跨域😊current origin：http://localhost:3000target origin：http://admin.xiaoyaoeden.top">
+    <meta name="twitter:title" content="如何评价前端性能好坏？ | GeniusFunny的个人博客">
+    <meta name="twitter:description" content="背景加载时间是我们用于评价前端性能好坏的一个参考数据，但是加载时间与用户使用的手机类型以及当前网络状况有关，除此之外，即使页面加载完成用户也可能无法操作，所以仅仅用一个加载时间是不能描述前端性能的好坏，我们需要一套完整的性能评价体系。">
     <meta name="twitter:image" content="/img/favicon.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="geniusfunny.github.io">
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="geniusfunny.github.io/2018/04/08/Cross-Origin-using-Nginx/index.html">
+        <link rel="canonical" href="geniusfunny.github.io/2019/02/27/perfomance/index.html">
     
 
     <!-- Structured-data for SEO -->
@@ -114,11 +114,11 @@
         },
         "description": "Stay Hungry, Stay Foolish."
     },
-    "headline": "通过Nginx反向代理跨域",
-    "url": "geniusfunny.github.io/2018/04/08/Cross-Origin-using-Nginx/index.html",
-    "datePublished": "4月 08, 2018",
-    "dateModified": "5月 09, 2018",
-    "description": "由于项目前后端分离且后端真实接口已出，所以我开发时首先考虑通过跨域获取真实接口数据配合前端开发。（赶工期啊：）根据create-react-app官方提示，在package.json中添加字段&amp;quot;proxy&amp;quot;: &amp;quot;http://admin.xiaoyaoeden.top&amp;quot;emmm🤭无效 😂所以改为使用Nginx反向代理跨域😊current origin：http://localhost:3000target origin：http://admin.xiaoyaoeden.top",
+    "headline": "如何评价前端性能好坏？",
+    "url": "geniusfunny.github.io/2019/02/27/perfomance/index.html",
+    "datePublished": "2月 27, 2019",
+    "dateModified": "2月 27, 2019",
+    "description": "背景加载时间是我们用于评价前端性能好坏的一个参考数据，但是加载时间与用户使用的手机类型以及当前网络状况有关，除此之外，即使页面加载完成用户也可能无法操作，所以仅仅用一个加载时间是不能描述前端性能的好坏，我们需要一套完整的性能评价体系。",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "geniusfunny.github.io"
@@ -336,7 +336,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装"><span class="post-toc-number">1.</span> <span class="post-toc-text">安装</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#修改配置"><span class="post-toc-number">2.</span> <span class="post-toc-text">修改配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#重启Nginx服务"><span class="post-toc-number">3.</span> <span class="post-toc-text">重启Nginx服务</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#测试"><span class="post-toc-number">4.</span> <span class="post-toc-text">测试</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#背景"><span class="post-toc-number">1.</span> <span class="post-toc-text">背景</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#渐进式网页指标"><span class="post-toc-number">2.</span> <span class="post-toc-text">渐进式网页指标</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#浏览器页面加载流程"><span class="post-toc-number">3.</span> <span class="post-toc-text">浏览器页面加载流程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#如何统计上述的指标"><span class="post-toc-number">4.</span> <span class="post-toc-text">如何统计上述的指标</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#首次绘制-First-Paint，FP"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">首次绘制(First Paint，FP)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#首次内容绘制-First-Content-Paint，FCP"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">首次内容绘制(First Content Paint，FCP)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#首次有效绘制-First-Meaningful-Paint，FMP"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">首次有效绘制(First Meaningful Paint，FMP)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#影响上面某些指标的因素"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">影响上面某些指标的因素</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#分析关键渲染路径"><span class="post-toc-number">5.</span> <span class="post-toc-text">分析关键渲染路径</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#HTML、Image"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">HTML、Image</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#HTML、CSS"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">HTML、CSS</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#CSS、JavaScript、HTML"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">CSS、JavaScript、HTML</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#优化"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">优化</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#业界一些常见的优化策略"><span class="post-toc-number">6.</span> <span class="post-toc-text">业界一些常见的优化策略</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Google-PageSpeed-Insights-Rules"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">Google PageSpeed Insights Rules</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Yahoo-Best-Practices-for-Speeding-Up-Your-Web-Site"><span class="post-toc-number">6.2.</span> <span class="post-toc-text">Yahoo Best Practices for Speeding Up Your Web Site</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#现代前端的优化策略"><span class="post-toc-number">7.</span> <span class="post-toc-text">现代前端的优化策略</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#RAIL"><span class="post-toc-number">8.</span> <span class="post-toc-text">RAIL</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#响应：在100ms以内响应"><span class="post-toc-number">8.1.</span> <span class="post-toc-text">响应：在100ms以内响应</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#动画：每10ms生成一帧"><span class="post-toc-number">8.2.</span> <span class="post-toc-text">动画：每10ms生成一帧</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#空闲：最大程度增加空闲时间"><span class="post-toc-number">8.3.</span> <span class="post-toc-text">空闲：最大程度增加空闲时间</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#加载：在1000ms以内呈现内容"><span class="post-toc-number">8.4.</span> <span class="post-toc-text">加载：在1000ms以内呈现内容</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#总结"><span class="post-toc-number">9.</span> <span class="post-toc-text">总结</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">10.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -374,7 +374,7 @@
         
     
             <p class="article-headline-p">
-                通过Nginx反向代理跨域
+                如何评价前端性能好坏？
             </p>
         </div>
 
@@ -393,7 +393,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>GeniusFunny</strong>
-        <span>4月 08, 2018</span>
+        <span>2月 27, 2019</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -415,7 +415,7 @@
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAAC2ElEQVR42u3aS44iQQwFQO5/6ZntSCOK92zUqq6MXKGGoh3JwvLn9efI88LGxsbGxsbGxsa+JfsVn/+fSr7nQyj/fObd63fv1jFjY2NjP5qdB5c/ex1KezXXl5LEho2NjX0C+zrE63CTUBLSLNUlV4ONjY2N3RYh+7IkSZzY2NjY2PsEdv2XJOEll3W7vI2NjY19S/YstcwKlSLcUdmDjY2NfRo7LyTu8/pH59vY2NjYN2ZvGvp5MpstA7VtqQ+RY2NjYz+U3TZ3kpKjXaPMr7WNExsbG/tMdp662jFt2zyaJVdsbGzsM9mzBv0swbTpbVPqYGNjY5/A3o97k4Z+XmYkBU8+PMDGxsY+gT1LYMm7+XUk4OuL/qG8jY2NjX1LdlJybMYJSWppm1bDnwcbGxv70ex2yXIzHm6LnM16EDY2NvY57OThGaMd0+7XMbGxsbHPZM/aRm1Ym+XOvKlUlyLY2NjYj2Bv2kxtCfHdy/1CLw0bGxv70ew2nWzGDG176/ovRQWGjY2N/Qj2npS3ovKxxJD37huwsbGxH81uRwXXn5wFl+NnDSZsbGzsp7I3Q9m8kNis2rTfEzWVsLGxsR/NbhcxZ42ntlCZlUbY2NjY57DbdnxSDLSFSrs21F4lNjY29lPZedpoG/d5isr/b1vYYGNjY5/A3hQes9HsbDzcrlp+LW9jY2Nj/xJ2Etwszcx4s3bSF3pp2NjY2L+cvW8YbVZ8kkQ4ewobGxv7HHa+lJMA2vWaTVIcNpWwsbGxH8FuT7s0863Pz5Z+sLGxsU9gv+JTtG+CYmNWhLRLRdjY2NjnsPOkVSSMMiHNVn+wsbGxsfMmUTuaTQYD3zrJT4KNjY2NPRsJfAhlvehTpENsbGxs7LhZn5QHm8Wd4ZgBGxsb+wD2frjbDmKTRtJmdIGNjY19DnvTuGkXK5NxQl5gFM9iY2NjP5R9zsHGxsbGxsbGxsa+zfkLNqhyFP3ygtAAAAAASUVORK5CYII=">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACaUlEQVR42u3aW26DMBQE0Ox/0+0KAjN+QavDVxUF7EMl25l7Pz//+vrg4eHh4eHh4eG9jPeJr293ffvkepRv31kwNzw8PLwjvJulNhg4ZySvY2pueHh4eAd515O+prYTyreffG54eHh47+clB+5oQuVYeHh4eH+Rl08oAedsPDw8vLfxkh/8ecQwFt0+nLXg4eHhxby8yHT+76P1PTw8PLyAV7c0xcfcsS1kcdMVHh4e3gZevhAnhf82gGgbEaIXh4eHh7eZdx3OtuWuNpCdGas4UuPh4eFt47VTaQta7YhtDIGHh4d3hjcWIiSBxVhzwPUogyk1Hh4e3lJeMnx7aB57WhsK4+Hh4T3FyxuqiqV5ESNp1cLDw8N7ijdTuGo3mFWH7yKMwMPDw9vAS5b1+cN3HvXmpa9i38PDw8NbyssD1nw7aY/gY20E9b6Hh4eHN81ri1h5gT8BtGFE9AkeHh7eZl5+eK1DgfhonsfH0T8GDw8PbzNv1VTWbiFtMyseHh7eU7wcnDccjDVjLQ4j8PDw8LbFuDljJq4daxcoAgs8PDy8I7z5toA2yJg/iE81XeHh4eEt4o0t3DPfHyuADW4MeHh4eNt4ydI8dvAdayzItxk8PDy8M7z2yov9SbBbHJSDl4iHh4d3hjf1s7+8d1WD103JDQ8PD+8Ir13Kx0Lb+Y1hQQEMDw8PbykvX6DbIefB+VEeDw8P75289kpGzBsabp6Ph4eH92Le2ig2QUYxMR4eHt5BXhJGJMj8+dd35Z/j4eHhnee1RaykrJVvG22ocRNt4OHh4W3m/b8LDw8PDw8PDw/vBdcv91Bno+3JC3IAAAAASUVORK5CYII=">
     
 </ul>
     
@@ -428,7 +428,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/nginx/">nginx</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/跨域/">跨域</a>
+        <a class="post_tag-link" href="/tags/FP-FCP/">FP/FCP</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/性能优化/">性能优化</a>
     </li></ul>
     
 
@@ -442,7 +442,7 @@
     <!-- Leancloud Views -->
         <a class="post_share-link" href="#">
             <li class="mdl-menu__item">
-                <span id="/2018/04/08/Cross-Origin-using-Nginx/" class="leancloud-views_num" data-flag-title="通过Nginx反向代理跨域">
+                <span id="/2019/02/27/perfomance/" class="leancloud-views_num" data-flag-title="如何评价前端性能好坏？">
      &nbsp;浏览量
 </span>
 
@@ -454,7 +454,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=通过Nginx反向代理跨域&url=geniusfunny.github.io/2018/04/08/Cross-Origin-using-Nginx/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=如何评价前端性能好坏？&url=geniusfunny.github.io/2019/02/27/perfomance/index.html&pic=&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -463,7 +463,7 @@
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=通过Nginx反向代理跨域&url=geniusfunny.github.io/2018/04/08/Cross-Origin-using-Nginx/index.html&via=GeniusFunny" target="_blank">
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=如何评价前端性能好坏？&url=geniusfunny.github.io/2019/02/27/perfomance/index.html&via=GeniusFunny" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Twitter
             </li>
@@ -472,7 +472,7 @@
 
     <!-- Share Facebook -->
     
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=geniusfunny.github.io/2018/04/08/Cross-Origin-using-Nginx/index.html" target="_blank">
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=geniusfunny.github.io/2019/02/27/perfomance/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Facebook
             </li>
@@ -481,7 +481,7 @@
 
     <!-- Share Google+ -->
     
-        <a class="post_share-link" href="https://plus.google.com/share?url=geniusfunny.github.io/2018/04/08/Cross-Origin-using-Nginx/index.html" target="_blank">
+        <a class="post_share-link" href="https://plus.google.com/share?url=geniusfunny.github.io/2019/02/27/perfomance/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Google+
             </li>
@@ -493,7 +493,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=GeniusFunny的个人博客&title=通过Nginx反向代理跨域&summary=Learn Once, Write Anywhere.&pics=geniusfunny.github.io/img/favicon.png&url=geniusfunny.github.io/2018/04/08/Cross-Origin-using-Nginx/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=GeniusFunny的个人博客&title=如何评价前端性能好坏？&summary=Learn Once, Write Anywhere.&pics=geniusfunny.github.io/img/favicon.png&url=geniusfunny.github.io/2019/02/27/perfomance/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -511,14 +511,133 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <p>由于项目前后端分离且后端真实接口已出，所以我开发时首先考虑通过跨域获取真实接口数据配合前端开发。（赶工期啊：）<br>根据create-react-app官方提示，在package.json中添加字段<br><code>&quot;proxy&quot;: &quot;http://admin.xiaoyaoeden.top&quot;</code><br>emmm<br>🤭无效 😂<br>所以改为使用Nginx反向代理跨域😊<br>current origin：<a href="http://localhost:3000" target="_blank" rel="noopener">http://localhost:3000</a><br>target origin：<a href="http://admin.xiaoyaoeden.top" target="_blank" rel="noopener">http://admin.xiaoyaoeden.top</a><br><a id="more"></a></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><code>brew install nginx</code></p>
-<h2 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h2><p>首先进入nginx的配置文件</p>
-<p><code>vim /usr/local/etc/nginx/nginx.conf</code></p>
-<p>增加如下一个server</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">       listen       3001;</span><br><span class="line">       server_name  localhost;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">           proxy_pass http://localhost:3000;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location /api/ &#123;</span><br><span class="line">           add_header Access-Control-Allow-Origin *;</span><br><span class="line">           proxy_pass http://admin.xiaoyaoeden.top;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="重启Nginx服务"><a href="#重启Nginx服务" class="headerlink" title="重启Nginx服务"></a>重启Nginx服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>打开localhost:3001，跨域问题解决了，现在可以开开心心的测试接口啦</p>
+        <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p><strong>加载时间</strong>是我们用于评价前端性能好坏的一个参考数据，但是加载时间与用户使用的手机类型以及当前网络状况有关，除此之外，即使页面加载完成用户也可能无法操作，所以仅仅用一个<strong>加载时间</strong>是不能描述前端性能的好坏，我们需要一套完整的性能评价体系。</p>
+<a id="more"></a>
+<p>此前，我们有两个主要的事件来测量性能：</p>
+<ol>
+<li>DomContentLoaded：页面加载时触发，但脚本刚刚开始执行</li>
+<li>load：在页面完全加载后触发，此时用户已经可以使用页面和应用</li>
+</ol>
+<p><img src="https://cdn-images-1.medium.com/max/2000/1*hFyHeo1-iI62aMQT8P8ORw.png" alt=""></p>
+<p>但是，如果在网络环境较差或者脚本执行时间太长的时候，我们从DCL到load会经历一段很长很长的时间，并且load事件触发太晚，就无法分析出页面的性能瓶颈，所以我们需要建立一个从页面开始加载到加载完成的评价体系，记录用户整个感知过程。</p>
+<h4 id="渐进式网页指标"><a href="#渐进式网页指标" class="headerlink" title="渐进式网页指标"></a>渐进式网页指标</h4><p><img src="https://cdn-images-1.medium.com/max/2000/1*-zjNpHphoKaaZJgG7omu2w.png" alt="img"></p>
+<p><img src="https://github.com/w3c/paint-timing/raw/master/filmstrip.png" alt=""></p>
+<p><strong>首次绘制(FP)</strong>： 标记浏览器渲染任何在视觉上不同于导航前屏幕内容之内容的时间点</p>
+<p><strong>首次内容绘制(FCP)</strong>：标记的是浏览器渲染来自 DOM 第一位内容的时间点，该内容可能是文本、图像、SVG 甚至 <code>&lt;canvas&gt;</code> 元素。</p>
+<p><strong>首次有效绘制（FMP）/主角元素计时</strong>：标记的是页面主要内容绘制的时间点，例如视频应用的视频组件、天气应用的天气信息、新闻应用中的新闻条目。</p>
+<p><strong>可交互时间（TTI）</strong>：页面渲染完成，能可靠的响应用户的操作的时间点。（这个时间不仅取决于之前的加载时间，还取决于当前是否有长任务阻塞主线程）</p>
+<h4 id="浏览器页面加载流程"><a href="#浏览器页面加载流程" class="headerlink" title="浏览器页面加载流程"></a>浏览器页面加载流程</h4><p>先谈谈浏览器的页面大致的加载流程：</p>
+<ol>
+<li>浏览器输入url，浏览器发送请求到服务器，服务器发送HTML给浏览器。</li>
+<li>浏览器下载HTML然后从上往下解析</li>
+<li>如果在解析HTML过程中遇到CSS、JS外链，会执行下列操作<ol>
+<li>Send Request：向这个外链对应的服务器发送请求</li>
+<li>Receive Response：接受响应，表示可以开始从网络接受数据</li>
+<li>Receive Data：开始接受数据</li>
+<li>Finish Loding：表示完成数据的下载</li>
+<li>Parse Stylesheet/Evaluate：解析CSS或执行JS</li>
+</ol>
+</li>
+<li>所有的CSS下载完成后进行parse，构建CSSOM</li>
+<li>DOM和CSSOM合成一个Render tree</li>
+<li>根据Render tree的内容计算处各个节点在网页中的大小和位置（Layout）</li>
+<li>根据Layout绘制内容在浏览器上（Paint）</li>
+</ol>
+<h4 id="如何统计上述的指标"><a href="#如何统计上述的指标" class="headerlink" title="如何统计上述的指标"></a>如何统计上述的指标</h4><p>通过performance接口，我们可以获得当前页面与性能相关的信息；然后通过navogator.sendBeacon或Google Analytics向服务器发送与性能相关的信息。</p>
+<p>那么，具体的性能指标如何统计呢？👇👇👇</p>
+<h5 id="首次绘制-First-Paint，FP"><a href="#首次绘制-First-Paint，FP" class="headerlink" title="首次绘制(First Paint，FP)"></a>首次绘制(First Paint，FP)</h5><p>这个指标表示页面绘制的时间点，也就是<strong>用户第一次看到“白屏”的时间</strong>，标志“It is happening?”</p>
+<p><strong>首次绘制包括了任何用户自定义的背景绘制，它是首先将像素绘制到屏幕的时刻。</strong></p>
+<p>什么时候触发FP事件呢？<strong>FP事件是在图层进行绘制的时候触发</strong>，而不是文本、图片、SVG等元素出现的时候（这个时候触发的是FCP事件）</p>
+<p>怎么统计这个FP时间呢？</p>
+<ol>
+<li><p>window.perfomance.getEntriesByType(‘paint’)，这会返回FP、FCP发生的时间点。具体参考<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Performance" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/Performance</a></p>
+</li>
+<li><p>通过使用 Google Analytics，可跟踪首次绘制时间</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- Add the async Google Analytics snippet first. --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="built_in">window</span>.ga=<span class="built_in">window</span>.ga||<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;(ga.q=ga.q||[]).push(<span class="built_in">arguments</span>)&#125;;ga.l=+<span class="keyword">new</span> <span class="built_in">Date</span>;</span></span><br><span class="line"><span class="javascript">  ga(<span class="string">'create'</span>, <span class="string">'UA-XXXXX-Y'</span>, <span class="string">'auto'</span>);</span></span><br><span class="line"><span class="javascript">  ga(<span class="string">'send'</span>, <span class="string">'pageview'</span>);</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">'https://www.google-analytics.com/analytics.js'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- Register the PerformanceObserver to track paint timing. --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> observer = <span class="keyword">new</span> PerformanceObserver(<span class="function">(<span class="params">list</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">for</span> (<span class="keyword">const</span> entry <span class="keyword">of</span> list.getEntries()) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="comment">// `name` will be either 'first-paint' or 'first-contentful-paint'.</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> metricName = entry.name;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> time = <span class="built_in">Math</span>.round(entry.startTime + entry.duration);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">      ga(<span class="string">'send'</span>, <span class="string">'event'</span>, &#123;</span></span><br><span class="line"><span class="javascript">        eventCategory:<span class="string">'Performance Metrics'</span>,</span></span><br><span class="line"><span class="undefined">        eventAction: metricName,</span></span><br><span class="line"><span class="undefined">        eventValue: time,</span></span><br><span class="line"><span class="javascript">        nonInteraction: <span class="literal">true</span>,</span></span><br><span class="line"><span class="undefined">      &#125;);</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;);</span></span><br><span class="line"><span class="javascript">  observer.observe(&#123;<span class="attr">entryTypes</span>: [<span class="string">'paint'</span>]&#125;);</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- Include any stylesheets after creating the PerformanceObserver. --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"..."</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="首次内容绘制-First-Content-Paint，FCP"><a href="#首次内容绘制-First-Content-Paint，FCP" class="headerlink" title="首次内容绘制(First Content Paint，FCP)"></a>首次内容绘制(First Content Paint，FCP)</h5><p>当用户首次看见一些元素（文本、图片、SVG等），非”白屏“的时刻就是FCP，这个标志“it is running?”</p>
+<p>统计的方法与上述FP的统计方法类似，Google的Analysis监听的paint实际有两种类型，‘<strong>first paint</strong>’和‘<strong>first content pain</strong>’。</p>
+<p>FCP在文本、图片、SVG等绘制的时候就触发了，所以跟FP可以相差几毫秒～几秒的时间。</p>
+<h5 id="首次有效绘制-First-Meaningful-Paint，FMP"><a href="#首次有效绘制-First-Meaningful-Paint，FMP" class="headerlink" title="首次有效绘制(First Meaningful Paint，FMP)"></a>首次有效绘制(First Meaningful Paint，FMP)</h5><p>FMP就是页面主要内容呈现的时刻，目前没有标准化的FMP定义，所以很以通用的方式确定“有效”对于所有页面意味着什么。</p>
+<p>所以，我们怎么统计FMP呢？它的统计在页面发生了重大的布局变化之后；LayoutAnalyzer会统计所有的布局变化，当布局变化最大时，这个时刻就是FMP。</p>
+<p>如果主要内容渲染太慢，我们可以在样式、字体、脚本、图片上去思考，因为这些元素有很大可能阻塞了FMP。</p>
+<p>#####可交互时间（Time To Interactive，TTI）</p>
+<p>与 FMP 相同，很难规范化适用于所有网页的 TTI 指标定义，但我们也可以使用Google Analytics来跟踪应用TTI。</p>
+<p>TTI发生在什么时候？<strong>FMP &amp;&amp; DOMContentLoader事件触发 &amp;&amp; 页面视觉加载85%</strong></p>
+<p>TTI又可以分为两个指标，TTFI（首次交互时间）、TTCI（首次持续交互时间）</p>
+<p><strong>TTFI</strong>:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*xWGGBiXh0pLiPeuk." alt=""></p>
+<p>在FMP发生后应该有3s的quiet window，这个时间足够说明页面对用户是可交互的，但是可能会有长任务在这个quiet window期间或之后开始执行，它们可以被忽略。</p>
+</li>
+</ol>
+<p>   <strong>TTCI</strong>:</p>
+<p>   <img src="https://cdn-images-1.medium.com/max/800/0*6qzJAADPmBaNSwFw." alt=""></p>
+<p>   从追终线的尾部开始看，页面加载后有5s的quiet并且没有长任务需要执行，得到了一段quiet window。quiet window之后到第一个长任务之前的时间就是TTCI。</p>
+<h5 id="影响上面某些指标的因素"><a href="#影响上面某些指标的因素" class="headerlink" title="影响上面某些指标的因素"></a>影响上面某些指标的因素</h5><p>   FP/FCP：“白屏”，从文档的 <code>&lt;head&gt;</code> 中移除任何阻塞渲染的脚本或样式表，可以减少首次绘制和首次内容绘制前的等待时间。FCP：首次内容绘制耗时太长，直观上就是<strong>“白板时间太长”</strong>，影响因素就是网络连接存在性能问题、资源（例如index.html）太大传输耗时。</p>
+<p>   FMP/TTI：如果主要内容很久都没展示出来，那么很有可能是图片、样式、字体、JavaScript有较高的加载优先级，阻塞了FMP。确定页面上最关键的界面元素（主角元素）之后，您应确保初始脚本加载仅包含渲染这些元素并使其可交互所需的代码。</p>
+<h4 id="分析关键渲染路径"><a href="#分析关键渲染路径" class="headerlink" title="分析关键渲染路径"></a>分析关键渲染路径</h4><p>   <strong>优化关键渲染路径就是让刘篮球尽可能快地绘制网页</strong>，减少用户看到“白屏的时间”，从FP到FCP；所以整个时间就包括了获取资源（CSS、JS、HTML）以及浏览器处理对应的文件。</p>
+<p>   <strong>关键资源</strong>：可能阻止网页首次渲染的资源</p>
+<p>   <strong>关键路径长度</strong>：获取所有关键资源所需的往返次数或总时间</p>
+<p>   <strong>关键字节</strong>：实现网页首次渲染所需的总字节数，它是所有关键资源传送文件大小的总和。</p>
+<h5 id="HTML、Image"><a href="#HTML、Image" class="headerlink" title="HTML、Image"></a>HTML、Image</h5><p>   对于HTML，浏览器下载HTML文件，当HTML内容可用时，浏览器就会解析HTML，生成token，进而构建DOM树，DOM树构建完成同时意味着DOMContentLoaded事件触发；获取图片并不会影响DOMContentLoaded事件的触发，所以<strong>图片不会影响到首次绘制</strong>。</p>
+<p>   <img src="https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/images/analysis-dom.png" alt=""></p>
+<p>   关键资源（HTML），关键路径长度（最少1次），关键字节（5KB）</p>
+<h5 id="HTML、CSS"><a href="#HTML、CSS" class="headerlink" title="HTML、CSS"></a>HTML、CSS</h5><p>   加载解析HTML，然后获取CSS文件，解析为CSSOM，生成渲染树，绘制页面。</p>
+<p>   <img src="https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/images/analysis-dom-css.png" alt=""></p>
+<p>   关键资源（HTML、CSS），关键路径长度（最少2次），关键字节（9KB）</p>
+<h5 id="CSS、JavaScript、HTML"><a href="#CSS、JavaScript、HTML" class="headerlink" title="CSS、JavaScript、HTML"></a>CSS、JavaScript、HTML</h5>   <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Critical Path: Measure Script<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"style.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span> <span class="attr">onload</span>=<span class="string">"measureCRP()"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="name">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="name">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"timing.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>   除了获取HTML、解析为DOM树，我们还会去加载CSS文件构建CSSOM，然后通过DOM和CSSOM构建渲染树，按道理来说，DCL也应该在DOM树生成后就触发，但是浏览器在下载解析CSS文件之前会阻止DCL事件，这是因为JS可能会去查询CSSOM。即使将脚本更改为内联，也无济于事。</p>
+<p>   所以，<strong>只要浏览器遇到script标记就会阻止，并等到CSSOM构建完毕。</strong><img src="https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/images/analysis-dom-css-js.png" alt=""></p>
+<p>   关键资源（HTML、CSS、JS），关键路径（最少2次，获取css、js时为并行），关键字节（11KB）</p>
+<p>   <strong>async，异步脚本的用处</strong></p>
+   <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Critical Path: Measure Script<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"style.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span> <span class="attr">onload</span>=<span class="string">"measureCRP()"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="name">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="name">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"timing.js"</span> <span class="attr">async</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>   这种情况下，解析HTML之后不久就会触发DCL事件，浏览器知道不需要阻止JS，不必等到CSS文件加载解析后再执行JS。</p>
+<p>   <img src="https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/images/analysis-dom-css-js-async.png" alt=""></p>
+<p>   关键资源（HTML、CSS），关键路径（最少2次），关键字节（9KB）</p>
+<h5 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h5><p>   上面提到，有三种因素（关键资源、关键路径、关键字节）影响着首次渲染，所以优化也应该从这三点入手。</p>
+<ol>
+<li>减少关键资源的数量：删除、延迟、标记异步等</li>
+<li>优化关键字节数以缩短下载时间（压缩）</li>
+<li><p>优化其余关键资源的加载顺序（尽早下载所有的关键资产，缩短关键路径长度）</p>
+<h4 id="业界一些常见的优化策略"><a href="#业界一些常见的优化策略" class="headerlink" title="业界一些常见的优化策略"></a>业界一些常见的优化策略</h4><h5 id="Google-PageSpeed-Insights-Rules"><a href="#Google-PageSpeed-Insights-Rules" class="headerlink" title="Google PageSpeed Insights Rules"></a>Google PageSpeed Insights Rules</h5></li>
+<li><p><strong>消除阻塞渲染的JavaScript和CSS</strong>(最大限度减少网页上关键资源的数量并尽可能消除这些资源，减少下载关键字节数，优化关键路径长度)</p>
+</li>
+<li><strong>优化JavaScript的使用</strong>（JavaScript资源会阻塞解析器，所以将其标记为async或通过专门的JavaScript代码进行添加。<strong>阻塞解析器的JavaScript强制浏览器等待CSSOM并暂停DOM的构建，继而大大延迟首次渲染的时间</strong>）</li>
+<li><strong>延迟解析JavaScript</strong>（延迟加载对构建首次渲染的可见内容无关紧要的脚本）</li>
+<li><strong>避免运行时间长的JavaScript</strong></li>
+<li><p><strong>优化CSS的使用</strong>（CSS置于文档head标签内、避免使用CSS import、内联阻塞渲染的CSS）</p>
+<h5 id="Yahoo-Best-Practices-for-Speeding-Up-Your-Web-Site"><a href="#Yahoo-Best-Practices-for-Speeding-Up-Your-Web-Site" class="headerlink" title="Yahoo Best Practices for Speeding Up Your Web Site"></a>Yahoo Best Practices for Speeding Up Your Web Site</h5></li>
+<li><p>减少http请求</p>
+</li>
+<li>使用CDN</li>
+<li>利用浏览器缓存</li>
+<li>压缩页面元素</li>
+<li>样式表放在head</li>
+<li>JavaScript文件放在底部</li>
+<li>避免CSS表达式</li>
+<li>JS、CSS放在外部文件中</li>
+<li>减少CDN查询</li>
+<li>压缩JavaScript</li>
+<li><p>避免重定向</p>
+<h4 id="现代前端的优化策略"><a href="#现代前端的优化策略" class="headerlink" title="现代前端的优化策略"></a>现代前端的优化策略</h4><p>前端资源文件离线化</p>
+<p>页面组件化并按需加载</p>
+<p>预渲染提升感官性能</p>
+</li>
+</ol>
+<h4 id="RAIL"><a href="#RAIL" class="headerlink" title="RAIL"></a>RAIL</h4><p><img src="https://developers.google.com/web/fundamentals/performance/images/rail.png?hl=zh-cn" alt=""></p>
+<h5 id="响应：在100ms以内响应"><a href="#响应：在100ms以内响应" class="headerlink" title="响应：在100ms以内响应"></a>响应：在100ms以内响应</h5><p>在用户注意到滞后之前有100ms的时间可以响应用户输入。</p>
+<h5 id="动画：每10ms生成一帧"><a href="#动画：每10ms生成一帧" class="headerlink" title="动画：每10ms生成一帧"></a>动画：每10ms生成一帧</h5><p>尽管每秒生成60帧，一帧16.6ms，但是每帧只有10ms来执行代码，其余的时间用于将新帧绘制到屏幕上。</p>
+<h5 id="空闲：最大程度增加空闲时间"><a href="#空闲：最大程度增加空闲时间" class="headerlink" title="空闲：最大程度增加空闲时间"></a>空闲：最大程度增加空闲时间</h5><p>利用空闲时间完成推迟的工作，换句话说，就是让主线程在UI线程和JS线程中切换。</p>
+<h5 id="加载：在1000ms以内呈现内容"><a href="#加载：在1000ms以内呈现内容" class="headerlink" title="加载：在1000ms以内呈现内容"></a>加载：在1000ms以内呈现内容</h5><p>在 1 秒钟内加载您的网站。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p><img src="https://developers.google.com/web/fundamentals/performance/images/perf-metrics-test-cycle.png?hl=zh-cn" alt=""></p>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><ol>
+<li><a href="https://codeburst.io/performance-metrics-whats-this-all-about-1128461ad6b" target="_blank" rel="noopener">Performance metrics. What’s this all about?</a></li>
+<li><a href="https://w3c.github.io/paint-timing/" target="_blank" rel="noopener">Paint Timing 1</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/performance/user-centric-performance-metrics?hl=en" target="_blank" rel="noopener">User-centric Performance Metrics</a></li>
+<li><a href="https://speedcurve.com/blog/user-timing-and-custom-metrics/" target="_blank" rel="noopener">User Timing and Custom Metrics</a></li>
+<li><a href="https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/analyzing-crp" target="_blank" rel="noopener">分析关键渲染路径性能</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/performance/why-performance-matters/?hl=zh-cn" target="_blank" rel="noopener">性能为何如此重要</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/performance/rail?hl=zh-cn" target="_blank" rel="noopener">使用RAIL模型评估性能</a></li>
+</ol>
 
     
 
@@ -538,21 +657,13 @@
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
-        <a href="/2018/04/14/async-await/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            新篇
-        </a>
-    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
     
-        <a href="/2018/02/15/type-juggling/" id="post_nav-older" class="next-content">
+        <a href="/2019/02/25/react-router/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
