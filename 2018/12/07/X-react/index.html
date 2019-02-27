@@ -519,7 +519,7 @@
 <p>首先介绍如何创建虚拟DOM节点以及将虚拟DOM节点转化为真实DOM节点，参照React/Preact</p>
 <a id="more"></a>
 <h3 id="创建虚拟DOM节点"><a href="#创建虚拟DOM节点" class="headerlink" title="创建虚拟DOM节点"></a>创建虚拟DOM节点</h3><p>我们在React会经常写出下列类似的代码</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Example = &lt;span id='example'&gt;Hello, Example&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Example = <span class="xml"><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">'example'</span>&gt;</span>Hello, Example<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
 <p>这段代码不是合法的JavaScript代码，这段是JSX代码。<strong>JSX是JavaScript的语法拓展，用来声明React中的元素</strong>。看起来它就像一个模版语言，但是它并不是，它是完全是在JavaScript内部实现的。</p>
 <p>那么我们写的JSX代码是如何被JavaScript解析的呢？</p>
 <p>这里就不得不提一下Babel，Babel是一个JavaScript编译器，将用ES6/ES7等ES最新的语法书写的代码转换为浏览器支持的ES版本（如ES5、ES3）。这就让我们开发者能够最快的用上ES的新语法糖</p>
