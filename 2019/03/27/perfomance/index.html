@@ -12,7 +12,7 @@
     
     <title>
         
-            简单了解Redis中的持久化机制 | 
+            如何评价前端性能好坏？ | 
         
         GeniusFunny的个人博客
     </title>
@@ -39,9 +39,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="GeniusFunny">
-    <meta name="description" itemprop="description" content="什么是持久化？为什么需要持久化？持久化就是将内存中的数据模型转换为存储模型，更通俗的说，就是将数据保存到系统硬盘中。
-Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存中的数据就会丢失，所以我们需要持久化。">
-    <meta name="keywords" content="JavaScript,持久化 缓存">
+    <meta name="description" itemprop="description" content="如何评价前端性能好坏？加载时间是我们用于评价前端性能好坏的一个参考数据，但是加载时间与用户使用的手机类型以及当前网络状况有关，除此之外，即使页面加载完成用户也可能无法操作，所以仅仅用一个加载时间是不能描述前端性能的好坏，我们需要一套完整的性能评价体系。">
+    <meta name="keywords" content="JavaScript,FP/FCP,性能优化">
 
     <!-- Site Verification -->
     
@@ -70,28 +69,26 @@ Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="geniusfunny.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="简单了解Redis中的持久化机制 | GeniusFunny的个人博客">
+    <meta property="og:title" content="如何评价前端性能好坏？ | GeniusFunny的个人博客">
     <meta property="og:image" content="/img/favicon.png">
-    <meta property="og:description" content="什么是持久化？为什么需要持久化？持久化就是将内存中的数据模型转换为存储模型，更通俗的说，就是将数据保存到系统硬盘中。
-Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存中的数据就会丢失，所以我们需要持久化。">
-    <meta property="og:article:tag" content="持久化 缓存"> 
+    <meta property="og:description" content="如何评价前端性能好坏？加载时间是我们用于评价前端性能好坏的一个参考数据，但是加载时间与用户使用的手机类型以及当前网络状况有关，除此之外，即使页面加载完成用户也可能无法操作，所以仅仅用一个加载时间是不能描述前端性能的好坏，我们需要一套完整的性能评价体系。">
+    <meta property="og:article:tag" content="FP/FCP"> <meta property="og:article:tag" content="性能优化"> 
 
     
-        <meta property="article:published_time" content="11月 09, 2018">
-        <meta property="article:modified_time" content="11月 09, 2018">
+        <meta property="article:published_time" content="3月 27, 2019">
+        <meta property="article:modified_time" content="6月 23, 2019">
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="简单了解Redis中的持久化机制 | GeniusFunny的个人博客">
-    <meta name="twitter:description" content="什么是持久化？为什么需要持久化？持久化就是将内存中的数据模型转换为存储模型，更通俗的说，就是将数据保存到系统硬盘中。
-Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存中的数据就会丢失，所以我们需要持久化。">
+    <meta name="twitter:title" content="如何评价前端性能好坏？ | GeniusFunny的个人博客">
+    <meta name="twitter:description" content="如何评价前端性能好坏？加载时间是我们用于评价前端性能好坏的一个参考数据，但是加载时间与用户使用的手机类型以及当前网络状况有关，除此之外，即使页面加载完成用户也可能无法操作，所以仅仅用一个加载时间是不能描述前端性能的好坏，我们需要一套完整的性能评价体系。">
     <meta name="twitter:image" content="/img/favicon.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="geniusfunny.github.io">
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="geniusfunny.github.io/2018/11/09/Redis-Rersistence/index.html">
+        <link rel="canonical" href="geniusfunny.github.io/2019/03/27/perfomance/index.html">
     
 
     <!-- Structured-data for SEO -->
@@ -117,12 +114,11 @@ Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存
         },
         "description": "Stay Hungry, Stay Foolish."
     },
-    "headline": "简单了解Redis中的持久化机制",
-    "url": "geniusfunny.github.io/2018/11/09/Redis-Rersistence/index.html",
-    "datePublished": "11月 09, 2018",
-    "dateModified": "11月 09, 2018",
-    "description": "什么是持久化？为什么需要持久化？持久化就是将内存中的数据模型转换为存储模型，更通俗的说，就是将数据保存到系统硬盘中。
-Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存中的数据就会丢失，所以我们需要持久化。",
+    "headline": "如何评价前端性能好坏？",
+    "url": "geniusfunny.github.io/2019/03/27/perfomance/index.html",
+    "datePublished": "3月 27, 2019",
+    "dateModified": "6月 23, 2019",
+    "description": "如何评价前端性能好坏？加载时间是我们用于评价前端性能好坏的一个参考数据，但是加载时间与用户使用的手机类型以及当前网络状况有关，除此之外，即使页面加载完成用户也可能无法操作，所以仅仅用一个加载时间是不能描述前端性能的好坏，我们需要一套完整的性能评价体系。",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "geniusfunny.github.io"
@@ -340,7 +336,7 @@ Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#什么是持久化？为什么需要持久化？"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是持久化？为什么需要持久化？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RDB（默认开启）"><span class="post-toc-number">2.</span> <span class="post-toc-text">RDB（默认开启）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#介绍"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">介绍</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#过程"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#优点"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#缺点"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">缺点</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#AOF"><span class="post-toc-number">3.</span> <span class="post-toc-text">AOF</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#介绍-1"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">介绍</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#过程-1"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#AOF缓冲区同步文件策略"><span class="post-toc-number">3.2.1.</span> <span class="post-toc-text">AOF缓冲区同步文件策略</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#AOF重写机制"><span class="post-toc-number">3.2.2.</span> <span class="post-toc-text">AOF重写机制</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#优点-1"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#缺点-1"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">缺点</span></a></li></ol></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何评价前端性能好坏？"><span class="post-toc-number">1.</span> <span class="post-toc-text">如何评价前端性能好坏？</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#渐进式网页指标"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">渐进式网页指标</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#浏览器页面加载流程"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">浏览器页面加载流程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#如何统计上述的指标"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">如何统计上述的指标</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#首次绘制-First-Paint，FP"><span class="post-toc-number">1.3.1.</span> <span class="post-toc-text">首次绘制(First Paint，FP)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#首次内容绘制-First-Content-Paint，FCP"><span class="post-toc-number">1.3.2.</span> <span class="post-toc-text">首次内容绘制(First Content Paint，FCP)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#首次有效绘制-First-Meaningful-Paint，FMP"><span class="post-toc-number">1.3.3.</span> <span class="post-toc-text">首次有效绘制(First Meaningful Paint，FMP)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#可交互时间（Time-To-Interactive，TTI）"><span class="post-toc-number">1.3.4.</span> <span class="post-toc-text">可交互时间（Time To Interactive，TTI）</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#影响上面某些指标的因素"><span class="post-toc-number">1.3.5.</span> <span class="post-toc-text">影响上面某些指标的因素</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#分析关键渲染路径"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">分析关键渲染路径</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#HTML、Image"><span class="post-toc-number">1.4.1.</span> <span class="post-toc-text">HTML、Image</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#HTML、CSS"><span class="post-toc-number">1.4.2.</span> <span class="post-toc-text">HTML、CSS</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#CSS、JavaScript、HTML"><span class="post-toc-number">1.4.3.</span> <span class="post-toc-text">CSS、JavaScript、HTML</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#优化"><span class="post-toc-number">1.4.4.</span> <span class="post-toc-text">优化</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#业界一些常见的优化策略"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">业界一些常见的优化策略</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Google-PageSpeed-Insights-Rules"><span class="post-toc-number">1.5.1.</span> <span class="post-toc-text">Google PageSpeed Insights Rules</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Yahoo-Best-Practices-for-Speeding-Up-Your-Web-Site"><span class="post-toc-number">1.5.2.</span> <span class="post-toc-text">Yahoo Best Practices for Speeding Up Your Web Site</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#现代前端应用的优化策略"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">现代前端应用的优化策略</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#RAIL"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">RAIL</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#响应：在100ms以内响应"><span class="post-toc-number">1.7.1.</span> <span class="post-toc-text">响应：在100ms以内响应</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#动画：每10ms生成一帧"><span class="post-toc-number">1.7.2.</span> <span class="post-toc-text">动画：每10ms生成一帧</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#空闲：最大程度增加空闲时间"><span class="post-toc-number">1.7.3.</span> <span class="post-toc-text">空闲：最大程度增加空闲时间</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#加载：在1000ms以内呈现内容"><span class="post-toc-number">1.7.4.</span> <span class="post-toc-text">加载：在1000ms以内呈现内容</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#总结"><span class="post-toc-number">1.8.</span> <span class="post-toc-text">总结</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">1.9.</span> <span class="post-toc-text">参考资料</span></a></li></ol></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -378,7 +374,7 @@ Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存
         
     
             <p class="article-headline-p">
-                简单了解Redis中的持久化机制
+                如何评价前端性能好坏？
             </p>
         </div>
 
@@ -397,7 +393,7 @@ Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存
     <!-- Author Name & Date -->
     <div>
         <strong>GeniusFunny</strong>
-        <span>11月 09, 2018</span>
+        <span>3月 27, 2019</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -419,7 +415,7 @@ Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACXklEQVR42u3aUXLCMAwFQO5/6fYALcl7FjGB2XxlaHC8ZsZSJT9+vvp64OHh4eHh4eHh3Yz3iK+/33o2zj+vfDLas/vR3PDw8PC28E622jEmWaDkvdHc8PDw8Dby8u37mDfZ6Cdzw8PDw7szL8fkqfPxmHh4eHifzlsrUhyP/wFxDw8PD2/pH/62AHE89TYpv7zWgoeHhxfz8sntv9/a38PDw8MLePWRpnhDb5/Mg8HJDPHw8PAu5uUb8Rq7Ta/n88HDw8O7mjcpQ0yOFEwKuydHvvDw8PC28PICxKuCylowwMPDw7sPLw8MySdJIMmLuXWCjoeHh/cmXrvpz9mT9BoPDw9vP28+6GSZ2iBx8lc8PDy8t/KSwsHaYiUtsfYTPDw8vD28tnzQJsFtYGgX+iQw4OHh4V3AawsEbeM/P3S1ltwXcQ8PDw/vpbx5gyovUuTl2sVUGw8PD+9i3lqDP9noE3C7KFHhGA8PD+9iXjvcWorcFjLWir94eHh4O3knX4i3+La1NkmmR0cH8PDw8Aa8ttjapsijia4tBB4eHt4W3qsaV2tFjbyQUafUeHh4eBfzJsWIK44ItOPj4eHhvYu39ppJoyt/VzImHh4e3tW89kqOYc1bYnmpAg8PD28/b7Lpt639PE1PAsbTHwAPDw9vC28tGLRPtkes2uCBh4eHt5+3doS03fonxYjox8DDw8O7PS95/njqbenhJHHHw8PD+xBePsWc2oYfPDw8vP28pMSQLETbDGuXDA8PD+8OvLwEsHbflmjXFh0PDw9vD+/7Ljw8PDw8PDw8vBtcv+yIFhGlwg8uAAAAAElFTkSuQmCC">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACY0lEQVR42u3aUVIjMQwE0Nz/0nABMC3J4zjUm6+tbMB+82GZll5f//p54eHh4eHh4eHhXcZ7xU/+Uz8sGX9nw97w8PDwjvD+OGqDhdcbWoPzdaO94eHh4R3krTedLJlvKC8/+d7w8PDw7udVL9zrMpOvhYeHh/eJvHxD+VX7osKAh4eHtzWMeCLevShrwcPDw4t5eZPp/L+P9vfw8PDwAl55pCm+5iaHflI8RkNXeHh4eA/w8oN43fjfNUbQ2w8eHh7eSd7kmM7HC/IXMWmt4eHh4b2XVz3uk4ZW/mp6MQQeHh7eGV41AsgLRm84YL1KM6XGw8PD28pLlq+OYfV+WzUUxsPDw7uT1zyaNzGSUS08PDy89/KSi28+HJBfsnuX70LWgoeHh3eQl4QC1ct3Uory1teoMODh4eG1eL02f6+FlpSBahhRboDh4eHhjXn5sVtt8CeA6quMPsHDw8N7mFcdqEo2mvxvNdQoBB94eHh4D/PyZSZjqdUSUi1IeHh4eDfwquVhVzvt8TACDw8Pb1OMm4cI1eO7t1Y+shCFEXh4eHgP8KrxRBIc9GLZ/CK+ub+Hh4eH1+LtbYDNr86bCwMeHh7eY7xeVDH/fjX2bRYGPDw8vDGv+vTaYPMre/IS8fDw8M7wRn/2Dwa25pf4X18fHh4e3hFe9SjP22B7C8OGBhgeHh7eVl51xGoCm4cR5cKAh4eHdw1vV2g7GWjAw8PD+xRe3s7Pw4heNIyHh4f3Ll4SRuSfJL8/Hz5Yf46Hh4d3nlcddeoNYOXfyV8NHh4e3nne/3vw8PDw8PDw8PAueL4BG5D3E8Ifn1oAAAAASUVORK5CYII=">
     
 </ul>
     
@@ -432,7 +428,7 @@ Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/持久化-缓存/">持久化 缓存</a>
+        <a class="post_tag-link" href="/tags/FP-FCP/">FP/FCP</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/性能优化/">性能优化</a>
     </li></ul>
     
 
@@ -446,7 +442,7 @@ Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存
     <!-- Leancloud Views -->
         <a class="post_share-link" href="#">
             <li class="mdl-menu__item">
-                <span id="/2018/11/09/Redis-Rersistence/" class="leancloud-views_num" data-flag-title="简单了解Redis中的持久化机制">
+                <span id="/2019/03/27/perfomance/" class="leancloud-views_num" data-flag-title="如何评价前端性能好坏？">
      &nbsp;浏览量
 </span>
 
@@ -458,7 +454,7 @@ Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=简单了解Redis中的持久化机制&url=geniusfunny.github.io/2018/11/09/Redis-Rersistence/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=如何评价前端性能好坏？&url=geniusfunny.github.io/2019/03/27/perfomance/index.html&pic=&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -467,7 +463,7 @@ Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=简单了解Redis中的持久化机制&url=geniusfunny.github.io/2018/11/09/Redis-Rersistence/index.html&via=GeniusFunny" target="_blank">
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=如何评价前端性能好坏？&url=geniusfunny.github.io/2019/03/27/perfomance/index.html&via=GeniusFunny" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Twitter
             </li>
@@ -476,7 +472,7 @@ Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存
 
     <!-- Share Facebook -->
     
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=geniusfunny.github.io/2018/11/09/Redis-Rersistence/index.html" target="_blank">
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=geniusfunny.github.io/2019/03/27/perfomance/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Facebook
             </li>
@@ -485,7 +481,7 @@ Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存
 
     <!-- Share Google+ -->
     
-        <a class="post_share-link" href="https://plus.google.com/share?url=geniusfunny.github.io/2018/11/09/Redis-Rersistence/index.html" target="_blank">
+        <a class="post_share-link" href="https://plus.google.com/share?url=geniusfunny.github.io/2019/03/27/perfomance/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Google+
             </li>
@@ -497,7 +493,7 @@ Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=GeniusFunny的个人博客&title=简单了解Redis中的持久化机制&summary=Learn Once, Write Anywhere.&pics=geniusfunny.github.io/img/favicon.png&url=geniusfunny.github.io/2018/11/09/Redis-Rersistence/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=GeniusFunny的个人博客&title=如何评价前端性能好坏？&summary=Learn Once, Write Anywhere.&pics=geniusfunny.github.io/img/favicon.png&url=geniusfunny.github.io/2019/03/27/perfomance/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -515,50 +511,128 @@ Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <h3 id="什么是持久化？为什么需要持久化？"><a href="#什么是持久化？为什么需要持久化？" class="headerlink" title="什么是持久化？为什么需要持久化？"></a>什么是持久化？为什么需要持久化？</h3><p>持久化就是将内存中的数据模型转换为存储模型，更通俗的说，就是将数据保存到系统硬盘中。</p>
-<p>Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存中的数据就会丢失，所以我们需要持久化。</p>
+        <h3 id="如何评价前端性能好坏？"><a href="#如何评价前端性能好坏？" class="headerlink" title="如何评价前端性能好坏？"></a>如何评价前端性能好坏？</h3><p><strong>加载时间</strong>是我们用于评价前端性能好坏的一个参考数据，但是加载时间与用户使用的手机类型以及当前网络状况有关，除此之外，即使页面加载完成用户也可能无法操作，所以仅仅用一个<strong>加载时间</strong>是不能描述前端性能的好坏，我们需要一套完整的性能评价体系。</p>
 <a id="more"></a>
-<h3 id="RDB（默认开启）"><a href="#RDB（默认开启）" class="headerlink" title="RDB（默认开启）"></a>RDB（默认开启）</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>RDB持久化是把当前进程数据生成快照保存到硬盘的过程，适用于备份、全量复制等场景。</p>
-<h4 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h4><ol>
-<li>执行bgsave命令，父进程判断当前是否有正在执行的子进程如AOF子进程，若有直接返回。</li>
-<li>父进程执行fork操作创建子进程，fork操作会阻塞父进程。</li>
-<li>fork完成后，父进程处理其他命令。</li>
-<li>子进程创建RDB文件，根据父进程内存生成临时快照文件，完成后对旧文件进行原子替换。</li>
-<li>子进程发送信号通知父进程表示完成，父进程更新统计消息。</li>
+<p>此前，我们有两个主要的事件来测量性能：</p>
+<ol>
+<li>DomContentLoaded：页面加载时触发，但脚本刚刚开始执行</li>
+<li>load：在页面完全加载后触发，此时用户已经可以使用页面和应用</li>
 </ol>
-<p><img src="https://i.loli.net/2018/11/09/5be58cf902601.png" alt=""></p>
-<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ol>
-<li>RDB是一个非常紧凑的二进制文件，保存着Redis在某个时间节点上的数据集，非常适合备份、全量复制等场景。</li>
-<li>RDB非常适用于灾难恢复，因为它只有一个文件并且非常紧凑，可以加密后传送到其他数据中心。</li>
-<li>父进程保存RDB文件时仅仅需要花费fork一个子进程的时间，无需执行任何磁盘I/O操作。</li>
-<li>Redis加载RDB恢复数据远远快于AOF的方式。</li>
+<p><img src="https://cdn-images-1.medium.com/max/2000/1*hFyHeo1-iI62aMQT8P8ORw.png" alt=""></p>
+<p>但是，如果在网络环境较差或者脚本执行时间太长的时候，我们从DCL到load会经历一段很长很长的时间，并且load事件触发太晚，就无法分析出页面的性能瓶颈，所以我们需要建立一个从页面开始加载到加载完成的评价体系，记录用户整个感知过程。</p>
+<h4 id="渐进式网页指标"><a href="#渐进式网页指标" class="headerlink" title="渐进式网页指标"></a>渐进式网页指标</h4><p><img src="https://cdn-images-1.medium.com/max/2000/1*-zjNpHphoKaaZJgG7omu2w.png" alt="img"></p>
+<p><img src="https://github.com/w3c/paint-timing/raw/master/filmstrip.png" alt=""></p>
+<p><strong>首次绘制(FP)</strong>： 标记浏览器渲染任何在视觉上不同于导航前屏幕内容之内容的时间点</p>
+<p><strong>首次内容绘制(FCP)</strong>：标记的是浏览器渲染来自 DOM 第一位内容的时间点，该内容可能是文本、图像、SVG 甚至 <code>&lt;canvas&gt;</code> 元素。</p>
+<p><strong>首次有效绘制（FMP）/主角元素计时</strong>：标记的是页面主要内容绘制的时间点，例如视频应用的视频组件、天气应用的天气信息、新闻应用中的新闻条目。</p>
+<p><strong>可交互时间（TTI）</strong>：页面渲染完成，能可靠的响应用户的操作的时间点。（这个时间不仅取决于之前的加载时间，还取决于当前是否有长任务阻塞主线程）</p>
+<h4 id="浏览器页面加载流程"><a href="#浏览器页面加载流程" class="headerlink" title="浏览器页面加载流程"></a>浏览器页面加载流程</h4><p>先谈谈浏览器的页面大致的加载流程：</p>
+<ol>
+<li>浏览器输入url，浏览器发送请求到服务器，服务器发送HTML给浏览器。</li>
+<li>浏览器下载HTML然后从上往下解析</li>
+<li>如果在解析HTML过程中遇到CSS、JS外链，会执行下列操作<ol>
+<li>Send Request：向这个外链对应的服务器发送请求</li>
+<li>Receive Response：接受响应，表示可以开始从网络接受数据</li>
+<li>Receive Data：开始接受数据</li>
+<li>Finish Loding：表示完成数据的下载</li>
+<li>Parse Stylesheet/Evaluate：解析CSS或执行JS</li>
 </ol>
-<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ol>
-<li>因为RDB文件需要保存整个数据集的状态，花费数分钟的时间，所以一旦发生故障停机，可能会丢失数分钟的数据。</li>
-<li>每次保存RDB时，Redis需要fork一个子进程，并由子进程进行数据持久化；如果数据集很庞大，fork()可能会非常耗时，造成服务器在短时间（毫秒级）内停止处理客户端；如果CPU比较紧张，fork过程可能长达整整一秒。</li>
+</li>
+<li>所有的CSS下载完成后进行parse，构建CSSOM</li>
+<li>DOM和CSSOM合成一个Render tree</li>
+<li>根据Render tree的内容计算处各个节点在网页中的大小和位置（Layout）</li>
+<li>根据Layout绘制内容在浏览器上（Paint）</li>
 </ol>
-<h3 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h3><h4 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h4><p>AOF持久化是以独立的日志记录每次写命令，Redis重启的时候执行AOF文件中的命令来恢复数据。</p>
-<h4 id="过程-1"><a href="#过程-1" class="headerlink" title="过程"></a>过程</h4><ol>
-<li>所有写命令都会追加到AOF缓冲区。</li>
-<li>AOF缓冲区根据对应的策略向硬盘做同步操作。</li>
-<li>随着AOF文件越来越大，需要定期对AOF文件进行重写以达到压缩的目的。</li>
+<h4 id="如何统计上述的指标"><a href="#如何统计上述的指标" class="headerlink" title="如何统计上述的指标"></a>如何统计上述的指标</h4><p>通过performance接口，我们可以获得当前页面与性能相关的信息；然后通过navogator.sendBeacon或Google Analytics向服务器发送与性能相关的信息。</p>
+<p>那么，具体的性能指标如何统计呢？👇👇👇</p>
+<h5 id="首次绘制-First-Paint，FP"><a href="#首次绘制-First-Paint，FP" class="headerlink" title="首次绘制(First Paint，FP)"></a>首次绘制(First Paint，FP)</h5><p>这个指标表示页面绘制的时间点，也就是<strong>用户第一次看到“白屏”的时间</strong>，标志“It is happening?”</p>
+<p><strong>首次绘制包括了任何用户自定义的背景绘制，它是首先将像素绘制到屏幕的时刻。</strong></p>
+<p>什么时候触发FP事件呢？<strong>FP事件是在图层进行绘制的时候触发</strong>，而不是文本、图片、SVG等元素出现的时候（这个时候触发的是FCP事件）</p>
+<p>怎么统计这个FP时间呢？</p>
+<ol>
+<li><p>window.perfomance.getEntriesByType(‘paint’)，这会返回FP、FCP发生的时间点。具体参考<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Performance" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/Performance</a></p>
+</li>
+<li><p>通过使用 Google Analytics，可跟踪首次绘制时间</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- Add the async Google Analytics snippet first. --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="built_in">window</span>.ga=<span class="built_in">window</span>.ga||<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;(ga.q=ga.q||[]).push(<span class="built_in">arguments</span>)&#125;;ga.l=+<span class="keyword">new</span> <span class="built_in">Date</span>;</span></span><br><span class="line"><span class="javascript">  ga(<span class="string">'create'</span>, <span class="string">'UA-XXXXX-Y'</span>, <span class="string">'auto'</span>);</span></span><br><span class="line"><span class="javascript">  ga(<span class="string">'send'</span>, <span class="string">'pageview'</span>);</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">'https://www.google-analytics.com/analytics.js'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- Register the PerformanceObserver to track paint timing. --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> observer = <span class="keyword">new</span> PerformanceObserver(<span class="function">(<span class="params">list</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">for</span> (<span class="keyword">const</span> entry <span class="keyword">of</span> list.getEntries()) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="comment">// `name` will be either 'first-paint' or 'first-contentful-paint'.</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> metricName = entry.name;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> time = <span class="built_in">Math</span>.round(entry.startTime + entry.duration);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">      ga(<span class="string">'send'</span>, <span class="string">'event'</span>, &#123;</span></span><br><span class="line"><span class="javascript">        eventCategory:<span class="string">'Performance Metrics'</span>,</span></span><br><span class="line"><span class="undefined">        eventAction: metricName,</span></span><br><span class="line"><span class="undefined">        eventValue: time,</span></span><br><span class="line"><span class="javascript">        nonInteraction: <span class="literal">true</span>,</span></span><br><span class="line"><span class="undefined">      &#125;);</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;);</span></span><br><span class="line"><span class="javascript">  observer.observe(&#123;<span class="attr">entryTypes</span>: [<span class="string">'paint'</span>]&#125;);</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- Include any stylesheets after creating the PerformanceObserver. --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"..."</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="首次内容绘制-First-Content-Paint，FCP"><a href="#首次内容绘制-First-Content-Paint，FCP" class="headerlink" title="首次内容绘制(First Content Paint，FCP)"></a>首次内容绘制(First Content Paint，FCP)</h5><p>当用户首次看见一些元素（文本、图片、SVG等），非”白屏“的时刻就是FCP，这个标志“it is running?”</p>
+<p>统计的方法与上述FP的统计方法类似，Google的Analysis监听的paint实际有两种类型，‘<strong>first paint</strong>’和‘<strong>first content pain</strong>’。</p>
+<p>FCP在文本、图片、SVG等绘制的时候就触发了，所以跟FP可以相差几毫秒～几秒的时间。</p>
+<h5 id="首次有效绘制-First-Meaningful-Paint，FMP"><a href="#首次有效绘制-First-Meaningful-Paint，FMP" class="headerlink" title="首次有效绘制(First Meaningful Paint，FMP)"></a>首次有效绘制(First Meaningful Paint，FMP)</h5><p>FMP就是页面主要内容呈现的时刻，目前没有标准化的FMP定义，所以很以通用的方式确定“有效”对于所有页面意味着什么。</p>
+<p>所以，我们怎么统计FMP呢？它的统计在页面发生了重大的布局变化之后；LayoutAnalyzer会统计所有的布局变化，当布局变化最大时，这个时刻就是FMP。</p>
+<p>如果主要内容渲染太慢，我们可以在样式、字体、脚本、图片上去思考，因为这些元素有很大可能阻塞了FMP。</p>
+<h5 id="可交互时间（Time-To-Interactive，TTI）"><a href="#可交互时间（Time-To-Interactive，TTI）" class="headerlink" title="可交互时间（Time To Interactive，TTI）"></a>可交互时间（Time To Interactive，TTI）</h5><p>与 FMP 相同，很难规范化适用于所有网页的 TTI 指标定义，但我们也可以使用Google Analytics来跟踪应用TTI。</p>
+<p>TTI发生在什么时候？<strong>FMP &amp;&amp; DOMContentLoader事件触发 &amp;&amp; 页面视觉加载85%</strong></p>
+<p>TTI又可以分为两个指标，TTFI（首次交互时间）、TTCI（首次持续交互时间）</p>
+<p><strong>TTFI</strong>:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*xWGGBiXh0pLiPeuk." alt=""></p>
+<p>在FMP发生后应该有3s的quiet window，这个时间足够说明页面对用户是可交互的，但是可能会有长任务在这个quiet window期间或之后开始执行，它们可以被忽略。</p>
+<p><strong>TTCI</strong>:</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*6qzJAADPmBaNSwFw." alt=""></p>
+<p>从追终线的尾部开始看，页面加载后有5s的quiet并且没有长任务需要执行，得到了一段quiet window。quiet window之后到第一个长任务之前的时间就是TTCI。</p>
+<h5 id="影响上面某些指标的因素"><a href="#影响上面某些指标的因素" class="headerlink" title="影响上面某些指标的因素"></a>影响上面某些指标的因素</h5><p>FP/FCP：“白屏”，从文档的 <code>&lt;head&gt;</code> 中移除任何阻塞渲染的脚本或样式表，可以减少首次绘制和首次内容绘制前的等待时间。FCP：首次内容绘制耗时太长，直观上就是<strong>“白板时间太长”</strong>，影响因素就是网络连接存在性能问题、资源（例如index.html）太大传输耗时。</p>
+<p>FMP/TTI：如果主要内容很久都没展示出来，那么很有可能是图片、样式、字体、JavaScript有较高的加载优先级，阻塞了FMP。确定页面上最关键的界面元素（主角元素）之后，您应确保初始脚本加载仅包含渲染这些元素并使其可交互所需的代码。</p>
+<h4 id="分析关键渲染路径"><a href="#分析关键渲染路径" class="headerlink" title="分析关键渲染路径"></a>分析关键渲染路径</h4><p><strong>优化关键渲染路径就是让刘篮球尽可能快地绘制网页</strong>，减少用户看到“白屏的时间”，从FP到FCP；所以整个时间就包括了获取资源（CSS、JS、HTML）以及浏览器处理对应的文件。</p>
+<p><strong>关键资源</strong>：可能阻止网页首次渲染的资源</p>
+<p><strong>关键路径长度</strong>：获取所有关键资源所需的往返次数或总时间</p>
+<p><strong>关键字节</strong>：实现网页首次渲染所需的总字节数，它是所有关键资源传送文件大小的总和。</p>
+<h5 id="HTML、Image"><a href="#HTML、Image" class="headerlink" title="HTML、Image"></a>HTML、Image</h5><p>对于HTML，浏览器下载HTML文件，当HTML内容可用时，浏览器就会解析HTML，生成token，进而构建DOM树，DOM树构建完成同时意味着DOMContentLoaded事件触发；获取图片并不会影响DOMContentLoaded事件的触发，所以<strong>图片不会影响到首次绘制</strong>。</p>
+<p><img src="https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/images/analysis-dom.png" alt=""></p>
+<p>关键资源（HTML），关键路径长度（最少1次），关键字节（5KB）</p>
+<h5 id="HTML、CSS"><a href="#HTML、CSS" class="headerlink" title="HTML、CSS"></a>HTML、CSS</h5><p>加载解析HTML，然后获取CSS文件，解析为CSSOM，生成渲染树，绘制页面。</p>
+<p><img src="https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/images/analysis-dom-css.png" alt=""></p>
+<p>关键资源（HTML、CSS），关键路径长度（最少2次），关键字节（9KB）</p>
+<h5 id="CSS、JavaScript、HTML"><a href="#CSS、JavaScript、HTML" class="headerlink" title="CSS、JavaScript、HTML"></a>CSS、JavaScript、HTML</h5><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Critical Path: Measure Script<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"style.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span> <span class="attr">onload</span>=<span class="string">"measureCRP()"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="name">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="name">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"timing.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>除了获取HTML、解析为DOM树，我们还会去加载CSS文件构建CSSOM，然后通过DOM和CSSOM构建渲染树，按道理来说，DCL也应该在DOM树生成后就触发，但是浏览器在下载解析CSS文件之前会阻止DCL事件，这是因为JS可能会去查询CSSOM。即使将脚本更改为内联，也无济于事。</p>
+<p>所以，<strong>只要浏览器遇到script标记就会阻止，并等到CSSOM构建完毕。</strong><img src="https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/images/analysis-dom-css-js.png" alt=""></p>
+<p>关键资源（HTML、CSS、JS），关键路径（最少2次，获取css、js时为并行），关键字节（11KB）</p>
+<p><strong>async，异步脚本的用处</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Critical Path: Measure Script<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"style.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span> <span class="attr">onload</span>=<span class="string">"measureCRP()"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="name">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="name">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"timing.js"</span> <span class="attr">async</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这种情况下，解析HTML之后不久就会触发DCL事件，浏览器知道不需要阻止JS，不必等到CSS文件加载解析后再执行JS。</p>
+<p><img src="https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/images/analysis-dom-css-js-async.png" alt=""></p>
+<p>关键资源（HTML、CSS），关键路径（最少2次），关键字节（9KB）</p>
+<h5 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h5><p>上面提到，有三种因素（关键资源、关键路径、关键字节）影响着首次渲染，所以优化也应该从这三点入手。</p>
+<ol>
+<li>减少关键资源的数量：删除、延迟、标记异步等</li>
+<li>优化关键字节数以缩短下载时间（压缩）</li>
+<li>优化其余关键资源的加载顺序（尽早下载所有的关键资产，缩短关键路径长度）</li>
 </ol>
-<p><img src="https://i.loli.net/2018/11/09/5be5935373f4f.png" alt=""></p>
-<h5 id="AOF缓冲区同步文件策略"><a href="#AOF缓冲区同步文件策略" class="headerlink" title="AOF缓冲区同步文件策略"></a>AOF缓冲区同步文件策略</h5><p>可以配置Redis多久将数据同步到磁盘一次。</p>
-<ul>
-<li>always: 每次有写命令追加到AOF缓冲区时就调用系统fsync操作同步到AOF文件。</li>
-<li>everysec：命令写入AOF缓冲区后调用系统write操作，fsync同步文件操作由专门线程每秒调用一次。</li>
-<li>no：命令写入AOF缓冲区后调用系统write操作，不对AOF文件做fsync操作，同步硬盘由系统负责，通常同步周期为30s。</li>
-</ul>
-<h5 id="AOF重写机制"><a href="#AOF重写机制" class="headerlink" title="AOF重写机制"></a>AOF重写机制</h5><p>AOF文件重写是把Redis进程内的数据转化为写命令同步到新AOF文件的过程。（因为重写AOF文件时，Redis会合并多条写命令、丢弃超时的数据、删除无效命令，所以重写后的AOF文件要小于旧文件）</p>
-<p><img src="https://i.loli.net/2018/11/09/5be5998076507.png" alt=""></p>
-<h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4><ol>
-<li>使用AOF持久化使得Redis更加耐久，AOF缓冲区同步文件策略可以使得Redis就算发生故障停机，也最多丢失1s的数据（实际上最多为2s）。</li>
-<li>AOF文件有序地保存了对数据库执行的所有写入操作，这些写入操作以Redis协议的格式保存，文件内容易懂且容易分析、导出。</li>
+</li>
 </ol>
-<h4 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h4><ol>
-<li>AOF文件的体积通常大于RDB文件的体积。</li>
-<li>AOF的速度可能慢于RDB。</li>
+<h4 id="业界一些常见的优化策略"><a href="#业界一些常见的优化策略" class="headerlink" title="业界一些常见的优化策略"></a>业界一些常见的优化策略</h4><h5 id="Google-PageSpeed-Insights-Rules"><a href="#Google-PageSpeed-Insights-Rules" class="headerlink" title="Google PageSpeed Insights Rules"></a>Google PageSpeed Insights Rules</h5><pre><code>1. **消除阻塞渲染的JavaScript和CSS**(最大限度减少网页上关键资源的数量并尽可能消除这些资源，减少下载关键字节数，优化关键路径长度)
+2. **优化JavaScript的使用**（JavaScript资源会阻塞解析器，所以将其标记为async或通过专门的JavaScript代码进行添加。**阻塞解析器的JavaScript强制浏览器等待CSSOM并暂停DOM的构建，继而大大延迟首次渲染的时间**）
+3. **延迟解析JavaScript**（延迟加载对构建首次渲染的可见内容无关紧要的脚本）
+4. **避免运行时间长的JavaScript**
+5. **优化CSS的使用**（CSS置于文档head标签内、避免使用CSS import、内联阻塞渲染的CSS）
+</code></pre><h5 id="Yahoo-Best-Practices-for-Speeding-Up-Your-Web-Site"><a href="#Yahoo-Best-Practices-for-Speeding-Up-Your-Web-Site" class="headerlink" title="Yahoo Best Practices for Speeding Up Your Web Site"></a>Yahoo Best Practices for Speeding Up Your Web Site</h5><ol>
+<li>减少http请求</li>
+<li>使用CDN</li>
+<li>利用浏览器缓存</li>
+<li>压缩页面元素</li>
+<li>样式表放在head</li>
+<li>JavaScript文件放在底部</li>
+<li>避免CSS表达式</li>
+<li>JS、CSS放在外部文件中</li>
+<li>减少CDN查询</li>
+<li>压缩JavaScript</li>
+<li>避免重定向</li>
+</ol>
+<h4 id="现代前端应用的优化策略"><a href="#现代前端应用的优化策略" class="headerlink" title="现代前端应用的优化策略"></a>现代前端应用的优化策略</h4><p>   前端资源文件离线化</p>
+<p>   页面组件化并按需加载</p>
+<p>   预渲染提升感官性能</p>
+<h4 id="RAIL"><a href="#RAIL" class="headerlink" title="RAIL"></a>RAIL</h4><p><img src="https://developers.google.com/web/fundamentals/performance/images/rail.png?hl=zh-cn" alt=""></p>
+<h5 id="响应：在100ms以内响应"><a href="#响应：在100ms以内响应" class="headerlink" title="响应：在100ms以内响应"></a>响应：在100ms以内响应</h5><p>在用户注意到滞后之前有100ms的时间可以响应用户输入。</p>
+<h5 id="动画：每10ms生成一帧"><a href="#动画：每10ms生成一帧" class="headerlink" title="动画：每10ms生成一帧"></a>动画：每10ms生成一帧</h5><p>尽管每秒生成60帧，一帧16.6ms，但是每帧只有10ms来执行代码，其余的时间用于将新帧绘制到屏幕上。</p>
+<h5 id="空闲：最大程度增加空闲时间"><a href="#空闲：最大程度增加空闲时间" class="headerlink" title="空闲：最大程度增加空闲时间"></a>空闲：最大程度增加空闲时间</h5><p>利用空闲时间完成推迟的工作，换句话说，就是让主线程在UI线程和JS线程中切换。</p>
+<h5 id="加载：在1000ms以内呈现内容"><a href="#加载：在1000ms以内呈现内容" class="headerlink" title="加载：在1000ms以内呈现内容"></a>加载：在1000ms以内呈现内容</h5><p>在 1 秒钟内加载您的网站。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p><img src="https://developers.google.com/web/fundamentals/performance/images/perf-metrics-test-cycle.png?hl=zh-cn" alt=""></p>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><ol>
+<li><a href="https://codeburst.io/performance-metrics-whats-this-all-about-1128461ad6b" target="_blank" rel="noopener">Performance metrics. What’s this all about?</a></li>
+<li><a href="https://w3c.github.io/paint-timing/" target="_blank" rel="noopener">Paint Timing 1</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/performance/user-centric-performance-metrics?hl=en" target="_blank" rel="noopener">User-centric Performance Metrics</a></li>
+<li><a href="https://speedcurve.com/blog/user-timing-and-custom-metrics/" target="_blank" rel="noopener">User Timing and Custom Metrics</a></li>
+<li><a href="https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/analyzing-crp" target="_blank" rel="noopener">分析关键渲染路径性能</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/performance/why-performance-matters/?hl=zh-cn" target="_blank" rel="noopener">性能为何如此重要</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/performance/rail?hl=zh-cn" target="_blank" rel="noopener">使用RAIL模型评估性能</a></li>
 </ol>
 
     
@@ -579,21 +653,13 @@ Redis所有的数据都是存在内存中，一旦程序崩溃或重启，内存
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
-        <a href="/2018/11/11/Redis-Replication/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            新篇
-        </a>
-    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
     
-        <a href="/2018/10/03/sort-1/" id="post_nav-older" class="next-content">
+        <a href="/2019/03/22/node-process-pool/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
