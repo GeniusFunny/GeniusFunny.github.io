@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.4.0 -->
+    <script>window.materialVersion = "1.4.0"</script>
+
+    <!-- Title -->
+    
+    <title>
+        
+            React新生命周期 | 
+        
+        GeniusFunny的个人博客
+    </title>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    
+        <link rel="dns-prefetch" href="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js">
+    
+    
+    
+        <link rel="dns-prefetch" href="https://hm.baidu.com">
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="GeniusFunny">
+    <meta name="description" itemprop="description" content="新生命周期React在16.4推出了新的生命周期：
+">
+    <meta name="keywords" content="JavaScript,生命周期">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="https://s1.ax1x.com/2020/03/24/8OkaTA.png">
+    <link rel="icon" sizes="192x192" href="https://s1.ax1x.com/2020/03/24/8OkaTA.png">
+    <link rel="apple-touch-icon" href="https://s1.ax1x.com/2020/03/24/8OkaTA.png">
+
+    <!--iOS -->
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="GeniusFunny的个人博客">
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="geniusfunny.github.io">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="React新生命周期 | GeniusFunny的个人博客">
+    <meta property="og:image" content="https://s1.ax1x.com/2020/03/24/8OkaTA.png">
+    <meta property="og:description" content="新生命周期React在16.4推出了新的生命周期：
+">
+    <meta property="og:article:tag" content="生命周期"> 
+
+    
+        <meta property="article:published_time" content="1月 24, 2020">
+        <meta property="article:modified_time" content="3月 24, 2020">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:title" content="React新生命周期 | GeniusFunny的个人博客">
+    <meta name="twitter:description" content="新生命周期React在16.4推出了新的生命周期：
+">
+    <meta name="twitter:image" content="https://s1.ax1x.com/2020/03/24/8OkaTA.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="geniusfunny.github.io">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="geniusfunny.github.io/2020/01/24/react-lifecycle/index.html">
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "GeniusFunny的个人博客",
+        "logo": "https://s1.ax1x.com/2020/03/24/8OkaTA.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "GeniusFunny",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://s1.ax1x.com/2020/03/24/8OkaTA.png"
+        },
+        "description": "Stay Hungry, Stay Foolish."
+    },
+    "headline": "React新生命周期",
+    "url": "geniusfunny.github.io/2020/01/24/react-lifecycle/index.html",
+    "datePublished": "1月 24, 2020",
+    "dateModified": "3月 24, 2020",
+    "description": "新生命周期React在16.4推出了新的生命周期：
+",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "geniusfunny.github.io"
+    }
+}
+</script>
+
+
+    
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+materialVersion+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(data&&data.indexOf(versionString)===-1){lsloader.removeLS(key)}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload){cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}code=code.split(versionString)[1];if(/\.js?.+$/.test(versionNumber)){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload)}};lsloader.requestResource=function(name,path,cssonload){var that=this;if(/\.js?.+$/.test(path)){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else if(/\.css?.+$/.test(path)){this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
+
+    <!-- Import CSS & jQuery -->
+    
+        <style id="css/material.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/material.min.css","/css/material.min.css?fJTiM/K1J3dWIruo3pxtAw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        <style id="css/style.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/style.min.css","/css/style.min.css?oCSEO3ST+aEypEwttTDI9g==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        
+        
+            <style>
+    
+    
+    .footer-sns-twitter {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgY2xhc3M9Imljb24iIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiPjxwYXRoIGQ9Ik0xMzguNiA3OGMtMjIuNCA1LjItNTUuOCA0MC4yLTYwLjYgNjMuNC0xLjQgNi40LTIgMTI5LjgtMS42IDM2Ny42LjYgMjk4LjYgMSAzNTguOCAzLjQgMzYzIDExIDIwLjIgMjEuNiAzMi40IDM3LjIgNDMgMTUgMTAuMiAxNy40IDExLjIgMzMgMTMgMTEuMiAxLjQgMTM2IDIgMzY1IDEuNiAzMTQtLjYgMzQ4LjYtMSAzNTUtMy44IDE1LjgtNy4yIDMzLjgtMjIgNDMuMi0zNS40IDUuMi03LjQgMTAuOC0xNi42IDEyLjYtMjAuNCAyLjgtNi40IDMuMi00MC44IDMuOC0zNTQgLjQtMjIzLS4yLTM1My40LTEuNC0zNjUtMi0xNy0yLjYtMTguNi0xMy0zNC04LjYtMTIuNi0xNC4yLTE4LjQtMjUuMi0yNS44LTcuOC01LjQtMTcuNC0xMS0yMS42LTEyLjQtNi0yLjItNzIuOC0yLjYtMzY1LjQtMi42LTE5Ni44LjItMzYxIC44LTM2NC40IDEuOHptNTMyLjggMjA1YzEwIDQgMjMgMTAuOCAyOC44IDE1LjIgMTIuNiA5LjIgMTYuNiAxMC42IDI5LjQgOS40IDYuNi0uNiAxMy0zLjIgMjAuNC04LjIgMTEuMi03LjYgMTkuNC05LjIgMjMuNi01IDMuNiAzLjYgMi44IDktMi44IDE4LjYtNy4yIDEyLjQtNiAxOC44IDQuMiAyNC4yIDQuNCAyLjIgOC4yIDUuNiA4LjYgNy40IDEgNC44LTEyLjYgMjQuMi0yMiAzMS44LTExLjggOS4yLTE3LjIgMjIuNi0xOS42IDQ3LjgtNC44IDUwLjQtNy44IDY2LjYtMTYuNCA4NS40LTMgNy03IDE3LjgtOC44IDI0LTEuOCA2LjQtNSAxNC42LTcuNCAxOC40LTIuMiAzLjgtNy40IDEzLTExLjQgMjAuNC0xNy4yIDMwLjgtNDMuNCA2MS40LTcxLjQgODMuOC0yNS42IDIwLjQtNDYgMzMuMi02NC4yIDQwLjItOC40IDMuMi0xOCA3LjYtMjEuNCA5LjYtNy40IDQuNi0yMi40IDguNi01Ny4yIDE1LTYyLjIgMTEuNi03OS4yIDExLjQtMTM1LjYtMS0zMi40LTctMzguNi05LTUyLTE2LjgtMjEuNC0xMi42LTI0LjItMTQuOC0yNC4yLTE5LjQgMC02LjIgMTAuMi05LjIgMzUtMTAuNCAyMi40LTEgMjguNi0yLjYgNTctMTQuMiAyMy44LTkuOCAyOS40LTEyLjggMzAuNC0xNi44IDIuMi04LjItMy0xMy4yLTI2LjgtMjUuNC0yNS44LTEzLjItMzIuMi0xOC40LTQzLjgtMzUuOC05LTEzLjYtMTAtMjEuMi0zLjYtMzMuNiA1LjQtMTAuOCAzLjYtMTUtMTEuOC0yNS40LTktNi0xNC0xMS42LTIwLjgtMjIuNi0yMy40LTM3LjgtMjUtNTAuOC03LjItNTkuOCA0LjgtMi40IDkuNC01LjQgMTAuMi02LjYgMi44LTQuMi0uNC0xNS42LTguNC0yOS0xMS42LTE5LjYtMTMuMi0yNS44LTEzLjItNTUuMiAwLTI4LjggMi42LTM3LjggMTItNDAuMiA5LTIuMiAxNC44IDEgMzUuNiAyMC4yIDI0LjggMjIuOCA0My42IDM2LjYgNjIuOCA0NS44IDggMy44IDE3LjggOS4yIDIyIDEyIDQuMiAyLjggMTQuOCA3IDIzLjQgOS4yIDguNiAyLjIgMjQuMiA2LjggMzQuOCAxMC4yIDEzLjQgNC40IDIzLjYgNi40IDMzIDYuNiAxMi44LjIgMTQuMi0uMiAxOC42LTUuNCA0LTQuOCA0LjgtNy44IDQuOC0xOS4yIDAtMTQuNCA1LjYtMzkuNiAxMS4yLTUwLjYgNC4yLTguNCAyOS4yLTM0LjIgMzkuOC00MS40IDcuOC01LjQgMzUuNi0xNiA1Mi0yMCAxNC4yLTMuNiAzMi42LTEuMiA1Mi40IDYuOHoiLz48L3N2Zz4=);
+    }
+    
+    
+    
+    
+    
+    
+    .footer-sns-github {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgY2xhc3M9Imljb24iIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiPjxwYXRoIGQ9Ik0xMzguNCA3OGMtNi40IDEuNC0yNi40IDE0LjItMzYgMjIuOC04IDcuMi0yMiAyOS44LTI0LjQgMzkuMi0xLjYgNi40LTIgMTEzLjItMS42IDM2OCAuNiAyOTkuNCAxIDM1OS44IDMuNCAzNjQgMTEgMjAuMiAyMS42IDMyLjQgMzcuMiA0MyAxNS42IDEwLjYgMTcuMiAxMS4yIDM0LjIgMTMuMiAxMC42IDEuMiA2My40IDEuNiAxMjcuNiAxLjRsMTA5LjYtLjYgNi02LjggNi4yLTYuOC0xLjItMjUuMmMtLjgtMTUuOC0uMi0zMy40IDEuNC00Ny4yIDMtMjUuNCAxLjQtMzYuMi02LTQzLjItNS00LjYtNi4yLTQuOC0zMC42LTQuMi0yNy42LjgtMjQgMS42LTY4LjgtMTYtOC42LTMuNC0yMi42LTE4LTI4LjQtMjkuOC0xMS40LTIyLjgtMjctNDUtMzkuMi01NS42LTE0LTEyLjItMTkuOC0yMC44LTE5LjgtMjguNiAwLTExLjYgMTMuNi0xMi42IDMzLjItMi40IDE2LjYgOC44IDIwLjggMTIuNCA0MC44IDM2LjIgMjQuMiAyOC42IDMxIDMzLjYgNTQgMzkuNiAxNS4yIDQgNDIuMiAzIDUxLjQtMS44IDktNC42IDE4LTE1LjIgMjQuNC0yOS4yIDExLjQtMjQuMiA3LjQtMzEuMi0yMC42LTM2LjgtOS44LTItMjkuMi04LTQzLjQtMTMuNC00MC40LTE1LjgtNjQuNi0zNy40LTg1LjQtNzYuMi0xMS42LTIxLjgtMTUuNC0zMy0xOC4yLTUzLjYtNC4yLTMyLjItNC44LTYwLjItMS40LTg0IDMuNC0yMy44IDYuOC0zMi44IDIwLjItNTQgNC02IDguOC0xNS42IDExLTIxLjQgMy44LTEwIDMuOC0xMS42IDEtMzAtNS4yLTM0LjItMy4yLTUyLjQgNy42LTcwLjIgNy4yLTEyLjIgMTUtMTcuMiAyNC4yLTE1LjggMTIuOCAyLjIgNTIgMTcuNCA2Ni44IDI2LjIgMjYgMTUgMjkgMTUuNCA4Mi40IDcuMiAyNC42LTMuOCAzMy44LTQuMiA2MC0zLjIgMTcgLjYgNDEuNCAzIDU0IDUuMiAzOC40IDYuNiA0OS42IDUuMiA3My0xMCA2LjYtNC4yIDE3LjQtOS40IDI0LTExLjYgNi42LTIuMiAxNi01LjggMjEtOC4yIDEzLTYgMjgtNS42IDM1LjYuOCAxMi40IDEwLjQgMTguNiA0MS40IDE0LjQgNzEuNi00LjQgMzAuNi0zIDM5LjQgOC40IDUzLjggMy40IDQuNCAxMS4yIDE5LjIgMTcuNCAzMy4yTDc3NSA0NDN2NzhsLTEwIDI4Yy0xNS4yIDQzLjItMzYuOCA3My4yLTY2LjIgOTIuOC0xMy40IDguOC01NyAyNS40LTc2LjggMjktMjguMiA1LjItMzMuMiAxMi42LTIyIDMyLjIgMTEuMiAxOS40IDEyLjQgMzIuOCAxMS42IDEyOS42bC0uNiA4NS44IDUuNCA0LjZjMy42IDMgOS4yIDUuMiAxNiA2IDUuOC44IDYwLjIgMSAxMjAuNi42IDEwOC40LS42IDExMC4yLS42IDExOS01IDI0LTExLjYgNDAtMjcuNCA1MS42LTUwLjZsNS40LTExIC42LTM0N2MuNC0yMjMtLjItMzUzLjQtMS40LTM2NS0yLTE3LTIuNi0xOC42LTEzLTM0LTEwLjYtMTUuNC0yMi44LTI2LjItNDMuMi0zNy4yLTQuMi0yLjQtNjQuNi0yLjgtMzY2LTMuMi0xOTguNiAwLTM2NCAuNC0zNjcuNiAxLjR6Ii8+PC9zdmc+);
+    }
+    
+    
+    
+    
+    
+</style>
+
+        
+        <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-image: url(https://s1.ax1x.com/2020/03/24/8OF5se.jpg);
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+        <script>lsloader.load("js/jquery.min.js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==")</script>
+    
+    
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Analytics -->
+    <script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    <!-- Custom Head -->
+    
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn" class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#新生命周期"><span class="post-toc-number">1.</span> <span class="post-toc-text">新生命周期</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#挂载"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">挂载</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#constructor-props"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">constructor(props)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#static-getDerivedStateFromProps-props-state"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">static getDerivedStateFromProps(props, state)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#render"><span class="post-toc-number">1.1.3.</span> <span class="post-toc-text">render</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#React更新DOM和refs"><span class="post-toc-number">1.1.4.</span> <span class="post-toc-text">React更新DOM和refs</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#componentDidMount"><span class="post-toc-number">1.1.5.</span> <span class="post-toc-text">componentDidMount</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#更新"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">更新</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#何时引起更新"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">何时引起更新</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#shouldComponentUpdate-nextProps-nextState"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">shouldComponentUpdate(nextProps, nextState)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#static-getSnapshotBeforeUpdate-prevProps-prevState"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">static getSnapshotBeforeUpdate(prevProps, prevState)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#componentDidUpdate-prevProps-prevState-snapshot"><span class="post-toc-number">1.2.4.</span> <span class="post-toc-text">componentDidUpdate(prevProps, prevState, snapshot)</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#卸载"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">卸载</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#componentWillUnmount"><span class="post-toc-number">1.3.1.</span> <span class="post-toc-text">componentWillUnmount</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Error-Handling"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">Error Handling</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#其他"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">其他</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#setState"><span class="post-toc-number">1.5.1.</span> <span class="post-toc-text">setState</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#forceUpdate"><span class="post-toc-number">1.5.2.</span> <span class="post-toc-text">forceUpdate</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#一些属性"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">一些属性</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#类属性"><span class="post-toc-number">1.6.1.</span> <span class="post-toc-text">类属性</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#实例属性"><span class="post-toc-number">1.6.2.</span> <span class="post-toc-text">实例属性</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#遗留的生命周期，不推荐使用"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">遗留的生命周期，不推荐使用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#setState的背后"><span class="post-toc-number">1.8.</span> <span class="post-toc-text">setState的背后</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#setState的机制是如何？源码层面是怎么实现的？"><span class="post-toc-number">1.8.1.</span> <span class="post-toc-text">setState的机制是如何？源码层面是怎么实现的？</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#为什么不是直接更新而是异步批量更新？"><span class="post-toc-number">1.8.2.</span> <span class="post-toc-text">为什么不是直接更新而是异步批量更新？</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#与老生命周期的差异？为什么有新生命周期？它解决了什么问题？它存在什么问题？未来会如何发展？"><span class="post-toc-number">1.9.</span> <span class="post-toc-text">与老生命周期的差异？为什么有新生命周期？它解决了什么问题？它存在什么问题？未来会如何发展？</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#与老生命周期的差异"><span class="post-toc-number">1.9.1.</span> <span class="post-toc-text">与老生命周期的差异</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#总结"><span class="post-toc-number">1.10.</span> <span class="post-toc-text">总结</span></a></li></ol></li></ol>
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
+    
+
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
+        
+    
+            <p class="article-headline-p">
+                React新生命周期
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="https://avatars0.githubusercontent.com/u/24862719?s=460&u=0aa407399cb72560bb6dc0c9f39801310dc4a6f7&v=4" width="44px" height="44px" alt="Author Avatar">
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>GeniusFunny</strong>
+        <span>1月 24, 2020</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACYUlEQVR42u3aQXLCMAwFUO5/6fYAnYQvyXYD87JiQsj4eSEZSa+fr75eeHh4eHh4eHh4D+O94uvydcEzyZN/7/fWhoeHh3eGlyyrd+cek2xceW14eHh4B3lXAffqmfxOHu4na8PDw8N7Mu/+8+RJPDw8vG/l3f/qPugnaQAPDw/vU3jJH/4qPg/9j6i14OHh4cW8alg/+flofw8PDw8v4JVHmuKSa5ISqmMK0Qrx8PDwNvPyQFw9at8XEfKtKQ+B4eHh4W3mVRfRG6WqLjrfrOhIjYeHh7eNN29EVYeoqkftaIvx8PDwjvCSEJ/Dkm2q/naUGPDw8PCW8ppNpuKBeO3b3tzHw8PD28zLA/Tk25wxabbh4eHhnefli64WI8rBPT5ej2oteHh4eGNeL6z3kPkwweL+Hh4eHt5S3uTgmyeSyRuW5T08PDy8Aa9Xuk0O4jmgmpze3MHDw8PbzKuWJCZt/uQon1MvFXh4eHibedVyQDlMD47XeVLBw8PDO8/rFW0L7fzBSEG+lXh4eHgneWvDen4076WZwtAVHh4e3j/xeu2rnJqUMAopCg8PD+9feUnhdVVDK39DYegKDw8PbzMvb1BNqL3Ukpeb8fDw8HbzqteqoavyQTlIG3h4eHhneK/4yttmvbLspASMh4eHd543SQbVFtckMYwaYHh4eHgbeHmAzgcF8k3ME9WbN+Dh4eE9ktcrQ+SH42qpFw8PD+/TeUljrDrOlTTk8PDw8M7zkmJEtQi7eCwADw8P7zG8vASQB/deO61QdLjaFDw8PLzNvO+78PDw8PDw8PDwHnD9AjVmAPzR/J98AAAAAElFTkSuQmCC">
+    
+</ul>
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/生命周期/">生命周期</a>
+    </li></ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    <!-- Leancloud Views -->
+        <a class="post_share-link" href="#">
+            <li class="mdl-menu__item">
+                <span id="/2020/01/24/react-lifecycle/" class="leancloud-views_num" data-flag-title="React新生命周期">
+     &nbsp;浏览量
+</span>
+
+            </li>
+        </a>
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=React新生命周期&url=geniusfunny.github.io/2020/01/24/react-lifecycle/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=React新生命周期&url=geniusfunny.github.io/2020/01/24/react-lifecycle/index.html&via=GeniusFunny" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=geniusfunny.github.io/2020/01/24/react-lifecycle/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=geniusfunny.github.io/2020/01/24/react-lifecycle/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=GeniusFunny的个人博客&title=React新生命周期&summary=Learn Once, Write Anywhere.&pics=geniusfunny.github.iohttps://s1.ax1x.com/2020/03/24/8OkaTA.png&url=geniusfunny.github.io/2020/01/24/react-lifecycle/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h3 id="新生命周期"><a href="#新生命周期" class="headerlink" title="新生命周期"></a>新生命周期</h3><p>React在16.4推出了新的生命周期：</p>
+<p><img src="https://s1.ax1x.com/2020/03/24/8OZzUH.png" alt="image-20191104204301590"></p>
+<a id="more"></a>
+<h4 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h4><p>调用顺序：<strong>constructor –&gt; static getDerivedStateFromProps –&gt; render –&gt; React更新DOM和refs —&gt; ComponentDidMount</strong></p>
+<h5 id="constructor-props"><a href="#constructor-props" class="headerlink" title="constructor(props)"></a>constructor(props)</h5><p>在constructor中设置state或绑定事件，如果两者都不需要则可忽略此函数。</p>
+<p>一旦定义constructor则必须在函数内部调用<code>super(props)</code>。<strong>why?</strong> 通过执行<code>super(props)</code>语句调用Component构造函数来设置props【this.props = props】</p>
+<p>设置state时，不能调用setState而是直接为this.state赋值。<strong>如果state中有属性依赖于props，见下面</strong> </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Component</span>(<span class="params">props, context, updater</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.props = props;</span><br><span class="line">  <span class="keyword">this</span>.context = context;</span><br><span class="line">  <span class="comment">// If a component has string refs, we will assign a different object later.</span></span><br><span class="line">  <span class="keyword">this</span>.refs = emptyObject;</span><br><span class="line">  <span class="comment">// We initialize the default updater but the real one gets injected by the</span></span><br><span class="line">  <span class="comment">// renderer.</span></span><br><span class="line">  <span class="keyword">this</span>.updater = updater || ReactNoopUpdateQueue;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">      省略....</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="static-getDerivedStateFromProps-props-state"><a href="#static-getDerivedStateFromProps-props-state" class="headerlink" title="static getDerivedStateFromProps(props, state)"></a>static getDerivedStateFromProps(props, state)</h5><p><strong>此方法无权访问组件实例，只要父组件重新渲染就会触发</strong></p>
+<p><strong>适用于state一直依赖于父组件传下来的props，派生state</strong></p>
+<p>props：父组件传递下来的props</p>
+<p>state：组件的state</p>
+<p>返回值：用来更新state的对象</p>
+<p><strong>避免派生状态的替代方案：</strong></p>
+<ul>
+<li>在ComponentDidUpdate中解决props变化的副作用</li>
+<li><strong>prop 更改时重新计算某些数据</strong>，<strong>memoization</strong>【占坑】</li>
+<li><strong>prop 更改时“重置”某些 state</strong>，完全受控/使用key使组件完全不受控【占坑】</li>
+<li><a href="https://zh-hans.reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-controlled-component" target="_blank" rel="noopener">你可能不需要使用派生状态</a></li>
+</ul>
+<h5 id="render"><a href="#render" class="headerlink" title="render"></a>render</h5><ol>
+<li><strong>唯一一个必须实现的方法，纯函数</strong></li>
+<li><strong>不应该在这里有交互逻辑</strong></li>
+<li><strong>如果shouldComponentUpdate()返回false，则不会调用render()</strong></li>
+</ol>
+<p>返回值：</p>
+<ul>
+<li>React元素。</li>
+<li>数组或fragments</li>
+<li>Portals：可以渲染组件到不同的DOM子树</li>
+<li>字符串或数值类型，在DOM中被渲染为文本节点</li>
+<li>布尔类型、null、undefiend，被忽略</li>
+</ul>
+<h5 id="React更新DOM和refs"><a href="#React更新DOM和refs" class="headerlink" title="React更新DOM和refs"></a>React更新DOM和refs</h5><p>更新DOM就是React底层为我们做的，不用开发者去考虑，但是React更新DOM背后的算法很有趣【占坑，React Diff】</p>
+<h5 id="componentDidMount"><a href="#componentDidMount" class="headerlink" title="componentDidMount"></a>componentDidMount</h5><p><strong>在组件挂载到DOM树中立即被调用</strong></p>
+<p><strong>订阅、副作用切入点</strong></p>
+<ul>
+<li><strong>调用setState会触发额外的渲染，但是渲染发生在浏览器更新屏幕前；</strong></li>
+<li>这就保证即使在一次事件中更新了两次state，用户也不会看见中间的状态，<strong>React在更新state时采用了批处理机制，先收集变化再批量更新。</strong></li>
+<li>但是，对于modals和tooltip，在<strong>渲染赖于其大小或位置的内容之前需要测量DOM节点时，将state的初始化放在compoentDidMount是必要的</strong>。</li>
+</ul>
+<h4 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h4><p>顺序：<strong>static getDerivedStateFromProps —&gt; shouldComponentUpdate —&gt; render —&gt; getSnapshotBeforeUpdate —&gt; React更新DOM和refs —&gt; componentDidUpdate</strong></p>
+<h5 id="何时引起更新"><a href="#何时引起更新" class="headerlink" title="何时引起更新"></a>何时引起更新</h5><ul>
+<li>父组件重新渲染</li>
+<li>组件调用setState</li>
+<li>组件调用forceUpdate</li>
+</ul>
+<h5 id="shouldComponentUpdate-nextProps-nextState"><a href="#shouldComponentUpdate-nextProps-nextState" class="headerlink" title="shouldComponentUpdate(nextProps, nextState)"></a>shouldComponentUpdate(nextProps, nextState)</h5><p><strong>性能优化点</strong></p>
+<p><strong>首次渲染和forceUpdate不会调用此函数</strong></p>
+<p>根据下一状态的props和state来进行判断是否需要重新渲染，如果返回fasle则组件不会调用后续的方法，默认返回true。</p>
+<p>默认情况下，当接受到newState或newProps，这个生命钩子将被调用；但是在Mounting阶段或者调用了forceUpdate时不会被调用</p>
+<p><strong>手写可以，PureComponent更优；PureComponent会对state、props进行浅比较</strong></p>
+<p>当然，手写也是阔以的，可以比较nextProps与this.props、nextState与this.state然后返回false来跳过这一次的更新。但是返回false并不会阻止子组件重新渲染（如果子组件的state变化）</p>
+<p><strong>不要不要不要在这里搞一些耗时的操作，例如JSON.stringify()</strong></p>
+<p><strong>以后可能这个钩子返回false只是作为一个不渲染的参考而不是现在的决定</strong></p>
+<h5 id="static-getSnapshotBeforeUpdate-prevProps-prevState"><a href="#static-getSnapshotBeforeUpdate-prevProps-prevState" class="headerlink" title="static getSnapshotBeforeUpdate(prevProps, prevState)"></a>static getSnapshotBeforeUpdate(prevProps, prevState)</h5><p>在最近一次渲染之前调用，在更改DOM之前获取DOM的一些信息（例如滚动位置）。</p>
+<p><strong>返回snapshot的值（或null），返回值作为参数传递给componentDidUpdate()</strong></p>
+<h5 id="componentDidUpdate-prevProps-prevState-snapshot"><a href="#componentDidUpdate-prevProps-prevState-snapshot" class="headerlink" title="componentDidUpdate(prevProps, prevState, snapshot)"></a>componentDidUpdate(prevProps, prevState, snapshot)</h5><p>componentDidUpdate(prevProps, prevState, snapshot)在更新发生后会立即调用。</p>
+<p>可以在这里进行<strong>网络请求</strong>或者<strong>操作DOM</strong>。</p>
+<p>调用setState时一定要将其包裹在一个条件判断中，如果state派生于props这会使得我们丢失当前对应的state</p>
+<p>snapshot当且仅当getSnapshotBeforeUpdate实现时存在</p>
+<h4 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h4><h5 id="componentWillUnmount"><a href="#componentWillUnmount" class="headerlink" title="componentWillUnmount"></a>componentWillUnmount</h5><p>在这个生命周期中做清理操作【清除定时器、取消订阅、取消网络请求】</p>
+<h4 id="Error-Handling"><a href="#Error-Handling" class="headerlink" title="Error Handling"></a>Error Handling</h4><ul>
+<li><p>static getDerivedStateFromError</p>
+<p>static getDerivedStateFromError(error)在后代组件抛出错误时调用</p>
+<p>在render过程中被调用，所以副作用不会被提交</p>
+</li>
+<li><p>componentDidCatch</p>
+<p>componentDidCatch(error, info)在后台组件抛出错误时调用</p>
+<p>在commit阶段被调用，所以副作用会被提交；</p>
+<p>用于错误日志之类的</p>
+</li>
+</ul>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><h5 id="setState"><a href="#setState" class="headerlink" title="setState"></a>setState</h5><p><strong>异步、批量处理、state浅合并</strong></p>
+<p>setState(updater[,callback])，延迟合并后渲染</p>
+<p>setState会导致重新渲染，除非shouldComponentUpdate返回false</p>
+<p>setState并不会保证state会立马改变，所以如果当前的state依赖于之前的state，可以通过回调或者componentDidUpdate（更推荐）来操作</p>
+<p>updater: (state, props) =&gt; stateChange</p>
+<h5 id="forceUpdate"><a href="#forceUpdate" class="headerlink" title="forceUpdate"></a>forceUpdate</h5><ul>
+<li>如果render依赖于除props、state以外的数据，可以调用forceUpdate强制让组件重新渲染，这会跳过自身组件的shouldComponentUpdate（）</li>
+<li>这个调用也会触发子组件正常更新的生命周期</li>
+</ul>
+<h4 id="一些属性"><a href="#一些属性" class="headerlink" title="一些属性"></a>一些属性</h4><h5 id="类属性"><a href="#类属性" class="headerlink" title="类属性"></a>类属性</h5><ul>
+<li>defaultProps</li>
+<li>displayName</li>
+</ul>
+<h5 id="实例属性"><a href="#实例属性" class="headerlink" title="实例属性"></a>实例属性</h5><ul>
+<li>props</li>
+<li>state</li>
+</ul>
+<h4 id="遗留的生命周期，不推荐使用"><a href="#遗留的生命周期，不推荐使用" class="headerlink" title="遗留的生命周期，不推荐使用"></a>遗留的生命周期，不推荐使用</h4><ol>
+<li><p>UNSAFE_componentWillMount()</p>
+<p>在安装前调用；</p>
+<p>这是唯一一个在SSR中被调用的生命周期</p>
+</li>
+<li><p>UNSAFE_componentWillReceiveProps(nextProps)</p>
+<p>在一个已经安装后的组件接受到新的props是被调用</p>
+</li>
+<li><p>UNSAFE_componentWillUpdate(nextProps, nextState)</p>
+<p>在更新前调用，should之后，did之前</p>
+</li>
+</ol>
+<h4 id="setState的背后"><a href="#setState的背后" class="headerlink" title="setState的背后"></a>setState的背后</h4><h5 id="setState的机制是如何？源码层面是怎么实现的？"><a href="#setState的机制是如何？源码层面是怎么实现的？" class="headerlink" title="setState的机制是如何？源码层面是怎么实现的？"></a>setState的机制是如何？源码层面是怎么实现的？</h5><p>初始化updater时，真正的updater在renderer中设置，构造函数中设置的<code>this.updater = updater || ReactNoopUpdateQueue</code>只是占位。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Component.prototype.setState = <span class="function"><span class="keyword">function</span>(<span class="params">partialState, callback</span>) </span>&#123;</span><br><span class="line">  invariant(</span><br><span class="line">    <span class="keyword">typeof</span> partialState === <span class="string">'object'</span> ||</span><br><span class="line">      <span class="keyword">typeof</span> partialState === <span class="string">'function'</span> ||</span><br><span class="line">      partialState == <span class="literal">null</span>,</span><br><span class="line">    <span class="string">'setState(...): takes an object of state variables to update or a '</span> +</span><br><span class="line">      <span class="string">'function which returns an object of state variables.'</span>,</span><br><span class="line">  );</span><br><span class="line">  <span class="keyword">this</span>.updater.enqueueSetState(<span class="keyword">this</span>, partialState, callback, <span class="string">'setState'</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>可以看出，this.setState只是简单调用组件的updater的<code>enqueueSetState</code>方法，那么…</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">enqueueSetState(inst, payload, callback) &#123;</span><br><span class="line">    <span class="keyword">const</span> fiber = getInstance(inst);</span><br><span class="line">    <span class="keyword">const</span> currentTime = requestCurrentTimeForUpdate();</span><br><span class="line">    <span class="keyword">const</span> suspenseConfig = requestCurrentSuspenseConfig();</span><br><span class="line">    <span class="keyword">const</span> expirationTime = computeExpirationForFiber(</span><br><span class="line">      currentTime,</span><br><span class="line">      fiber,</span><br><span class="line">      suspenseConfig,</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> update = createUpdate(expirationTime, suspenseConfig);</span><br><span class="line">    update.payload = payload;</span><br><span class="line">    <span class="keyword">if</span> (callback !== <span class="literal">undefined</span> &amp;&amp; callback !== <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">        warnOnInvalidCallback(callback, <span class="string">'setState'</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      update.callback = callback;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    enqueueUpdate(fiber, update);</span><br><span class="line">    scheduleWork(fiber, expirationTime);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>流程：</strong></p>
+<ul>
+<li><p>先获取组件的Fiber实例、当前时间、当前的suspense</p>
+</li>
+<li><p>计算得到更新组件的expirationTime</p>
+<ul>
+<li>复杂，需先了解React-Fiber</li>
+</ul>
+</li>
+<li><p>根据expirationTime和suspenseConfig创建一个update</p>
+</li>
+<li><p>将这个update放进update队列</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">enqueueUpdate</span>&lt;<span class="title">State</span>&gt;(<span class="params">fiber: Fiber, update: Update&lt;State&gt;</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Update queues are created lazily.</span></span><br><span class="line">  <span class="keyword">const</span> alternate = fiber.alternate;</span><br><span class="line">  <span class="keyword">let</span> queue1;</span><br><span class="line">  <span class="keyword">let</span> queue2;</span><br><span class="line">  <span class="keyword">if</span> (alternate === <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="comment">// There's only one fiber.</span></span><br><span class="line">    queue1 = fiber.updateQueue;</span><br><span class="line">    queue2 = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">if</span> (queue1 === <span class="literal">null</span>) &#123;</span><br><span class="line">      queue1 = fiber.updateQueue = createUpdateQueue(fiber.memoizedState);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// There are two owners.</span></span><br><span class="line">    queue1 = fiber.updateQueue;</span><br><span class="line">    queue2 = alternate.updateQueue;</span><br><span class="line">    <span class="keyword">if</span> (queue1 === <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (queue2 === <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// Neither fiber has an update queue. Create new ones.</span></span><br><span class="line">        queue1 = fiber.updateQueue = createUpdateQueue(fiber.memoizedState);</span><br><span class="line">        queue2 = alternate.updateQueue = createUpdateQueue(</span><br><span class="line">          alternate.memoizedState,</span><br><span class="line">        );</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Only one fiber has an update queue. Clone to create a new one.</span></span><br><span class="line">        queue1 = fiber.updateQueue = cloneUpdateQueue(queue2);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (queue2 === <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// Only one fiber has an update queue. Clone to create a new one.</span></span><br><span class="line">        queue2 = alternate.updateQueue = cloneUpdateQueue(queue1);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Both owners have an update queue.</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (queue2 === <span class="literal">null</span> || queue1 === queue2) &#123;</span><br><span class="line">    <span class="comment">// There's only a single queue.</span></span><br><span class="line">    appendUpdateToQueue(queue1, update);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// There are two queues. We need to append the update to both queues,</span></span><br><span class="line">    <span class="comment">// while accounting for the persistent structure of the list — we don't</span></span><br><span class="line">    <span class="comment">// want the same update to be added multiple times.</span></span><br><span class="line">    <span class="keyword">if</span> (queue1.lastUpdate === <span class="literal">null</span> || queue2.lastUpdate === <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="comment">// One of the queues is not empty. We must add the update to both queues.</span></span><br><span class="line">      appendUpdateToQueue(queue1, update);</span><br><span class="line">      appendUpdateToQueue(queue2, update);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// Both queues are non-empty. The last update is the same in both lists,</span></span><br><span class="line">      <span class="comment">// because of structural sharing. So, only append to one of the lists.</span></span><br><span class="line">      appendUpdateToQueue(queue1, update);</span><br><span class="line">      <span class="comment">// But we still need to update the `lastUpdate` pointer of queue2.</span></span><br><span class="line">      queue2.lastUpdate = update;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">      fiber.tag === ClassComponent &amp;&amp;</span><br><span class="line">      (currentlyProcessingQueue === queue1 ||</span><br><span class="line">        (queue2 !== <span class="literal">null</span> &amp;&amp; currentlyProcessingQueue === queue2)) &amp;&amp;</span><br><span class="line">      !didWarnUpdateInsideUpdate</span><br><span class="line">    ) &#123;</span><br><span class="line">      warningWithoutStack(</span><br><span class="line">        <span class="literal">false</span>,</span><br><span class="line">        <span class="string">'An update (setState, replaceState, or forceUpdate) was scheduled '</span> +</span><br><span class="line">          <span class="string">'from inside an update function. Update functions should be pure, '</span> +</span><br><span class="line">          <span class="string">'with zero side-effects. Consider using componentDidUpdate or a '</span> +</span><br><span class="line">          <span class="string">'callback.'</span>,</span><br><span class="line">      );</span><br><span class="line">      didWarnUpdateInsideUpdate = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>根据expirationTime调度工作</p>
+</li>
+<li><p>了解完React-Fiber后再来填坑【占坑】</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">scheduleUpdateOnFiber</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  fiber: Fiber,</span></span></span><br><span class="line"><span class="function"><span class="params">  expirationTime: ExpirationTime,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  checkForNestedUpdates();</span><br><span class="line">  warnAboutInvalidUpdatesOnClassComponentsInDEV(fiber);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> root = markUpdateTimeFromFiberToRoot(fiber, expirationTime);</span><br><span class="line">  <span class="keyword">if</span> (root === <span class="literal">null</span>) &#123;</span><br><span class="line">    warnAboutUpdateOnUnmountedFiberInDEV(fiber);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  checkForInterruption(fiber, expirationTime);</span><br><span class="line">  recordScheduleUpdate();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// <span class="doctag">TODO:</span> computeExpirationForFiber also reads the priority. Pass the</span></span><br><span class="line">  <span class="comment">// priority as an argument to that function and this one.</span></span><br><span class="line">  <span class="keyword">const</span> priorityLevel = getCurrentPriorityLevel();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (expirationTime === Sync) &#123;</span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">      <span class="comment">// Check if we're inside unbatchedUpdates</span></span><br><span class="line">      (executionContext &amp; LegacyUnbatchedContext) !== NoContext &amp;&amp;</span><br><span class="line">      <span class="comment">// Check if we're not already rendering</span></span><br><span class="line">      (executionContext &amp; (RenderContext | CommitContext)) === NoContext</span><br><span class="line">    ) &#123;</span><br><span class="line">      <span class="comment">// Register pending interactions on the root to avoid losing traced interaction data.</span></span><br><span class="line">      schedulePendingInteractions(root, expirationTime);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// This is a legacy edge case. The initial mount of a ReactDOM.render-ed</span></span><br><span class="line">      <span class="comment">// root inside of batchedUpdates should be synchronous, but layout updates</span></span><br><span class="line">      <span class="comment">// should be deferred until the end of the batch.</span></span><br><span class="line">      performSyncWorkOnRoot(root);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      ensureRootIsScheduled(root);</span><br><span class="line">      schedulePendingInteractions(root, expirationTime);</span><br><span class="line">      <span class="keyword">if</span> (executionContext === NoContext) &#123;</span><br><span class="line">        <span class="comment">// Flush the synchronous work now, unless we're already working or inside</span></span><br><span class="line">        <span class="comment">// a batch. This is intentionally inside scheduleUpdateOnFiber instead of</span></span><br><span class="line">        <span class="comment">// scheduleCallbackForFiber to preserve the ability to schedule a callback</span></span><br><span class="line">        <span class="comment">// without immediately flushing it. We only do this for user-initiated</span></span><br><span class="line">        <span class="comment">// updates, to preserve historical behavior of legacy mode.</span></span><br><span class="line">        flushSyncCallbackQueue();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    ensureRootIsScheduled(root);</span><br><span class="line">    schedulePendingInteractions(root, expirationTime);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (</span><br><span class="line">    (executionContext &amp; DiscreteEventContext) !== NoContext &amp;&amp;</span><br><span class="line">    <span class="comment">// Only updates at user-blocking priority or greater are considered</span></span><br><span class="line">    <span class="comment">// discrete, even inside a discrete event.</span></span><br><span class="line">    (priorityLevel === UserBlockingPriority ||</span><br><span class="line">      priorityLevel === ImmediatePriority)</span><br><span class="line">  ) &#123;</span><br><span class="line">    <span class="comment">// This is the result of a discrete event. Track the lowest priority</span></span><br><span class="line">    <span class="comment">// discrete update per root so we can flush them early, if needed.</span></span><br><span class="line">    <span class="keyword">if</span> (rootsWithPendingDiscreteUpdates === <span class="literal">null</span>) &#123;</span><br><span class="line">      rootsWithPendingDiscreteUpdates = <span class="keyword">new</span> <span class="built_in">Map</span>([[root, expirationTime]]);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> lastDiscreteTime = rootsWithPendingDiscreteUpdates.get(root);</span><br><span class="line">      <span class="keyword">if</span> (lastDiscreteTime === <span class="literal">undefined</span> || lastDiscreteTime &gt; expirationTime) &#123;</span><br><span class="line">        rootsWithPendingDiscreteUpdates.set(root, expirationTime);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> scheduleWork = scheduleUpdateOnFiber;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="为什么不是直接更新而是异步批量更新？"><a href="#为什么不是直接更新而是异步批量更新？" class="headerlink" title="为什么不是直接更新而是异步批量更新？"></a>为什么不是直接更新而是异步批量更新？</h5><p>异步批量更新的原因：</p>
+<ul>
+<li>批处理更新是有益的，避免不必要的中间状态，减少不必要的DOM渲染次数有益于提高性能。</li>
+<li>保持内部一致性，props只会在父组件重新渲染后·才会更新</li>
+<li>增加并发update的可行性</li>
+</ul>
+<h4 id="与老生命周期的差异？为什么有新生命周期？它解决了什么问题？它存在什么问题？未来会如何发展？"><a href="#与老生命周期的差异？为什么有新生命周期？它解决了什么问题？它存在什么问题？未来会如何发展？" class="headerlink" title="与老生命周期的差异？为什么有新生命周期？它解决了什么问题？它存在什么问题？未来会如何发展？"></a>与老生命周期的差异？为什么有新生命周期？它解决了什么问题？它存在什么问题？未来会如何发展？</h4><h5 id="与老生命周期的差异"><a href="#与老生命周期的差异" class="headerlink" title="与老生命周期的差异"></a>与老生命周期的差异</h5><ul>
+<li>UNSAFE_componentWillReceiveProps只会在父组件重新渲染时触发，而static getDerviedStateFromProps在每次更新都会触发（父组件重新渲染、setState、forceUpdate）</li>
+<li>还是涉及到React-Fiber 【占坑】</li>
+</ul>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>坑位有点多，后面会补上React-Fiber的原理…</p>
+
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2020/02/04/web-performance-1/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2020/01/16/explore-browser/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(https://s1.ax1x.com/2020/03/24/8OkwFI.jpg);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="https://avatars0.githubusercontent.com/u/24862719?s=460&amp;u=0aa407399cb72560bb6dc0c9f39801310dc4a6f7&amp;v=4" alt="GeniusFunny's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        geniusfunnyyh@gmail.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="mailto:geniusfunnyyh@gmail.com" target="_blank" title="Contact Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Contact Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2020/02/">二月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/01/">一月 2020<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/12/">十二月 2019<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/11/">十一月 2019<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/10/">十月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/03/">三月 2019<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/02/">二月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/12/">十二月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/11/">十一月 2018<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/10/">十月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/09/">九月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/06/">六月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/05/">五月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/04/">四月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/02/">二月 2018<span class="sidebar_archives-count">4</span></a>
+            </li></ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/JavaScript/">JavaScript<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/JavaScript核心/">JavaScript核心<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/JavaScript设计模式/">JavaScript设计模式<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/Node-js/">Node.js<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/React/">React<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/Redis/">Redis<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/其他/">其他<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/前端框架/">前端框架<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/实践/">实践<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/小技巧/">小技巧<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/性能/">性能<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/性能优化/">性能优化<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/浏览器/">浏览器<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/笔记/">笔记<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/算法/">算法<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/categories/翻译/">翻译<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/计算机基础/">计算机基础<span class="sidebar_archives-count">1</span></a>
+            </li></ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+        <li>
+            <a href="tags" title="标签">
+                
+                    <i class="material-icons sidebar-material-icons">turned_in</i>
+                
+                标签
+            </a>
+        </li>
+        
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/archives">
+                文章总数
+                <span class="sidebar-badge">29</span>
+            </a>
+        </li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+
+<!-- Theme Material -->
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+    <span id="footer-image">
+        <a href="https://www.upyun.com/" target="_blank" title="upyun_logo">
+            <img src="/img/upyun_logo.svg" alt="upyun_logo"><!--
+     --></a>
+    </span>
+
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+        <a href="https://twitter.com/GeniuFunny" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-twitter">
+                <span class="visuallyhidden">Twitter</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/GeniusFunny" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-github">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>GeniusFunny的个人博客
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import File -->
+
+
+    <script>lsloader.load("js/lazyload.min.js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==")</script>
+    <script>lsloader.load("js/js.min.js","/js/js.min.js?oAl/+lvaqTFV31JXTmbrNA==")</script>
+
+
+
+    <script>lsloader.load("js/nprogress.js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==")</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+    <!-- Leancloud -->
+    <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+    <script>
+        AV.initialize('etC3TLV8Pj1FSAVvtfsGcRNq-gzGzoHsz', 'esJd1ihFxVqwDejivs92D9To');
+    </script>
+    <script type="text/ls-javascript" id="leancloud-views-script">
+    function showTime(Counter) {
+        var query = new AV.Query(Counter);
+        $('.leancloud-views_num').each(function() {
+            var url = $(this).attr('id').trim();
+            query.equalTo('url', url);
+            query.find({
+                success: function(results) {
+                    if (results.length === 0) {
+                        var content = '0 ' + $(document.getElementById(url)).text();
+                        $(document.getElementById(url)).text(content);
+                        return;
+                    }
+                    for (var i = 0; i < results.length; i++) {
+                        var object = results[i];
+                        var content = object.get('time') + ' ' + $(document.getElementById(url)).text();
+                        $(document.getElementById(url)).text(content);
+                    }
+                },
+                error: function(object, error) {
+                    console.log('Error: ' + error.code + ' ' + error.message);
+                }
+            });
+        });
+    }
+
+    function addCount(Counter) {
+      var Counter = AV.Object.extend('Counter');
+      url = $('.leancloud-views_num').attr('id').trim();
+      title = $('.leancloud-views_num').attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+      query.equalTo('url', url);
+      query.find({
+          success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment('time');
+                counter.save(null, {
+                    success: function(counter) {
+                        var content =  counter.get('time') + ' ' + $(document.getElementById(url)).text();
+                        $(document.getElementById(url)).text(content);
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+              var newcounter = new Counter();
+              newcounter.set('title', title);
+              newcounter.set('url', url);
+              newcounter.set('time', 1);
+              newcounter.save(null, {
+                  success: function(newcounter) {
+                      console.log('newcounter.get(\'time\')='+newcounter.get('time'));
+                      var content = newcounter.get('time') + ' ' + $(document.getElementById(url)).text();
+                      $(document.getElementById(url)).text(content);
+                  },
+                  error: function(newcounter, error) {
+                      console.log('Failed to create');
+                  }
+              });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + ' ' + error.message);
+        }
+      });
+    }
+    $(function() {
+        var Counter = AV.Object.extend('Counter');
+        if ($('.leancloud-views_num').length === 1) {
+            addCount(Counter);
+        } else if ($('.post-title-link').length > 1) {
+            showTime(Counter);
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Window Load-->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+</script>
+
+<!-- MathJax Load-->
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Bing Background -->
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.4.0 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>
