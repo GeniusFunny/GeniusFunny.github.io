@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.4.0 -->
+    <script>window.materialVersion = "1.4.0"</script>
+
+    <!-- Title -->
+    
+    <title>
+        
+            Web性能知识（二） | 
+        
+        GeniusFunny的个人博客
+    </title>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    
+        <link rel="dns-prefetch" href="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js">
+    
+    
+    
+        <link rel="dns-prefetch" href="https://hm.baidu.com">
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="GeniusFunny">
+    <meta name="description" itemprop="description" content="Web性能取决于：资源获取【网络I/O】 + 页面布局与渲染 【浏览器渲染原理】+ JavaScript执行【事件循环】
+这是一篇讲解前端性能量化体系的文章，参考后续补上；内容都是自己的笔记">
+    <meta name="keywords" content="JavaScript,前端性能量化体系">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="https://s1.ax1x.com/2020/03/24/8OkaTA.png">
+    <link rel="icon" sizes="192x192" href="https://s1.ax1x.com/2020/03/24/8OkaTA.png">
+    <link rel="apple-touch-icon" href="https://s1.ax1x.com/2020/03/24/8OkaTA.png">
+
+    <!--iOS -->
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="GeniusFunny的个人博客">
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="geniusfunny.github.io">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Web性能知识（二） | GeniusFunny的个人博客">
+    <meta property="og:image" content="https://s1.ax1x.com/2020/03/24/8OkaTA.png">
+    <meta property="og:description" content="Web性能取决于：资源获取【网络I/O】 + 页面布局与渲染 【浏览器渲染原理】+ JavaScript执行【事件循环】
+这是一篇讲解前端性能量化体系的文章，参考后续补上；内容都是自己的笔记">
+    <meta property="og:article:tag" content="前端性能量化体系"> 
+
+    
+        <meta property="article:published_time" content="2月 14, 2020">
+        <meta property="article:modified_time" content="3月 26, 2020">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:title" content="Web性能知识（二） | GeniusFunny的个人博客">
+    <meta name="twitter:description" content="Web性能取决于：资源获取【网络I/O】 + 页面布局与渲染 【浏览器渲染原理】+ JavaScript执行【事件循环】
+这是一篇讲解前端性能量化体系的文章，参考后续补上；内容都是自己的笔记">
+    <meta name="twitter:image" content="https://s1.ax1x.com/2020/03/24/8OkaTA.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="geniusfunny.github.io">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="geniusfunny.github.io/2020/02/14/web-performance-2/index.html">
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "GeniusFunny的个人博客",
+        "logo": "https://s1.ax1x.com/2020/03/24/8OkaTA.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "GeniusFunny",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://s1.ax1x.com/2020/03/24/8OkaTA.png"
+        },
+        "description": "Stay Hungry, Stay Foolish."
+    },
+    "headline": "Web性能知识（二）",
+    "url": "geniusfunny.github.io/2020/02/14/web-performance-2/index.html",
+    "datePublished": "2月 14, 2020",
+    "dateModified": "3月 26, 2020",
+    "description": "Web性能取决于：资源获取【网络I/O】 + 页面布局与渲染 【浏览器渲染原理】+ JavaScript执行【事件循环】
+这是一篇讲解前端性能量化体系的文章，参考后续补上；内容都是自己的笔记",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "geniusfunny.github.io"
+    }
+}
+</script>
+
+
+    
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+materialVersion+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(data&&data.indexOf(versionString)===-1){lsloader.removeLS(key)}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload){cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}code=code.split(versionString)[1];if(/\.js?.+$/.test(versionNumber)){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload)}};lsloader.requestResource=function(name,path,cssonload){var that=this;if(/\.js?.+$/.test(path)){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else if(/\.css?.+$/.test(path)){this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
+
+    <!-- Import CSS & jQuery -->
+    
+        <style id="css/material.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/material.min.css","/css/material.min.css?fJTiM/K1J3dWIruo3pxtAw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        <style id="css/style.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/style.min.css","/css/style.min.css?oCSEO3ST+aEypEwttTDI9g==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        
+        
+            <style>
+    
+    
+    .footer-sns-twitter {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgY2xhc3M9Imljb24iIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiPjxwYXRoIGQ9Ik0xMzguNiA3OGMtMjIuNCA1LjItNTUuOCA0MC4yLTYwLjYgNjMuNC0xLjQgNi40LTIgMTI5LjgtMS42IDM2Ny42LjYgMjk4LjYgMSAzNTguOCAzLjQgMzYzIDExIDIwLjIgMjEuNiAzMi40IDM3LjIgNDMgMTUgMTAuMiAxNy40IDExLjIgMzMgMTMgMTEuMiAxLjQgMTM2IDIgMzY1IDEuNiAzMTQtLjYgMzQ4LjYtMSAzNTUtMy44IDE1LjgtNy4yIDMzLjgtMjIgNDMuMi0zNS40IDUuMi03LjQgMTAuOC0xNi42IDEyLjYtMjAuNCAyLjgtNi40IDMuMi00MC44IDMuOC0zNTQgLjQtMjIzLS4yLTM1My40LTEuNC0zNjUtMi0xNy0yLjYtMTguNi0xMy0zNC04LjYtMTIuNi0xNC4yLTE4LjQtMjUuMi0yNS44LTcuOC01LjQtMTcuNC0xMS0yMS42LTEyLjQtNi0yLjItNzIuOC0yLjYtMzY1LjQtMi42LTE5Ni44LjItMzYxIC44LTM2NC40IDEuOHptNTMyLjggMjA1YzEwIDQgMjMgMTAuOCAyOC44IDE1LjIgMTIuNiA5LjIgMTYuNiAxMC42IDI5LjQgOS40IDYuNi0uNiAxMy0zLjIgMjAuNC04LjIgMTEuMi03LjYgMTkuNC05LjIgMjMuNi01IDMuNiAzLjYgMi44IDktMi44IDE4LjYtNy4yIDEyLjQtNiAxOC44IDQuMiAyNC4yIDQuNCAyLjIgOC4yIDUuNiA4LjYgNy40IDEgNC44LTEyLjYgMjQuMi0yMiAzMS44LTExLjggOS4yLTE3LjIgMjIuNi0xOS42IDQ3LjgtNC44IDUwLjQtNy44IDY2LjYtMTYuNCA4NS40LTMgNy03IDE3LjgtOC44IDI0LTEuOCA2LjQtNSAxNC42LTcuNCAxOC40LTIuMiAzLjgtNy40IDEzLTExLjQgMjAuNC0xNy4yIDMwLjgtNDMuNCA2MS40LTcxLjQgODMuOC0yNS42IDIwLjQtNDYgMzMuMi02NC4yIDQwLjItOC40IDMuMi0xOCA3LjYtMjEuNCA5LjYtNy40IDQuNi0yMi40IDguNi01Ny4yIDE1LTYyLjIgMTEuNi03OS4yIDExLjQtMTM1LjYtMS0zMi40LTctMzguNi05LTUyLTE2LjgtMjEuNC0xMi42LTI0LjItMTQuOC0yNC4yLTE5LjQgMC02LjIgMTAuMi05LjIgMzUtMTAuNCAyMi40LTEgMjguNi0yLjYgNTctMTQuMiAyMy44LTkuOCAyOS40LTEyLjggMzAuNC0xNi44IDIuMi04LjItMy0xMy4yLTI2LjgtMjUuNC0yNS44LTEzLjItMzIuMi0xOC40LTQzLjgtMzUuOC05LTEzLjYtMTAtMjEuMi0zLjYtMzMuNiA1LjQtMTAuOCAzLjYtMTUtMTEuOC0yNS40LTktNi0xNC0xMS42LTIwLjgtMjIuNi0yMy40LTM3LjgtMjUtNTAuOC03LjItNTkuOCA0LjgtMi40IDkuNC01LjQgMTAuMi02LjYgMi44LTQuMi0uNC0xNS42LTguNC0yOS0xMS42LTE5LjYtMTMuMi0yNS44LTEzLjItNTUuMiAwLTI4LjggMi42LTM3LjggMTItNDAuMiA5LTIuMiAxNC44IDEgMzUuNiAyMC4yIDI0LjggMjIuOCA0My42IDM2LjYgNjIuOCA0NS44IDggMy44IDE3LjggOS4yIDIyIDEyIDQuMiAyLjggMTQuOCA3IDIzLjQgOS4yIDguNiAyLjIgMjQuMiA2LjggMzQuOCAxMC4yIDEzLjQgNC40IDIzLjYgNi40IDMzIDYuNiAxMi44LjIgMTQuMi0uMiAxOC42LTUuNCA0LTQuOCA0LjgtNy44IDQuOC0xOS4yIDAtMTQuNCA1LjYtMzkuNiAxMS4yLTUwLjYgNC4yLTguNCAyOS4yLTM0LjIgMzkuOC00MS40IDcuOC01LjQgMzUuNi0xNiA1Mi0yMCAxNC4yLTMuNiAzMi42LTEuMiA1Mi40IDYuOHoiLz48L3N2Zz4=);
+    }
+    
+    
+    
+    
+    
+    
+    .footer-sns-github {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgY2xhc3M9Imljb24iIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiPjxwYXRoIGQ9Ik0xMzguNCA3OGMtNi40IDEuNC0yNi40IDE0LjItMzYgMjIuOC04IDcuMi0yMiAyOS44LTI0LjQgMzkuMi0xLjYgNi40LTIgMTEzLjItMS42IDM2OCAuNiAyOTkuNCAxIDM1OS44IDMuNCAzNjQgMTEgMjAuMiAyMS42IDMyLjQgMzcuMiA0MyAxNS42IDEwLjYgMTcuMiAxMS4yIDM0LjIgMTMuMiAxMC42IDEuMiA2My40IDEuNiAxMjcuNiAxLjRsMTA5LjYtLjYgNi02LjggNi4yLTYuOC0xLjItMjUuMmMtLjgtMTUuOC0uMi0zMy40IDEuNC00Ny4yIDMtMjUuNCAxLjQtMzYuMi02LTQzLjItNS00LjYtNi4yLTQuOC0zMC42LTQuMi0yNy42LjgtMjQgMS42LTY4LjgtMTYtOC42LTMuNC0yMi42LTE4LTI4LjQtMjkuOC0xMS40LTIyLjgtMjctNDUtMzkuMi01NS42LTE0LTEyLjItMTkuOC0yMC44LTE5LjgtMjguNiAwLTExLjYgMTMuNi0xMi42IDMzLjItMi40IDE2LjYgOC44IDIwLjggMTIuNCA0MC44IDM2LjIgMjQuMiAyOC42IDMxIDMzLjYgNTQgMzkuNiAxNS4yIDQgNDIuMiAzIDUxLjQtMS44IDktNC42IDE4LTE1LjIgMjQuNC0yOS4yIDExLjQtMjQuMiA3LjQtMzEuMi0yMC42LTM2LjgtOS44LTItMjkuMi04LTQzLjQtMTMuNC00MC40LTE1LjgtNjQuNi0zNy40LTg1LjQtNzYuMi0xMS42LTIxLjgtMTUuNC0zMy0xOC4yLTUzLjYtNC4yLTMyLjItNC44LTYwLjItMS40LTg0IDMuNC0yMy44IDYuOC0zMi44IDIwLjItNTQgNC02IDguOC0xNS42IDExLTIxLjQgMy44LTEwIDMuOC0xMS42IDEtMzAtNS4yLTM0LjItMy4yLTUyLjQgNy42LTcwLjIgNy4yLTEyLjIgMTUtMTcuMiAyNC4yLTE1LjggMTIuOCAyLjIgNTIgMTcuNCA2Ni44IDI2LjIgMjYgMTUgMjkgMTUuNCA4Mi40IDcuMiAyNC42LTMuOCAzMy44LTQuMiA2MC0zLjIgMTcgLjYgNDEuNCAzIDU0IDUuMiAzOC40IDYuNiA0OS42IDUuMiA3My0xMCA2LjYtNC4yIDE3LjQtOS40IDI0LTExLjYgNi42LTIuMiAxNi01LjggMjEtOC4yIDEzLTYgMjgtNS42IDM1LjYuOCAxMi40IDEwLjQgMTguNiA0MS40IDE0LjQgNzEuNi00LjQgMzAuNi0zIDM5LjQgOC40IDUzLjggMy40IDQuNCAxMS4yIDE5LjIgMTcuNCAzMy4yTDc3NSA0NDN2NzhsLTEwIDI4Yy0xNS4yIDQzLjItMzYuOCA3My4yLTY2LjIgOTIuOC0xMy40IDguOC01NyAyNS40LTc2LjggMjktMjguMiA1LjItMzMuMiAxMi42LTIyIDMyLjIgMTEuMiAxOS40IDEyLjQgMzIuOCAxMS42IDEyOS42bC0uNiA4NS44IDUuNCA0LjZjMy42IDMgOS4yIDUuMiAxNiA2IDUuOC44IDYwLjIgMSAxMjAuNi42IDEwOC40LS42IDExMC4yLS42IDExOS01IDI0LTExLjYgNDAtMjcuNCA1MS42LTUwLjZsNS40LTExIC42LTM0N2MuNC0yMjMtLjItMzUzLjQtMS40LTM2NS0yLTE3LTIuNi0xOC42LTEzLTM0LTEwLjYtMTUuNC0yMi44LTI2LjItNDMuMi0zNy4yLTQuMi0yLjQtNjQuNi0yLjgtMzY2LTMuMi0xOTguNiAwLTM2NCAuNC0zNjcuNiAxLjR6Ii8+PC9zdmc+);
+    }
+    
+    
+    
+    
+    
+</style>
+
+        
+        <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-image: url(https://s1.ax1x.com/2020/03/24/8OF5se.jpg);
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+        <script>lsloader.load("js/jquery.min.js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==")</script>
+    
+    
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Analytics -->
+    <script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    <!-- Custom Head -->
+    
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn" class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#前端性能量化体系"><span class="post-toc-number">1.</span> <span class="post-toc-text">前端性能量化体系</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#渐进式网页指标"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">渐进式网页指标</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#浏览器页面加载流程"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">浏览器页面加载流程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#首次绘制FP、首次内容绘制FCP"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">首次绘制FP、首次内容绘制FCP</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#测量"><span class="post-toc-number">1.3.1.</span> <span class="post-toc-text">测量</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#优化"><span class="post-toc-number">1.3.2.</span> <span class="post-toc-text">优化</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#首次有效绘制FMP"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">首次有效绘制FMP</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#测量-1"><span class="post-toc-number">1.4.1.</span> <span class="post-toc-text">测量</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#可交互时间（Time-To-Interactive，TTI）"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">可交互时间（Time To Interactive，TTI）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#影响上面某些指标的因素"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">影响上面某些指标的因素</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#耗时长任务"><span class="post-toc-number">1.6.1.</span> <span class="post-toc-text">耗时长任务</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#优化-1"><span class="post-toc-number">1.6.2.</span> <span class="post-toc-text">优化</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#输入响应慢"><span class="post-toc-number">1.6.3.</span> <span class="post-toc-text">输入响应慢</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#分析关键路径"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">分析关键路径</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#HTML、Image"><span class="post-toc-number">1.7.1.</span> <span class="post-toc-text">HTML、Image</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#HTML、CSS"><span class="post-toc-number">1.7.2.</span> <span class="post-toc-text">HTML、CSS</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#CSS、JavaScript、HTML"><span class="post-toc-number">1.7.3.</span> <span class="post-toc-text">CSS、JavaScript、HTML</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#async，异步脚本的用处"><span class="post-toc-number">1.7.4.</span> <span class="post-toc-text">async，异步脚本的用处</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#优化-2"><span class="post-toc-number">1.7.5.</span> <span class="post-toc-text">优化</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#建立一套有效的性能测量机制"><span class="post-toc-number">1.8.</span> <span class="post-toc-text">建立一套有效的性能测量机制</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#性能目标"><span class="post-toc-number">1.9.</span> <span class="post-toc-text">性能目标</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#响应：在100ms以内响应"><span class="post-toc-number">1.9.1.</span> <span class="post-toc-text">响应：在100ms以内响应</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#动画：每10ms生成一帧"><span class="post-toc-number">1.9.2.</span> <span class="post-toc-text">动画：每10ms生成一帧</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#空闲：最大程度增加空闲时间"><span class="post-toc-number">1.9.3.</span> <span class="post-toc-text">空闲：最大程度增加空闲时间</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#加载：在1000ms以内呈现内容"><span class="post-toc-number">1.9.4.</span> <span class="post-toc-text">加载：在1000ms以内呈现内容</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">1.10.</span> <span class="post-toc-text">参考资料</span></a></li></ol></li></ol>
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
+    
+
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
+        
+    
+            <p class="article-headline-p">
+                Web性能知识（二）
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="https://i.loli.net/2020/03/26/X1FxQlLtRbVEANi.png" width="44px" height="44px" alt="Author Avatar">
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>GeniusFunny</strong>
+        <span>2月 14, 2020</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACZklEQVR42u3aUY7iMBAEUO5/6dkDrCZUtWOTQS9fKEDiFyR3U/br56uPFx4eHh4eHh4e3sN4r/j4/1vXr6/vknx3ODY8PDy8I7w3U23AS878NvT8vtHY8PDw8A7y8uk7GVxSHtryEz04PDw8vEfy8ob4rk/i4eHhfR9vFijMGnc8PDy85/CSP/zXt2kxj8ta8PDw8GJePrjzr4+u7+Hh4eEFvHpLUzDF51HvLA4uNl3h4eHhbeDlE/E6Pmmv18eDh4eHt5vXBqltkUiKQXKmeFh4eHh4m3l5VPrbJ1ea6esrzMoDHh4e3m7ebPEpn9xnhef6Ud4Q4+Lh4eEt89qwoN0WkLCTSCIpV3h4eHi7ebMAIpnE85g4aayL8oOHh4d3hNcuQbXhRb69YLbNCw8PD+9TvLy9zlvttjDkBaNoqfHw8PA28NozeTuehxezbQT1+h4eHh7eMm82Kd+16ereJTQ8PDy887yibS0ZP8tHfh08PDy8M7yV0HbWoK+UojePFQ8PD28zL5/i2yWulUZ8KSLBw8PDO8ibxbJJg74eChcPAg8PD+8Irw1zZ4yWmrTjxfoeHh4e3gbeDLneiCf4oizh4eHhHeTNLjeDJcHubBEODw8PbzfvriX8WTwxCzjw8PDwPsubTcptO37vNoLh1gE8PDy8W3l5MVjZqHq94WDWduPh4eF9ljcLcJNykiz554XqzY+Bh4eH92BeUjBWkO048fDw8P4WL2+d8xY5X3LDw8PD+xRvtujVFoZZ4Fu8i4eHh3eEl0cASfFo49f2mm/uiIeHh7eZ930HHh4eHh4eHh7eA45/wB/EcBaJZasAAAAASUVORK5CYII=">
+    
+</ul>
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/前端性能量化体系/">前端性能量化体系</a>
+    </li></ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    <!-- Leancloud Views -->
+        <a class="post_share-link" href="#">
+            <li class="mdl-menu__item">
+                <span id="/2020/02/14/web-performance-2/" class="leancloud-views_num" data-flag-title="Web性能知识（二）">
+     &nbsp;浏览量
+</span>
+
+            </li>
+        </a>
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Web性能知识（二）&url=geniusfunny.github.io/2020/02/14/web-performance-2/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Web性能知识（二）&url=geniusfunny.github.io/2020/02/14/web-performance-2/index.html&via=GeniusFunny" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=geniusfunny.github.io/2020/02/14/web-performance-2/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=geniusfunny.github.io/2020/02/14/web-performance-2/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=GeniusFunny的个人博客&title=Web性能知识（二）&summary=Learn Once, Write Anywhere.&pics=geniusfunny.github.iohttps://s1.ax1x.com/2020/03/24/8OkaTA.png&url=geniusfunny.github.io/2020/02/14/web-performance-2/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p><strong>Web性能取决于</strong>：资源获取【网络I/O】 + 页面布局与渲染 【浏览器渲染原理】+ JavaScript执行【事件循环】</p>
+<p>这是一篇讲解<strong>前端性能量化体系</strong>的文章，参考后续补上；内容都是自己的笔记</p>
+<a id="more"></a>
+<h3 id="前端性能量化体系"><a href="#前端性能量化体系" class="headerlink" title="前端性能量化体系"></a>前端性能量化体系</h3><p><strong>加载时间</strong>是我们用于评价前端性能好坏的一个参考数据，但是加载时间与用户使用的手机类型以及当前网络状况有关，除此之外，即使页面加载完成用户也可能无法操作，所以仅仅用一个<strong>加载时间</strong>是不能描述前端性能的好坏，我们需要一套完整的性能评价体系。</p>
+<p>此前，我们有两个主要的事件来测量性能：</p>
+<ul>
+<li><p>DomContentLoaded：页面加载时触发，但脚本刚刚开始执行</p>
+</li>
+<li><p>load：在页面完全加载后触发，此时用户已经可以使用页面和应用</p>
+<p><img src="https://cdn-images-1.medium.com/max/2000/1*hFyHeo1-iI62aMQT8P8ORw.png" alt=""></p>
+</li>
+</ul>
+<p>但是，如果在网络环境较差或者脚本执行时间太长的时候，我们从DCL到load会经历一段很长很长的时间，并且load事件触发太晚，就无法分析出页面的性能瓶颈，所以我们需要建立一个从页面开始加载到加载完成的评价体系，记录用户整个感知过程。</p>
+<h4 id="渐进式网页指标"><a href="#渐进式网页指标" class="headerlink" title="渐进式网页指标"></a>渐进式网页指标</h4><p><img src="https://cdn-images-1.medium.com/max/2000/1*-zjNpHphoKaaZJgG7omu2w.png" alt="img"></p>
+<p><img src="https://s1.ax1x.com/2020/03/26/G9tTLq.png" alt="image-20191219094924938"></p>
+<p><strong>首次绘制(FP)</strong>： 标记浏览器渲染任何在视觉上不同于导航前屏幕内容之内容的时间点</p>
+<p><strong>首次内容绘制(FCP)</strong>：标记的是浏览器渲染来自 DOM 第一位内容的时间点，该内容可能是文本、图像、SVG 甚至 <code>&lt;canvas&gt;</code> 元素。</p>
+<p><strong>首次有效绘制（FMP）/主角元素计时</strong>：标记的是页面主要内容绘制的时间点，例如视频应用的视频组件、天气应用的天气信息、新闻应用中的新闻条目。</p>
+<p><strong>可交互时间（TTI）</strong>：页面渲染完成，能可靠的响应用户的操作的时间点。（这个时间不仅取决于之前的加载时间，还取决于当前是否有长任务阻塞主线程）</p>
+<h4 id="浏览器页面加载流程"><a href="#浏览器页面加载流程" class="headerlink" title="浏览器页面加载流程"></a>浏览器页面加载流程</h4><p>先谈谈浏览器的页面大致的加载流程：</p>
+<ol>
+<li>浏览器输入url，浏览器发送请求到服务器，服务器发送HTML给浏览器。</li>
+<li>浏览器下载HTML然后从上往下解析</li>
+<li>如果在解析HTML过程中遇到CSS、JS外链，会执行下列操作<ol>
+<li>Send Request：向这个外链对应的服务器发送请求</li>
+<li>Receive Response：接受响应，表示可以开始从网络接受数据</li>
+<li>Receive Data：开始接受数据</li>
+<li>Finish Loding：表示完成数据的下载</li>
+<li>Parse Stylesheet/Evaluate：解析CSS或执行JS</li>
+</ol>
+</li>
+<li>所有的CSS下载完成后进行parse，构建CSSOM</li>
+<li>DOM和CSSOM合成一个Render tree</li>
+<li>根据Render tree的内容计算处各个节点在网页中的大小和位置（Layout）</li>
+<li>根据Layout绘制内容在浏览器上（Paint）</li>
+</ol>
+<h4 id="首次绘制FP、首次内容绘制FCP"><a href="#首次绘制FP、首次内容绘制FCP" class="headerlink" title="首次绘制FP、首次内容绘制FCP"></a>首次绘制FP、首次内容绘制FCP</h4><ul>
+<li><strong>FP标记浏览器渲染任何在视觉上不同于导航前屏幕内容的时间点</strong><ul>
+<li>这个指标表示页面绘制的时间点，也就是<strong>用户第一次看到“白屏”的时间</strong>，标志“It is happening?”</li>
+<li><strong>首次绘制包括了任何用户自定义的背景绘制，它是首先将像素绘制到屏幕的时刻。</strong></li>
+<li>什么时候触发FP事件呢？<strong>FP事件是在图层进行绘制的时候触发</strong>，而不是文本、图片、SVG等元素出现的时候（这个时候触发的是FCP事件）</li>
+</ul>
+</li>
+<li><strong>FCP标记浏览器渲染来自DOM第一位内容的时间点</strong><ul>
+<li>当用户首次看见一些元素（文本、图片、SVG等），非”白屏“的时刻就是FCP，这个标志“it is running?”</li>
+<li>FCP在文本、图片、SVG等绘制的时候就触发了，所以跟FP可以相差几毫秒～几秒的时间。</li>
+</ul>
+</li>
+</ul>
+<h5 id="测量"><a href="#测量" class="headerlink" title="测量"></a>测量</h5><p>通过PerformanceObserver或window.performance</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 对于全局属性performance，可直接访问属性获取</span></span><br><span class="line"><span class="keyword">const</span> paint = performance.getEntriesByType(<span class="string">'paint'</span>);</span><br><span class="line"><span class="keyword">const</span> FP = paint[<span class="number">0</span>].startTime;  <span class="comment">// First Paint 时间</span></span><br><span class="line"><span class="keyword">const</span> FMP = paint[<span class="number">1</span>].startTime; <span class="comment">// First Contentful Paint 时间</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//对于Performance Observer，需将其放置在所有样式表之前</span></span><br><span class="line"><span class="keyword">const</span> observer = <span class="keyword">new</span> PerformanceObserver(<span class="function"><span class="params">list</span> =&gt;</span> &#123;</span><br><span class="line"> <span class="keyword">for</span>(<span class="keyword">const</span> entry <span class="keyword">of</span> list.getEntries()) &#123;</span><br><span class="line">   <span class="keyword">const</span> metricName = entry.name;</span><br><span class="line">   <span class="keyword">const</span> time = <span class="built_in">Math</span>.round(entry.startTime + entry.duration);</span><br><span class="line">   <span class="comment">// 上报指数，例如使用Google Analytics</span></span><br><span class="line">   ga(<span class="string">'send'</span>, <span class="string">'event'</span>, &#123;</span><br><span class="line">     eventCategory:<span class="string">'Performance Metrics'</span>,</span><br><span class="line">     eventAction: metricName,</span><br><span class="line">     eventValue: time,</span><br><span class="line">     nonInteraction: <span class="literal">true</span>,</span><br><span class="line">   &#125;);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;);</span><br><span class="line">observer.observe(&#123;<span class="attr">entryTypes</span>: [<span class="string">'paint'</span>]&#125;);</span><br></pre></td></tr></table></figure>
+<h5 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h5><ul>
+<li>从文档中移除任何阻塞渲染的样式表和脚本</li>
+<li>将页面一开始需要的样式最小集内联到<code>&lt;head&gt;</code>或使用HTTP/2服务器推送</li>
+</ul>
+<h4 id="首次有效绘制FMP"><a href="#首次有效绘制FMP" class="headerlink" title="首次有效绘制FMP"></a>首次有效绘制FMP</h4><p><strong>FMP标记浏览器渲染页面主要内容的时间点，难以规范化</strong></p>
+<ul>
+<li>FMP就是页面主要内容呈现的时刻，目前没有标准化的FMP定义，所以很以通用的方式确定“有效”对于所有页面意味着什么。</li>
+<li>所以，我们怎么统计FMP呢？它的统计在页面发生了重大的布局变化之后；LayoutAnalyzer会统计所有的布局变化，当布局变化最大时，这个时刻就是FMP。<ul>
+<li>如果主要内容渲染太慢，我们可以在样式、字体、脚本、图片上去思考，因为这些元素有很大可能阻塞了FMP。</li>
+</ul>
+</li>
+</ul>
+<h5 id="测量-1"><a href="#测量-1" class="headerlink" title="测量"></a>测量</h5><p>难以规范化测量页面中重要的内容，所以可以通过performance自定义化测量</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 开始渲染</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">beginRender</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"> 	performance.clearMarks(<span class="string">'start render'</span>);</span><br><span class="line">	performance.mark(<span class="string">'start render'</span>); </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 渲染完成，打印渲染完成的时间点</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">finishRender</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  performance.clearMarks(<span class="string">'finish render'</span>);</span><br><span class="line">  performance.mark(<span class="string">'finish render'</span>);</span><br><span class="line">  performance.measure(<span class="string">'render time'</span>, <span class="string">'start render'</span>, <span class="string">'finish render'</span>);</span><br><span class="line">  <span class="keyword">const</span> renderTime = performance.getEntriesByName(<span class="string">'render time'</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(renderTime.startTime + renderTime.duration);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="可交互时间（Time-To-Interactive，TTI）"><a href="#可交互时间（Time-To-Interactive，TTI）" class="headerlink" title="可交互时间（Time To Interactive，TTI）"></a>可交互时间（Time To Interactive，TTI）</h4><p>与 FMP 相同，很难规范化适用于所有网页的 TTI 指标定义，但我们也可以使用Google Analytics来跟踪应用TTI。</p>
+<p>TTI发生在什么时候？<strong>FMP &amp;&amp; DOMContentLoader事件触发 &amp;&amp; 页面视觉加载85%</strong></p>
+<p>TTI又可以分为两个指标，TTFI（首次交互时间）、TTCI（首次持续交互时间）</p>
+<p><strong>TTFI</strong>: 在FMP发生后应该有3s的quiet window，这个时间足够说明页面对用户是可交互的，但是可能会有长任务在这个quiet window期间或之后开始执行，它们可以被忽略。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*xWGGBiXh0pLiPeuk." alt=""></p>
+<p><strong>TTCI</strong>:从追终线的尾部开始看，页面加载后有5s的quiet并且没有长任务需要执行，得到了一段quiet window。quiet window之后到第一个长任务之前的时间就是TTCI。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/0*6qzJAADPmBaNSwFw." alt=""></p>
+<h4 id="影响上面某些指标的因素"><a href="#影响上面某些指标的因素" class="headerlink" title="影响上面某些指标的因素"></a>影响上面某些指标的因素</h4><p>FP/FCP：“白屏”，从文档的 <code>&lt;head&gt;</code> 中移除任何阻塞渲染的脚本或样式表，可以减少首次绘制和首次内容绘制前的等待时间。FCP：首次内容绘制耗时太长，直观上就是<strong>“白板时间太长”</strong>，影响因素就是网络连接存在性能问题、资源（例如index.html）太大传输耗时。</p>
+<p>FMP/TTI：如果主要内容很久都没展示出来，那么很有可能是图片、样式、字体、JavaScript有较高的加载优先级，阻塞了FMP。确定页面上最关键的界面元素（主角元素）之后，您应确保初始脚本加载仅包含渲染这些元素并使其可交互所需的代码。</p>
+<h5 id="耗时长任务"><a href="#耗时长任务" class="headerlink" title="耗时长任务"></a>耗时长任务</h5><p><strong>耗时长的任务会影响用户体验（事件响应慢、掉帧）</strong></p>
+<p>统计耗时长任务：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> observer = <span class="keyword">new</span> PerformanceObserver(<span class="function">(<span class="params">list</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> entry <span class="keyword">of</span> list.getEntries()) &#123;</span><br><span class="line">    ga(<span class="string">'send'</span>, <span class="string">'event'</span>, &#123;</span><br><span class="line">      eventCategory:<span class="string">'Performance Metrics'</span>,</span><br><span class="line">      eventAction: <span class="string">'longtask'</span>,</span><br><span class="line">      eventValue:<span class="built_in">Math</span>.round(entry.startTime + entry.duration),</span><br><span class="line">      eventLabel:<span class="built_in">JSON</span>.stringify(entry.attribution),</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">observer.observe(&#123;<span class="attr">entryTypes</span>: [<span class="string">'longtask'</span>]&#125;);</span><br></pre></td></tr></table></figure>
+<h5 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h5><ul>
+<li>将耗时长任务切分为多个耗时段的异步任务（例如用setTimeout切割为n个宏任务）</li>
+<li>利用空闲阶段处理（requestIdleCallback）</li>
+</ul>
+<h5 id="输入响应慢"><a href="#输入响应慢" class="headerlink" title="输入响应慢"></a>输入响应慢</h5><p><strong>阻塞主线程的耗时较长任务可能会导致事件侦听器无法及时执行</strong></p>
+<p>统计输入响应慢的case：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> subscribeBtn = <span class="built_in">document</span>.querySelector(<span class="string">'#subscribe'</span>);</span><br><span class="line"></span><br><span class="line">subscribeBtn.addEventListener(<span class="string">'click'</span>, (event) =&gt; &#123;</span><br><span class="line">  <span class="comment">// Event listener logic goes here...</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> lag = performance.now() - event.timeStamp;</span><br><span class="line">  <span class="comment">// 响应时间超过100ms,上报</span></span><br><span class="line">  <span class="keyword">if</span> (lag &gt; <span class="number">100</span>) &#123;</span><br><span class="line">    ga(<span class="string">'send'</span>, <span class="string">'event'</span>, &#123;</span><br><span class="line">      eventCategory:<span class="string">'Performance Metric'</span></span><br><span class="line">      eventAction: <span class="string">'input-latency'</span>,</span><br><span class="line">      eventLabel: <span class="string">'#subscribe:click'</span>,</span><br><span class="line">      eventValue:<span class="built_in">Math</span>.round(lag),</span><br><span class="line">      nonInteraction: <span class="literal">true</span>,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="分析关键路径"><a href="#分析关键路径" class="headerlink" title="分析关键路径"></a>分析关键路径</h4><p><strong>优化关键渲染路径就是让刘篮球尽可能快地绘制网页</strong>，减少用户看到“白屏的时间”，从FP到FCP；所以整个时间就包括了获取资源（CSS、JS、HTML）以及浏览器处理对应的文件。</p>
+<p><strong>关键资源</strong>：可能阻止网页首次渲染的资源</p>
+<p><strong>关键路径长度</strong>：获取所有关键资源所需的往返次数或总时间</p>
+<p><strong>关键字节</strong>：实现网页首次渲染所需的总字节数，它是所有关键资源传送文件大小的总和。</p>
+<h5 id="HTML、Image"><a href="#HTML、Image" class="headerlink" title="HTML、Image"></a>HTML、Image</h5><p>对于HTML，浏览器下载HTML文件，当HTML内容可用时，浏览器就会解析HTML，生成token，进而构建DOM树，DOM树构建完成同时意味着DOMContentLoaded事件触发；获取图片并不会影响DOMContentLoaded事件的触发，所以<strong>图片不会影响到首次绘制</strong>。</p>
+<p>关键资源（HTML），关键路径长度（最少1次），关键字节（5KB）：</p>
+<p><img src="https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/images/analysis-dom.png" alt=""></p>
+<h5 id="HTML、CSS"><a href="#HTML、CSS" class="headerlink" title="HTML、CSS"></a>HTML、CSS</h5><p>加载解析HTML，然后获取CSS文件，解析为CSSOM，生成渲染树，绘制页面。</p>
+<p>关键资源（HTML、CSS），关键路径长度（最少2次），关键字节（9KB）：</p>
+<p><img src="https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/images/analysis-dom-css.png" alt=""></p>
+<h5 id="CSS、JavaScript、HTML"><a href="#CSS、JavaScript、HTML" class="headerlink" title="CSS、JavaScript、HTML"></a>CSS、JavaScript、HTML</h5><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Critical Path: Measure Script<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"style.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span> <span class="attr">onload</span>=<span class="string">"measureCRP()"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="name">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="name">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"timing.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>除了获取HTML、解析为DOM树，我们还会去加载CSS文件构建CSSOM，然后通过DOM和CSSOM构建渲染树，按道理来说，DCL也应该在DOM树生成后就触发，但是浏览器在下载解析CSS文件之前会阻止DCL事件，这是因为JS可能会去查询CSSOM。即使将脚本更改为内联，也无济于事。</p>
+<p>所以，<strong>只要浏览器遇到script标记就会阻止，并等到CSSOM构建完毕。</strong></p>
+<p>关键资源（HTML、CSS、JS），关键路径（最少2次，获取css、js时为并行），关键字节（11KB）</p>
+<p><img src="https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/images/analysis-dom-css-js.png" alt=""></p>
+<h5 id="async，异步脚本的用处"><a href="#async，异步脚本的用处" class="headerlink" title="async，异步脚本的用处"></a><strong>async，异步脚本的用处</strong></h5><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Critical Path: Measure Script<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"style.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span> <span class="attr">onload</span>=<span class="string">"measureCRP()"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="name">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="name">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"timing.js"</span> <span class="attr">async</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这种情况下，解析HTML之后不久就会触发DCL事件，浏览器知道不需要阻止JS，不必等到CSS文件加载解析后再执行JS。</p>
+<p>关键资源（HTML、CSS），关键路径（最少2次），关键字节（9KB）:</p>
+<p><img src="https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/images/analysis-dom-css-js-async.png" alt=""></p>
+<h5 id="优化-2"><a href="#优化-2" class="headerlink" title="优化"></a>优化</h5><p>上面提到，有三种因素（关键资源、关键路径、关键字节）影响着首次渲染，所以优化也应该从这三点入手。</p>
+<ol>
+<li>减少关键资源的数量：删除、延迟、标记异步等</li>
+<li>优化关键字节数以缩短下载时间（压缩）</li>
+<li>优化其余关键资源的加载顺序（尽早下载所有的关键资产，缩短关键路径长度）</li>
+</ol>
+<h4 id="建立一套有效的性能测量机制"><a href="#建立一套有效的性能测量机制" class="headerlink" title="建立一套有效的性能测量机制"></a>建立一套有效的性能测量机制</h4><ul>
+<li>统计FP、FCP、FMP、TTL数据</li>
+<li>上报耗时长任务、响应输入慢</li>
+<li>监控内存泄露情况</li>
+</ul>
+<h4 id="性能目标"><a href="#性能目标" class="headerlink" title="性能目标"></a>性能目标</h4><p><img src="https://developers.google.com/web/fundamentals/performance/images/rail.png?hl=zh-cn" alt=""></p>
+<h5 id="响应：在100ms以内响应"><a href="#响应：在100ms以内响应" class="headerlink" title="响应：在100ms以内响应"></a>响应：在100ms以内响应</h5><p>在用户注意到滞后之前有100ms的时间可以响应用户输入。</p>
+<h5 id="动画：每10ms生成一帧"><a href="#动画：每10ms生成一帧" class="headerlink" title="动画：每10ms生成一帧"></a>动画：每10ms生成一帧</h5><p>尽管每秒生成60帧，一帧16.6ms，但是每帧只有10ms来执行代码，其余的时间用于将新帧绘制到屏幕上。</p>
+<h5 id="空闲：最大程度增加空闲时间"><a href="#空闲：最大程度增加空闲时间" class="headerlink" title="空闲：最大程度增加空闲时间"></a>空闲：最大程度增加空闲时间</h5><p>利用空闲时间完成推迟的工作，换句话说，就是让主线程在UI线程和JS线程中切换。</p>
+<h5 id="加载：在1000ms以内呈现内容"><a href="#加载：在1000ms以内呈现内容" class="headerlink" title="加载：在1000ms以内呈现内容"></a>加载：在1000ms以内呈现内容</h5><p>在 1 秒钟内加载您的网站。</p>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><ol>
+<li><a href="https://codeburst.io/performance-metrics-whats-this-all-about-1128461ad6b" target="_blank" rel="noopener">Performance metrics. What’s this all about?</a></li>
+<li><a href="https://w3c.github.io/paint-timing/" target="_blank" rel="noopener">Paint Timing 1</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/performance/user-centric-performance-metrics?hl=en" target="_blank" rel="noopener">User-centric Performance Metrics</a></li>
+<li><a href="https://speedcurve.com/blog/user-timing-and-custom-metrics/" target="_blank" rel="noopener">User Timing and Custom Metrics</a></li>
+<li><a href="https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/analyzing-crp" target="_blank" rel="noopener">分析关键渲染路径性能</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/performance/why-performance-matters/?hl=zh-cn" target="_blank" rel="noopener">性能为何如此重要</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/performance/rail?hl=zh-cn" target="_blank" rel="noopener">使用RAIL模型评估性能</a></li>
+</ol>
+
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2020/02/20/GPU-in-CSS/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2020/02/04/web-performance-1/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(https://s1.ax1x.com/2020/03/24/8OkwFI.jpg);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="https://i.loli.net/2020/03/26/X1FxQlLtRbVEANi.png" alt="GeniusFunny's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        geniusfunnyyh@gmail.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="mailto:geniusfunnyyh@gmail.com" target="_blank" title="Contact Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Contact Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2020/02/">二月 2020<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/01/">一月 2020<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/12/">十二月 2019<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/11/">十一月 2019<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/10/">十月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/03/">三月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/02/">二月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/12/">十二月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/11/">十一月 2018<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/10/">十月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/09/">九月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/06/">六月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/05/">五月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/04/">四月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/02/">二月 2018<span class="sidebar_archives-count">4</span></a>
+            </li></ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/JavaScript/">JavaScript<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/JavaScript核心/">JavaScript核心<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/JavaScript设计模式/">JavaScript设计模式<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/Node-js/">Node.js<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/React/">React<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/Redis/">Redis<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/其他/">其他<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/前端框架/">前端框架<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/实践/">实践<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/小技巧/">小技巧<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/性能优化/">性能优化<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/浏览器/">浏览器<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/笔记/">笔记<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/算法/">算法<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/categories/翻译/">翻译<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/计算机基础/">计算机基础<span class="sidebar_archives-count">1</span></a>
+            </li></ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+        <li>
+            <a href="tags" title="标签">
+                
+                    <i class="material-icons sidebar-material-icons">turned_in</i>
+                
+                标签
+            </a>
+        </li>
+        
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/archives">
+                文章总数
+                <span class="sidebar-badge">31</span>
+            </a>
+        </li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+
+<!-- Theme Material -->
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+    <span id="footer-image">
+        <a href="https://www.upyun.com/" target="_blank" title="upyun_logo">
+            <img src="/img/upyun_logo.svg" alt="upyun_logo"><!--
+     --></a>
+    </span>
+
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+        <a href="https://twitter.com/GeniuFunny" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-twitter">
+                <span class="visuallyhidden">Twitter</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/GeniusFunny" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-github">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>GeniusFunny的个人博客
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import File -->
+
+
+    <script>lsloader.load("js/lazyload.min.js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==")</script>
+    <script>lsloader.load("js/js.min.js","/js/js.min.js?oAl/+lvaqTFV31JXTmbrNA==")</script>
+
+
+
+    <script>lsloader.load("js/nprogress.js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==")</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+    <!-- Leancloud -->
+    <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+    <script>
+        AV.initialize('etC3TLV8Pj1FSAVvtfsGcRNq-gzGzoHsz', 'esJd1ihFxVqwDejivs92D9To');
+    </script>
+    <script type="text/ls-javascript" id="leancloud-views-script">
+    function showTime(Counter) {
+        var query = new AV.Query(Counter);
+        $('.leancloud-views_num').each(function() {
+            var url = $(this).attr('id').trim();
+            query.equalTo('url', url);
+            query.find({
+                success: function(results) {
+                    if (results.length === 0) {
+                        var content = '0 ' + $(document.getElementById(url)).text();
+                        $(document.getElementById(url)).text(content);
+                        return;
+                    }
+                    for (var i = 0; i < results.length; i++) {
+                        var object = results[i];
+                        var content = object.get('time') + ' ' + $(document.getElementById(url)).text();
+                        $(document.getElementById(url)).text(content);
+                    }
+                },
+                error: function(object, error) {
+                    console.log('Error: ' + error.code + ' ' + error.message);
+                }
+            });
+        });
+    }
+
+    function addCount(Counter) {
+      var Counter = AV.Object.extend('Counter');
+      url = $('.leancloud-views_num').attr('id').trim();
+      title = $('.leancloud-views_num').attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+      query.equalTo('url', url);
+      query.find({
+          success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment('time');
+                counter.save(null, {
+                    success: function(counter) {
+                        var content =  counter.get('time') + ' ' + $(document.getElementById(url)).text();
+                        $(document.getElementById(url)).text(content);
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+              var newcounter = new Counter();
+              newcounter.set('title', title);
+              newcounter.set('url', url);
+              newcounter.set('time', 1);
+              newcounter.save(null, {
+                  success: function(newcounter) {
+                      console.log('newcounter.get(\'time\')='+newcounter.get('time'));
+                      var content = newcounter.get('time') + ' ' + $(document.getElementById(url)).text();
+                      $(document.getElementById(url)).text(content);
+                  },
+                  error: function(newcounter, error) {
+                      console.log('Failed to create');
+                  }
+              });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + ' ' + error.message);
+        }
+      });
+    }
+    $(function() {
+        var Counter = AV.Object.extend('Counter');
+        if ($('.leancloud-views_num').length === 1) {
+            addCount(Counter);
+        } else if ($('.post-title-link').length > 1) {
+            showTime(Counter);
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Window Load-->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+</script>
+
+<!-- MathJax Load-->
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Bing Background -->
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.4.0 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>
